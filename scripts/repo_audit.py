@@ -26,8 +26,12 @@ class RepoAuditor:
         }
     
     def calculate_file_hash(self, file_path: Path) -> str:
-        """Вычисляет MD5 хеш файла."""
+        """Вычисляет MD5 хеш файла, пропускает симлинки."""
         try:
+            # Пропускаем симлинки
+            if file_path.is_symlink():
+                return f"symlink_skip:{file_path.name}"
+            
             with open(file_path, 'rb') as f:
                 return hashlib.md5(f.read()).hexdigest()
         except Exception as e:
@@ -80,7 +84,7 @@ class RepoAuditor:
         return issues
     
     def audit_directory_recursive(self, dir_path: Path, depth: int = 0) -> Dict[str, Any]:
-        """Рекурсивно проводит аудит директории."""
+        """Рекурсивно проводит аудит директории, игнорируя симлинки при проверке дубликатов."""
         dir_stats = {
             'total_files': 0,
             'total_size': 0,
@@ -94,6 +98,10 @@ class RepoAuditor:
         try:
             for item in dir_path.iterdir():
                 if item.is_file():
+                    # Пропускаем симлинки при проверке дубликатов
+                    if item.is_symlink():
+                        continue
+                        
                     # Базовая статистика
                     file_size = item.stat().st_size
                     file_ext = item.suffix.lower()
@@ -106,11 +114,12 @@ class RepoAuditor:
                         'name': item.name,
                         'size': file_size,
                         'extension': file_ext,
-                        'path': str(item.relative_to(self.base_path))
+                        'path': str(item.relative_to(self.base_path)),
+                        'is_symlink': item.is_symlink()
                     }
                     
-                    # Валидация JSON файлов
-                    if file_ext == '.json':
+                    # Валидация JSON файлов (только для не-симлинков)
+                    if file_ext == '.json' and not item.is_symlink():
                         is_valid, validation_result = self.validate_json(item)
                         file_info['json_valid'] = is_valid
                         
@@ -129,19 +138,20 @@ class RepoAuditor:
                                 f"{item.relative_to(self.base_path)}: {validation_result}"
                             )
                     
-                    # Проверка на дубликаты
-                    file_hash = self.calculate_file_hash(item)
-                    if file_hash.startswith('error:'):
-                        file_info['hash_error'] = file_hash
-                    else:
-                        file_info['hash'] = file_hash
-                        if file_hash in hashes:
-                            if 'duplicates' not in self.results:
-                                self.results['duplicates'] = {}
-                            self.results['duplicates'].setdefault(file_hash, []).append(
-                                str(item.relative_to(self.base_path))
-                            )
-                        hashes[file_hash] = str(item.relative_to(self.base_path))
+                    # Проверка на дубликаты (только для не-симлинков)
+                    if not item.is_symlink():
+                        file_hash = self.calculate_file_hash(item)
+                        if file_hash.startswith('error:'):
+                            file_info['hash_error'] = file_hash
+                        else:
+                            file_info['hash'] = file_hash
+                            if file_hash in hashes:
+                                if 'duplicates' not in self.results:
+                                    self.results['duplicates'] = {}
+                                self.results['duplicates'].setdefault(file_hash, []).append(
+                                    str(item.relative_to(self.base_path))
+                                )
+                            hashes[file_hash] = str(item.relative_to(self.base_path))
                     
                     dir_stats['files'].append(file_info)
                 
@@ -215,8 +225,12 @@ class RepoAuditor:
         return self.results
     
     def _print_json_issues(self, stats):
-        """Рекурсивно выводит проблемы JSON файлов."""
+        """Рекурсивно выводит проблемы JSON файлов, игнорируя симлинки."""
         for file_info in stats.get('files', []):
+            # Пропускаем симлинки
+            if file_info.get('is_symlink'):
+                continue
+                
             if file_info['extension'] == '.json':
                 if not file_info.get('json_valid', True):
                     print(f"   ❌ {file_info['path']}: {file_info.get('json_error', 'Unknown error')}")

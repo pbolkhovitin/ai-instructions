@@ -97,8 +97,63 @@
                 },
                 "requirement": { "type": "string" }
               }
+            },
+            "session_transfer": {
+              "type": "object",
+              "required": ["triggers", "response_structure", "dump_format", "new_chat_template"],
+              "properties": {
+                "triggers": {
+                  "type": "array",
+                  "items": { "type": "string" }
+                },
+                "response_structure": { "type": "string" },
+                "dump_format": { "type": "object" },
+                "new_chat_template": { "type": "string" }
+              }
+            },
+            "selective_export": {
+              "type": "object",
+              "required": ["command", "steps", "dump_format"],
+              "properties": {
+                "command": { "type": "string" },
+                "steps": {
+                  "type": "array",
+                  "items": { "type": "string" }
+                },
+                "dump_format": { "type": "object" }
+              }
+            },
+            "integration": {
+              "type": "object",
+              "required": ["commands"],
+              "properties": {
+                "commands": {
+                  "type": "object",
+                  "additionalProperties": { "type": "string" }
+                }
+              }
+            },
+            "return_results": {
+              "type": "object",
+              "required": ["command", "steps", "dump_format"],
+              "properties": {
+                "command": { "type": "string" },
+                "steps": {
+                  "type": "array",
+                  "items": { "type": "string" }
+                },
+                "dump_format": { "type": "object" }
+              }
+            },
+            "hybrid_loading": {
+              "type": "object",
+              "required": ["files", "config_naming_algorithm", "behavior"],
+              "properties": {
+                "files": { "type": "object" },
+                "config_naming_algorithm": { "type": "string" },
+                "behavior": { "type": "string" }
+              }
             }
-            // ... Аналогично детализировать остальные разделы protocol
           }
         }
       }
