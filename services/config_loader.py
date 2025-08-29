@@ -189,3 +189,106 @@ async def main():
 if __name__ == "__main__":
     import asyncio
     asyncio.run(main())
+
+# Добавляем класс ValidatedConfigLoader после существующих классов
+class ValidatedConfigLoader:
+    """Загрузчик конфигов с автоматической валидацией P0."""
+    
+    def __init__(self, base_path: str = "C:/Users/pbolk/Documents/GitHub/ai-instructions"):
+        self.base_path = base_path
+        self.schema_manager = SchemaManager(base_path)
+        self.loaded_configs = {}
+    
+    async def load_and_validate(self, config_path: str, expected_type: str = None) -> Dict[str, Any]:
+        """
+        Загружает и валидирует конфигурационный файл (P0 реализация).
+        
+        Args:
+            config_path: Относительный путь к конфигу
+            expected_type: Ожидаемый тип конфига ('context-config', 'deepseek-instructions')
+        
+        Returns:
+            Валидированный конфиг
+        """
+        full_path = os.path.join(self.base_path, config_path)
+        
+        try:
+            # Загрузка конфига
+            async with aiofiles.open(full_path, 'r', encoding='utf-8') as f:
+                config_content = await f.read()
+            config_data = json.loads(config_content)
+            
+            # Определение типа и версии для валидации
+            config_version = config_data.get('config_version', '1.5')
+            
+            if expected_type:
+                schema_type = expected_type
+            else:
+                # Автоопределение типа по имени файла
+                if 'deepseek_instructions' in config_path:
+                    schema_type = 'deepseek-instructions'
+                else:
+                    schema_type = 'context-config'
+            
+            # Валидация против схемы
+            await self.schema_manager.validate_config(config_data, schema_type, config_version)
+            
+            logger.info(f"✅ P0: Конфиг {config_path} успешно загружен и провалидирован")
+            self.loaded_configs[config_path] = config_data
+            return config_data
+            
+        except Exception as e:
+            logger.error(f"❌ P0: Ошибка загрузки/валидации конфига {config_path}: {e}")
+            raise ConfigValidationError(f"P0 Validation failed for {config_path}: {e}")
+
+# Интеграция в основной код ассистента
+async def load_assistant_config():
+    """Основная функция загрузки конфигурации ассистента с валидацией P0."""
+    loader = ValidatedConfigLoader()
+    
+    try:
+        # Загрузка базовых инструкций с валидацией
+        instructions = await loader.load_and_validate(
+            'instructions/deepseek_instructions_v1.5.json',
+            'deepseek-instructions'
+        )
+        
+        # Автоматическая загрузка всех конфигов из директории configs
+        configs_dir = os.path.join(loader.base_path, 'configs')
+        if os.path.exists(configs_dir):
+            for config_file in os.listdir(configs_dir):
+                if config_file.endswith('.json'):
+                    config_path = os.path.join('configs', config_file)
+                    await loader.load_and_validate(config_path)
+        
+        logger.info("✅ P0: Все конфиги успешно загружены и провалидированы")
+        return loader.loaded_configs
+        
+    except Exception as e:
+        logger.error(f"❌ P0: Критическая ошибка загрузки конфигурации: {e}")
+        # Fallback: можно загрузить базовые конфиги без валидации
+        return await fallback_load()
+
+    async def fallback_load():
+        """Fallback загрузка без валидации."""
+        logger.warning("⚠️  Используется fallback загрузка без валидации")
+        # ... implementation of basic loading without validation
+        # В конец config_loader.py добавляем
+    async def main():
+        """Основная функция с поддержкой P0/P1."""
+        try:
+            # P0: Загрузка с автоматической валидацией
+            loader = ValidatedConfigLoader()
+            configs = await loader.load_and_validate('instructions/deepseek_instructions_v1.5.json')
+            
+            # P1: Аудит репозитория с игнорированием симлинков
+            from scripts.repo_audit import RepoAuditor
+            auditor = RepoAuditor(loader.base_path)
+            audit_results = auditor.run_audit()
+            
+            print("🎉 P0 и P1 рекомендации успешно внедрены!")
+            return configs, audit_results
+            
+        except Exception as e:
+            logger.error(f"Ошибка внедрения P0/P1: {e}")
+            raise

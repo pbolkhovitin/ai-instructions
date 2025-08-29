@@ -83,14 +83,44 @@ class RepoAuditor:
         
         return issues
     
+    def find_duplicates_ignore_symlinks(self, dir_path: Path) -> Dict[str, List[str]]:
+        """
+        Находит дубликаты файлов, игнорируя симлинки (P1 реализация).
+        
+        Returns:
+            Словарь {хеш: [список путей к файлам]}
+        """
+        hash_map = {}
+        
+        for root, _, files in os.walk(dir_path):
+            for file in files:
+                file_path = Path(root) / file
+                
+                # P1: Игнорируем симлинки при проверке дубликатов
+                if file_path.is_symlink():
+                    continue
+                    
+                try:
+                    file_hash = self.calculate_file_hash(file_path)
+                    if file_hash not in hash_map:
+                        hash_map[file_hash] = []
+                    hash_map[file_hash].append(str(file_path.relative_to(self.base_path)))
+                except Exception as e:
+                    logger.warning(f"P1: Не удалось обработать файл {file_path}: {e}")
+        
+        # Возвращаем только настоящие дубликаты
+        return {h: paths for h, paths in hash_map.items() if len(paths) > 1}
+
+    # Обновляем метод audit_directory_recursive для использования P1
     def audit_directory_recursive(self, dir_path: Path, depth: int = 0) -> Dict[str, Any]:
-        """Рекурсивно проводит аудит директории, игнорируя симлинки при проверке дубликатов."""
+        """Рекурсивно проводит аудит директории с P1 - игнорированием симлинков при дубликатах."""
         dir_stats = {
             'total_files': 0,
             'total_size': 0,
             'file_types': {},
             'subdirectories': {},
-            'files': []
+            'files': [],
+            'symlinks': []  # P1: добавляем отслеживание симлинков
         }
         
         hashes = {}
@@ -98,8 +128,13 @@ class RepoAuditor:
         try:
             for item in dir_path.iterdir():
                 if item.is_file():
-                    # Пропускаем симлинки при проверке дубликатов
+                    # P1: Отдельно учитываем симлинки
                     if item.is_symlink():
+                        dir_stats['symlinks'].append({
+                            'name': item.name,
+                            'target': os.readlink(item) if hasattr(os, 'readlink') else 'unknown',
+                            'path': str(item.relative_to(self.base_path))
+                        })
                         continue
                         
                     # Базовая статистика

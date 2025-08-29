@@ -1,0 +1,26 @@
+{
+  "config_version": "1.5.1",
+  "type": "test_export",
+  "meta": {
+    "core_topic": "Тестовый конфиг для P0 валидации",
+    "conversation_style": "технический",
+    "user_profile": "Тестировщик"
+  },
+  "key_data": {
+    "achievements": [
+      "Тестовая achievement"
+    ],
+    "constraints": [
+      "Тестовое ограничение"
+    ],
+    "important_facts": [
+      "Тестовый факт"
+    ]
+  },
+  "parent_settings": {
+    "auto_summary_enabled": true,
+    "auto_summary_interval": 3,
+    "default_response_format": "markdown",
+    "verbosity_level": "normal"
+  }
+}
