@@ -21,7 +21,7 @@ on:
       - 'services/**'
       - 'tests/**'
 
-  workflow_dispatch: false  # Ручной запуск
+  workflow_dispatch: false
 
 jobs:
   validate-configs:
@@ -69,21 +69,18 @@ jobs:
         run: |
           echo "🔍 Проверка синтаксиса JSON файлов..."
           
-          # Проверка всех JSON файлов в инструкциях
           for file in instructions/*.json; do
             if [ -f "$file" ]; then
               python -m json.tool "$file" > /dev/null && echo "✅ $file" || { echo "❌ $file"; exit 1; }
             fi
           done
           
-          # Проверка всех JSON файлов в конфигах
           for file in configs/*.json; do
             if [ -f "$file" ]; then
               python -m json.tool "$file" > /dev/null && echo "✅ $file" || { echo "❌ $file"; exit 1; }
             fi
           done
           
-          # Проверка всех JSON файлов в схемах
           find schemas/ -name "*.json" -exec sh -c '
             for file; do
               python -m json.tool "$file" > /dev/null && echo "✅ $file" || { echo "❌ $file"; exit 1; }
@@ -165,7 +162,6 @@ import json
 import os
 
 def check_schemas_consistency():
-    # Проверяем, что latest.schema.json симлинки указывают на существующие файлы
     schemas_dir = 'schemas'
     
     for schema_type in ['context-config', 'deepseek-instructions']:
@@ -227,7 +223,6 @@ exit(0 if check_required_fields() else 1)
           echo "Commit: ${{ github.sha }}"
           echo "=========================================="
           
-          # Подсчет файлов
           instructions_count=$(find instructions/ -name "*.json" | wc -l)
           configs_count=$(find configs/ -name "*.json" | wc -l)
           schemas_count=$(find schemas/ -name "*.json" | wc -l)
@@ -286,7 +281,6 @@ async def integration_test():
     print('✅ Загрузка инструкций успешна')
     
     print('3. Тест загрузки конфигов...')
-    # Ищем любой конфиг для теста
     import os
     config_files = [f for f in os.listdir('configs') if f.endswith('.json') and f.startswith('context_config_')]
     if config_files:
