@@ -101,8 +101,7 @@ jobs:
       - name: Validate all instruction files
         run: |
           echo "📋 Валидация всех файлов инструкций..."
-          python -c "
-import asyncio
+          python -c "import asyncio
 import os
 from services.config_loader import ValidatedConfigLoader, ConfigValidationError
 
@@ -123,14 +122,12 @@ async def validate_instructions():
     return success
 
 result = asyncio.run(validate_instructions())
-exit(0 if result else 1)
-          "
+exit(0 if result else 1)"
 
       - name: Validate all context configs
         run: |
           echo "🎯 Валидация всех конфигов контекста..."
-          python -c "
-import asyncio
+          python -c "import asyncio
 import os
 from services.config_loader import ValidatedConfigLoader
 
@@ -151,14 +148,12 @@ async def validate_context_configs():
     return success
 
 result = asyncio.run(validate_context_configs())
-exit(0 if result else 1)
-          "
+exit(0 if result else 1)"
 
       - name: Validate schema files consistency
         run: |
           echo "🔧 Проверка согласованности схем..."
-          python -c "
-import json
+          python -c "import json
 import os
 
 def check_schemas_consistency():
@@ -181,14 +176,12 @@ def check_schemas_consistency():
     
     return True
 
-exit(0 if check_schemas_consistency() else 1)
-          "
+exit(0 if check_schemas_consistency() else 1)"
 
       - name: Run additional validation tests
         run: |
           echo "🧪 Дополнительные тесты валидации..."
-          python -c "
-import json
+          python -c "import json
 import os
 
 def check_required_fields():
@@ -210,8 +203,7 @@ def check_required_fields():
     
     return True
 
-exit(0 if check_required_fields() else 1)
-          "
+exit(0 if check_required_fields() else 1)"
 
       - name: Create validation report
         if: always()
@@ -265,8 +257,7 @@ exit(0 if check_required_fields() else 1)
       - name: Run integration tests
         run: |
           echo "🔗 Запуск интеграционных тестов..."
-          python -c "
-import asyncio
+          python -c "import asyncio
 from services.config_loader import ValidatedConfigLoader
 
 async def integration_test():
@@ -297,8 +288,7 @@ async def integration_test():
     
     print('🎉 Все интеграционные тесты пройдены!')
 
-asyncio.run(integration_test())
-          "
+asyncio.run(integration_test())"
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
