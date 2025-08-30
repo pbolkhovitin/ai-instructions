@@ -1,0 +1,46 @@
+# .github/workflows/validate-configs.yml
+name: Validate Configs
+
+on: [push, pull_request]
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.11'
+    
+    - name: Install dependencies
+      run: pip install jsonschema aiohttp aiofiles
+    
+    - name: Run validation tests
+      run: python tests/test_p0_validation.py
+    
+    - name: Validate all configs
+      run: |
+        python -c "
+import asyncio
+from services.config_loader import ValidatedConfigLoader
+
+async def validate_all():
+    loader = ValidatedConfigLoader()
+    await loader.initialize()
+    
+    # Валидируем все конфиги в директории
+    import os
+    for file in os.listdir('configs'):
+        if file.endswith('.json'):
+            try:
+                await loader.load_and_validate(f'configs/{file}')
+                print(f'✅ {file}')
+            except Exception as e:
+                print(f'❌ {file}: {e}')
+                exit(1)
+
+asyncio.run(validate_all())
+        "
