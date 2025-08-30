@@ -1,0 +1,23 @@
+{
+  "config_version": "1.5.1",
+  "type": "full_export",
+  "parent_topic": "Разработка, исправление ошибок CI/CD для GitHub Actions",
+  "meta": {
+    "core_topic": "Разработка, исправление ошибок CI/CD для GitHub Actions",
+    "conversation_style": "Технический специалист",
+    "user_profile": "Роль: Разработчик. Уровень экспертизы: Опытный. Ключевые цели: исправить или разработать заново pipeline для CI/CD",
+    "branch_id": null
+  },
+  "key_data": {
+    "achievements": ["Чат инициализирован, согласован план действий по диагностике и разработке CI/CD pipeline"],
+    "constraints": [],
+    "important_facts": [],
+    "artifacts": []
+  },
+  "parent_settings": {
+    "auto_summary_enabled": true,
+    "auto_summary_interval": 3,
+    "default_response_format": "markdown",
+    "verbosity_level": "normal"
+  }
+}
