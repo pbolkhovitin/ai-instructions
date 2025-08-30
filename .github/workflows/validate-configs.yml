@@ -301,3 +301,6 @@ asyncio.run(integration_test())
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
+
+    - name: Validate saved config
+  run: python -c "import asyncio; from services.config_loader import ValidatedConfigLoader; asyncio.run((async lambda: await ValidatedConfigLoader().load_and_validate('configs/context_config_proaktinyi-ekspertnyi-asistent.json'))())"
