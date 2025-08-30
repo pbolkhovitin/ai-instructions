@@ -1,0 +1,89 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://github.com/your-org/your-repo/schemas/selective-export/v1.0.schema.json",
+  "title": "Selective Export Configuration Schema",
+  "description": "Schema for validating selective export configuration dumps",
+  "type": "object",
+  "required": ["type", "instruction", "selected_topic", "parent_topic", "meta", "key_data"],
+  "properties": {
+    "type": {
+      "type": "string",
+      "const": "selective_export"
+    },
+    "instruction": {
+      "type": "string",
+      "description": "Instruction for the receiving AI system"
+    },
+    "parent_topic": {
+      "type": "string",
+      "description": "Main topic of the parent chat"
+    },
+    "selected_topic": {
+      "type": "string",
+      "description": "Topic that was selected for export"
+    },
+    "meta": {
+      "type": "object",
+      "required": ["core_topic", "conversation_style", "user_profile"],
+      "properties": {
+        "core_topic": {
+          "type": "string",
+          "description": "Core topic of the exported content"
+        },
+        "conversation_style": {
+          "type": "string",
+          "description": "Conversation style to maintain"
+        },
+        "user_profile": {
+          "type": "string",
+          "description": "User profile information"
+        }
+      }
+    },
+    "key_data": {
+      "type": "object",
+      "required": ["achievements", "constraints", "important_facts"],
+      "properties": {
+        "achievements": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "List of achievements for this topic"
+        },
+        "constraints": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Constraints specific to this topic"
+        },
+        "important_facts": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Important facts related to this topic"
+        }
+      }
+    },
+    "recent_context": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "role": { "type": "string" },
+          "content": { "type": "string" }
+        }
+      },
+      "description": "Recent conversation context"
+    },
+    "immediate_next_step": {
+      "type": "string",
+      "description": "Immediate next step for the topic"
+    },
+    "parent_settings": {
+      "type": "object",
+      "properties": {
+        "auto_summary_enabled": { "type": "boolean" },
+        "auto_summary_interval": { "type": "integer" },
+        "default_response_format": { "type": "string" },
+        "verbosity_level": { "type": "string" }
+      }
+    }
+  }
+}

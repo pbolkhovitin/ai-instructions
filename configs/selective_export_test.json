@@ -1,0 +1,16 @@
+{
+  "type": "selective_export",
+  "instruction": "Воспринимай данные ниже как контекст выделенной темы",
+  "parent_topic": "Разработка системы валидации",
+  "selected_topic": "Валидация selective_export",
+  "meta": {
+    "core_topic": "Валидация selective_export форматов",
+    "conversation_style": "технический эксперт",
+    "user_profile": "разработчик системы валидации"
+  },
+  "key_data": {
+    "achievements": ["Реализована базовая валидация", "Созданы JSON схемы"],
+    "constraints": ["Должна поддерживать версионирование"],
+    "important_facts": ["Используется Draft7Validator"]
+  }
+}

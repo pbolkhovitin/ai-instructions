@@ -114,13 +114,27 @@ class SchemaManager:
     
     def get_schema_type(self, config_data: Dict[str, Any]) -> Optional[str]:
         """Определяет тип схемы на основе данных конфига."""
+        # Сначала проверяем явные типы (selective_export и return_export)
+        config_type = config_data.get('type')
+        if config_type == 'selective_export':
+            # Дополнительная проверка для selective_export
+            if 'selected_topic' in config_data and 'parent_topic' in config_data:
+                return 'selective_export'
+        
+        if config_type == 'return_export':
+            # Дополнительная проверка для return_export
+            if 'results_summary' in config_data and 'key_decisions' in config_data:
+                return 'return_export'
+        
         # Если это конфиг контекста (имеет meta и core_topic)
-        if 'meta' in config_data and 'core_topic' in config_data.get('meta', {}):
-            return 'context_config'  # Алиас для context-config_latest
+        if 'meta' in config_data and isinstance(config_data['meta'], dict):
+            meta = config_data['meta']
+            if 'core_topic' in meta:
+                return 'context_config'
         
         # Если это инструкции (имеет protocol_version)
         if 'protocol_version' in config_data:
-            return 'instructions'  # Алиас для deepseek-instructions_latest
+            return 'instructions'
         
         return None
     
