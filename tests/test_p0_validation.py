@@ -1,3 +1,4 @@
+# tests/test_p0_validation.py
 #!/usr/bin/env python3
 """
 Тестирование P0 автоматической валидации конфигов.
@@ -35,6 +36,7 @@ async def test_p0_validation():
     print(f"📁 Рабочая директория: {os.getcwd()}")
     
     loader = ValidatedConfigLoader()
+    await loader.initialize()  # Инициализируем загрузчик
     
     try:
         # Проверяем существование файлов
@@ -45,7 +47,26 @@ async def test_p0_validation():
         
         print("✅ Файл инструкций найден")
         
+        # Читаем и проверяем содержимое файла
+        with open(instructions_path, 'r', encoding='utf-8') as f:
+            content = f.read()
+            print(f"📄 Размер файла: {len(content)} символов")
+            
+            # Быстрая проверка на JSON
+            try:
+                import json
+                data = json.loads(content)
+                print("✅ Файл является валидным JSON")
+                if 'config_version' in data:
+                    print(f"✅ Версия конфига: {data['config_version']}")
+                else:
+                    print("⚠️  Отсутствует config_version")
+            except json.JSONDecodeError as e:
+                print(f"❌ Файл не является валидным JSON: {e}")
+                return False
+        
         # Тестируем загрузку с валидацией
+        print("🔄 Пытаемся загрузить с валидацией...")
         instructions = await loader.load_and_validate('instructions/deepseek_instructions_v1.5.json')
         print("✅ P0: Валидация инструкций прошла успешно")
         

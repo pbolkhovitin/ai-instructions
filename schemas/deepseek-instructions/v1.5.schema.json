@@ -1,200 +1,43 @@
 {
-  "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://example.com/deepseek-instructions-schema.json",
-  "title": "DeepSeek Instructions Schema",
-  "description": "Схема для валидации файла базовых инструкций ассистента",
+  "$schema": "http://json-schema.org/draft-07/schema#",
   "type": "object",
   "required": [
     "config_version",
     "protocol_version",
     "role",
-    "style",
     "primary_goal",
-    "emphasis",
-    "protocol",
-    "commands",
-    "principles",
-    "confirmation"
+    "protocol"
   ],
   "properties": {
     "config_version": {
-      "type": "string",
-      "pattern": "^\\d+\\.\\d+(\\.\\d+)?$",
-      "description": "Версия схемы конфигурационного файла"
+      "type": "string"
     },
     "protocol_version": {
-      "type": "string",
-      "pattern": "^\\d+\\.\\d+$",
-      "description": "Версия протокола взаимодействия"
+      "type": "string"
     },
     "role": {
-      "type": "string",
-      "minLength": 1,
-      "description": "Роль ассистента"
+      "type": "string"
     },
     "style": {
-      "type": "string",
-      "minLength": 1,
-      "description": "Стиль общения"
+      "type": "string"
     },
     "primary_goal": {
-      "type": "string",
-      "minLength": 1,
-      "description": "Основная цель"
+      "type": "string"
     },
     "emphasis": {
-      "type": "string",
-      "minLength": 1,
-      "description": "Акценты в работе"
+      "type": "string"
     },
     "protocol": {
-      "type": "object",
-      "required": ["memory_management"],
-      "properties": {
-        "memory_management": {
-          "type": "object",
-          "required": [
-            "proactive_summarization",
-            "context_monitoring",
-            "session_transfer",
-            "selective_export",
-            "integration",
-            "return_results",
-            "hybrid_loading"
-          ],
-          "properties": {
-            "proactive_summarization": {
-              "type": "object",
-              "required": ["triggers", "summary_format"],
-              "properties": {
-                "triggers": {
-                  "type": "array",
-                  "items": { "type": "string" },
-                  "minItems": 1
-                },
-                "summary_format": { "type": "string" }
-              }
-            },
-            "context_monitoring": {
-              "type": "object",
-              "required": ["verdicts", "requirement"],
-              "properties": {
-                "verdicts": {
-                  "type": "object",
-                  "required": ["OPTIMAL", "WORKING", "WARNING", "STOP", "COMPRESSION"],
-                  "patternProperties": {
-                    "^[A-Z_]+$": {
-                      "type": "object",
-                      "required": ["condition", "description", "label"],
-                      "properties": {
-                        "condition": { "type": "string" },
-                        "description": { "type": "string" },
-                        "label": { "type": "string" },
-                        "recommendation": { "type": "string" }
-                      }
-                    }
-                  }
-                },
-                "requirement": { "type": "string" }
-              }
-            },
-            "session_transfer": {
-              "type": "object",
-              "required": ["triggers", "response_structure", "dump_format", "new_chat_template"],
-              "properties": {
-                "triggers": {
-                  "type": "array",
-                  "items": { "type": "string" }
-                },
-                "response_structure": { "type": "string" },
-                "dump_format": { "type": "object" },
-                "new_chat_template": { "type": "string" }
-              }
-            },
-            "selective_export": {
-              "type": "object",
-              "required": ["command", "steps", "dump_format"],
-              "properties": {
-                "command": { "type": "string" },
-                "steps": {
-                  "type": "array",
-                  "items": { "type": "string" }
-                },
-                "dump_format": { "type": "object" }
-              }
-            },
-            "integration": {
-              "type": "object",
-              "required": ["commands"],
-              "properties": {
-                "commands": {
-                  "type": "object",
-                  "additionalProperties": { "type": "string" }
-                }
-              }
-            },
-            "return_results": {
-              "type": "object",
-              "required": ["command", "steps", "dump_format"],
-              "properties": {
-                "command": { "type": "string" },
-                "steps": {
-                  "type": "array",
-                  "items": { "type": "string" }
-                },
-                "dump_format": { "type": "object" }
-              }
-            },
-            "hybrid_loading": {
-              "type": "object",
-              "required": ["files", "config_naming_algorithm", "behavior"],
-              "properties": {
-                "files": { "type": "object" },
-                "config_naming_algorithm": { "type": "string" },
-                "behavior": { "type": "string" }
-              }
-            }
-          }
-        }
-      }
+      "type": "object"
     },
     "commands": {
-      "type": "object",
-      "required": ["format", "tasks", "analysis", "system", "control"],
-      "properties": {
-        "format": {
-          "type": "array",
-          "items": { "type": "string" }
-        },
-        "tasks": {
-          "type": "array",
-          "items": { "type": "string" }
-        },
-        "analysis": {
-          "type": "array",
-          "items": { "type": "string" }
-        },
-        "system": {
-          "type": "array",
-          "items": { "type": "string" }
-        },
-        "control": {
-          "type": "array",
-          "items": { "type": "string" }
-        }
-      }
+      "type": "object"
     },
     "principles": {
-      "type": "object",
-      "required": ["proactivity", "structure", "honesty", "efficiency"],
-      "properties": {
-        "proactivity": { "type": "string" },
-        "structure": { "type": "string" },
-        "honesty": { "type": "string" },
-        "efficiency": { "type": "string" }
-      }
+      "type": "object"
     },
-    "confirmation": { "type": "string" }
-  },
-  "additionalProperties": false
+    "confirmation": {
+      "type": "string"
+    }
+  }
 }

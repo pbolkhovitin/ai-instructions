@@ -7,16 +7,11 @@
     "user_profile": "Тестировщик"
   },
   "key_data": {
-    "achievements": [
-      "Тестовая achievement"
-    ],
-    "constraints": [
-      "Тестовое ограничение"
-    ],
-    "important_facts": [
-      "Тестовый факт"
-    ]
-  },
+    "achievements": ["Тестовая achievement"],
+    "constraints": ["Тестовое ограничение"],
+    "important_facts": ["Тестовый факт"],
+    "artifacts": []
+  },  
   "parent_settings": {
     "auto_summary_enabled": true,
     "auto_summary_interval": 3,

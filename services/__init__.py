@@ -1,22 +1,14 @@
-# Файл: services/__init__.py
-from .config_loader import (
-    ConfigLoadError,
-    ConfigValidationError,
-    SchemaManager,
-    InstructionLoader,
-    ContextConfigLoader,
-    ConfigLoaderFactory,
-    ValidatedConfigLoader,
-    load_from_local_or_github
-)
+from .config_loader import ValidatedConfigLoader, ConfigLoadError, ConfigValidationError
+from .schema_manager import SchemaManager
+from .github_auth import GitHubAuth
+from .github_utils import get_raw_url, get_auth_headers
 
 __all__ = [
-    'ConfigLoadError',
-    'ConfigValidationError', 
-    'SchemaManager',
-    'InstructionLoader',
-    'ContextConfigLoader',
-    'ConfigLoaderFactory',
     'ValidatedConfigLoader',
-    'load_from_local_or_github'
+    'ConfigLoadError', 
+    'ConfigValidationError',
+    'SchemaManager',
+    'GitHubAuth',
+    'get_raw_url',
+    'get_auth_headers'
 ]
