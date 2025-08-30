@@ -1,4 +1,3 @@
-# .github/workflows/validate-configs.yml
 name: Validate Configuration Files
 
 on:
@@ -84,11 +83,11 @@ jobs:
         done
         
         # Проверка всех JSON файлов в схемах
-        find schemas/ -name "*.json" -exec bash -c '
+        find schemas/ -name "*.json" -exec sh -c '
           for file; do
             python -m json.tool "$file" > /dev/null && echo "✅ $file" || { echo "❌ $file"; exit 1; }
           done
-        ' bash {} +
+        ' sh {} +
 
     - name: Run P0 validation tests
       run: |
@@ -191,9 +190,9 @@ exit(0 if check_schemas_consistency() else 1)
     - name: Run additional validation tests
       run: |
         echo "🧪 Дополнительные тесты валидации..."
-        # Тест на наличие обязательных полей в схемах
         python -c "
 import json
+import os
 
 def check_required_fields():
     required_fields = {
