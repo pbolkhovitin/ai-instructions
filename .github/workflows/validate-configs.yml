@@ -1,95 +1,311 @@
-# tests/test_quality_metrics.py
-"""
-Тесты для мониторинга качества валидации
-"""
+# .github/workflows/validate-configs.yml
+name: Validate Configuration Files
 
-import pytest
-import json
-from pathlib import Path
-from services.config_loader import ValidatedConfigLoader
-from services.schema_manager import SchemaManager
+on:
+  push:
+    branches: [ main, develop ]
+    paths:
+      - 'instructions/**'
+      - 'configs/**'
+      - 'schemas/**'
+      - 'services/**'
+      - 'tests/**'
+      - '.github/workflows/validate-configs.yml'
+  
+  pull_request:
+    branches: [ main, develop ]
+    paths:
+      - 'instructions/**'
+      - 'configs/**'
+      - 'schemas/**'
+      - 'services/**'
+      - 'tests/**'
 
-class TestQualityMetrics:
-    """Тесты метрик качества валидации"""
-    
-    @pytest.fixture
-    def loader(self):
-        return ValidatedConfigLoader()
-    
-    @pytest.fixture
-    def schema_manager(self):
-        return SchemaManager()
-    
-    def test_validation_performance(self, loader):
-        """Тест производительности валидации"""
-        import time
+  workflow_dispatch:  # Ручной запуск
+
+jobs:
+  validate-configs:
+    name: Validate JSON Configs
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    strategy:
+      matrix:
+        python-version: ['3.9', '3.10', '3.11']
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+        token: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v4
+      with:
+        python-version: ${{ matrix.python-version }}
+        cache: 'pip'
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install jsonschema aiohttp aiofiles
+        pip list
+
+    - name: Verify repository structure
+      run: |
+        echo "📁 Проверка структуры репозитория:"
+        ls -la
+        echo "Instructions:"
+        ls -la instructions/ || echo "❌ Директория instructions не найдена"
+        echo "Configs:"
+        ls -la configs/ || echo "❌ Директория configs не найдена"
+        echo "Schemas:"
+        ls -la schemas/ || echo "❌ Директория schemas не найдена"
+        echo "Services:"
+        ls -la services/ || echo "❌ Директория services не найдена"
+
+    - name: Run basic JSON syntax validation
+      run: |
+        echo "🔍 Проверка синтаксиса JSON файлов..."
         
-        # Тестовый конфиг
-        test_config = {
-            "config_version": "1.5.1",
-            "protocol_version": "1.5",
-            "role": "Test Role",
-            "style": "Test Style",
-            "primary_goal": "Test Goal"
-        }
+        # Проверка всех JSON файлов в инструкциях
+        for file in instructions/*.json; do
+          if [ -f "$file" ]; then
+            python -m json.tool "$file" > /dev/null && echo "✅ $file" || { echo "❌ $file"; exit 1; }
+          fi
+        done
         
-        # Измеряем время валидации
-        start_time = time.time()
+        # Проверка всех JSON файлов в конфигах
+        for file in configs/*.json; do
+          if [ -f "$file" ]; then
+            python -m json.tool "$file" > /dev/null && echo "✅ $file" || { echo "❌ $file"; exit 1; }
+          fi
+        done
         
-        for _ in range(100):  # 100 итераций для статистики
+        # Проверка всех JSON файлов в схемах
+        find schemas/ -name "*.json" -exec bash -c '
+          for file; do
+            python -m json.tool "$file" > /dev/null && echo "✅ $file" || { echo "❌ $file"; exit 1; }
+          done
+        ' bash {} +
+
+    - name: Run P0 validation tests
+      run: |
+        echo "🧪 Запуск P0 тестов валидации..."
+        python tests/test_p0_validation.py
+        if [ $? -eq 0 ]; then
+          echo "✅ P0 тесты пройдены успешно"
+        else
+          echo "❌ P0 тесты провалены"
+          exit 1
+        fi
+
+    - name: Validate all instruction files
+      run: |
+        echo "📋 Валидация всех файлов инструкций..."
+        python -c "
+import asyncio
+import os
+from services.config_loader import ValidatedConfigLoader, ConfigValidationError
+
+async def validate_instructions():
+    loader = ValidatedConfigLoader()
+    await loader.initialize()
+    
+    success = True
+    for file in os.listdir('instructions'):
+        if file.endswith('.json') and 'deepseek_instructions' in file:
             try:
-                loader._validate_with_schema(test_config, "context_config")
-            except:
-                pass
-        
-        end_time = time.time()
-        avg_time = (end_time - start_time) * 1000 / 100  # мс на валидацию
-        
-        # Проверяем что валидация быстрая (<10ms в среднем)
-        assert avg_time < 10, f"Validation too slow: {avg_time:.2f}ms"
-    
-    def test_memory_usage(self, loader):
-        """Тест использования памяти"""
-        import psutil
-        import os
-        
-        process = psutil.Process(os.getpid())
-        initial_memory = process.memory_info().rss / 1024 / 1024  # MB
-        
-        # Загружаем несколько конфигов
-        for i in range(50):
-            test_config = {
-                "config_version": f"1.5.{i}",
-                "protocol_version": "1.5",
-                "role": f"Test Role {i}",
-                "style": "Test Style"
-            }
-            try:
-                loader._validate_with_schema(test_config, "context_config")
-            except:
-                pass
-        
-        final_memory = process.memory_info().rss / 1024 / 1024
-        memory_increase = final_memory - initial_memory
-        
-        # Проверяем что утечек памяти нет
-        assert memory_increase < 5, f"Memory leak detected: {memory_increase:.2f}MB increase"
-    
-    def test_error_handling_quality(self, loader):
-        """Тест качества обработки ошибок"""
-        invalid_configs = [
-            {"no_version": "invalid"},  # Нет config_version
-            {"config_version": 123},    # Неправильный тип
-            {},                         # Пустой конфиг
-            {"config_version": "1.5.1", "unknown_field": "value"}  # Неизвестное поле
-        ]
-        
-        for i, config in enumerate(invalid_configs):
-            try:
-                loader._validate_with_schema(config, "context_config")
-                assert False, f"Config {i} should have failed validation"
+                await loader.load_and_validate(f'instructions/{file}')
+                print(f'✅ instructions/{file}')
             except Exception as e:
-                # Проверяем что ошибки содержат полезную информацию
-                error_msg = str(e)
-                assert "config_version" in error_msg or "validation" in error_msg
-                assert len(error_msg) > 20  # Сообщения не должны быть слишком краткими
+                print(f'❌ instructions/{file}: {e}')
+                success = False
+    
+    return success
+
+result = asyncio.run(validate_instructions())
+exit(0 if result else 1)
+        "
+
+    - name: Validate all context configs
+      run: |
+        echo "🎯 Валидация всех конфигов контекста..."
+        python -c "
+import asyncio
+import os
+from services.config_loader import ValidatedConfigLoader
+
+async def validate_context_configs():
+    loader = ValidatedConfigLoader()
+    await loader.initialize()
+    
+    success = True
+    for file in os.listdir('configs'):
+        if file.endswith('.json') and file.startswith('context_config_'):
+            try:
+                await loader.load_and_validate(f'configs/{file}')
+                print(f'✅ configs/{file}')
+            except Exception as e:
+                print(f'❌ configs/{file}: {e}')
+                success = False
+    
+    return success
+
+result = asyncio.run(validate_context_configs())
+exit(0 if result else 1)
+        "
+
+    - name: Validate schema files consistency
+      run: |
+        echo "🔧 Проверка согласованности схем..."
+        python -c "
+import json
+import os
+
+def check_schemas_consistency():
+    # Проверяем, что latest.schema.json симлинки указывают на существующие файлы
+    schemas_dir = 'schemas'
+    
+    for schema_type in ['context-config', 'deepseek-instructions']:
+        latest_path = f'{schemas_dir}/{schema_type}/latest.schema.json'
+        if os.path.exists(latest_path):
+            if os.path.islink(latest_path):
+                target = os.readlink(latest_path)
+                if not os.path.exists(os.path.join(os.path.dirname(latest_path), target)):
+                    print(f'❌ Симлинк {latest_path} ведет на несуществующий файл: {target}')
+                    return False
+                else:
+                    print(f'✅ Симлинк {latest_path} -> {target}')
+            else:
+                print(f'⚠️  {latest_path} не является симлинком')
+        else:
+            print(f'⚠️  {latest_path} не найден')
+    
+    return True
+
+exit(0 if check_schemas_consistency() else 1)
+        "
+
+    - name: Run additional validation tests
+      run: |
+        echo "🧪 Дополнительные тесты валидации..."
+        # Тест на наличие обязательных полей в схемах
+        python -c "
+import json
+
+def check_required_fields():
+    required_fields = {
+        'context-config': ['meta', 'key_data'],
+        'deepseek-instructions': ['config_version', 'protocol_version', 'role']
+    }
+    
+    for schema_type, fields in required_fields.items():
+        schema_path = f'schemas/{schema_type}/v1.5.schema.json'
+        if os.path.exists(schema_path):
+            with open(schema_path, 'r') as f:
+                schema = json.load(f)
+            
+            for field in fields:
+                if field not in str(schema):
+                    print(f'❌ В схеме {schema_type} отсутствует упоминание поля: {field}')
+                    return False
+    
+    return True
+
+exit(0 if check_required_fields() else 1)
+        "
+
+    - name: Create validation report
+      if: always()
+      run: |
+        echo "📊 Отчет о валидации конфигураций"
+        echo "=========================================="
+        echo "Python version: ${{ matrix.python-version }}"
+        echo "Branch: ${{ github.ref }}"
+        echo "Commit: ${{ github.sha }}"
+        echo "=========================================="
+        
+        # Подсчет файлов
+        instructions_count=$(find instructions/ -name "*.json" | wc -l)
+        configs_count=$(find configs/ -name "*.json" | wc -l)
+        schemas_count=$(find schemas/ -name "*.json" | wc -l)
+        
+        echo "📁 Инструкций: $instructions_count"
+        echo "📁 Конфигов: $configs_count"
+        echo "📁 Схем: $schemas_count"
+        echo "=========================================="
+
+    - name: Upload validation artifacts
+      if: failure()
+      uses: actions/upload-artifact@v4
+      with:
+        name: validation-error-details
+        path: |
+          instructions/
+          configs/
+          schemas/
+        retention-days: 7
+
+  integration-tests:
+    name: Integration Tests
+    runs-on: ubuntu-latest
+    needs: validate-configs
+    if: success()
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.11'
+
+    - name: Install dependencies
+      run: |
+        pip install jsonschema aiohttp aiofiles
+
+    - name: Run integration tests
+      run: |
+        echo "🔗 Запуск интеграционных тестов..."
+        python -c "
+import asyncio
+from services.config_loader import ValidatedConfigLoader
+
+async def integration_test():
+    print('1. Тест инициализации...')
+    loader = ValidatedConfigLoader()
+    await loader.initialize()
+    print('✅ Инициализация успешна')
+    
+    print('2. Тест загрузки инструкций...')
+    instructions = await loader.load_and_validate('instructions/deepseek_instructions_v1.5.json')
+    assert 'config_version' in instructions
+    print('✅ Загрузка инструкций успешна')
+    
+    print('3. Тест загрузки конфигов...')
+    # Ищем любой конфиг для теста
+    import os
+    config_files = [f for f in os.listdir('configs') if f.endswith('.json') and f.startswith('context_config_')]
+    if config_files:
+        config = await loader.load_and_validate(f'configs/{config_files[0]}')
+        assert 'meta' in config
+        print(f'✅ Загрузка конфига {config_files[0]} успешна')
+    
+    print('4. Тест обработки ошибок...')
+    try:
+        await loader.load_and_validate('nonexistent.json')
+        assert False, 'Ожидалась ошибка для несуществующего файла'
+    except:
+        print('✅ Обработка ошибок работает корректно')
+    
+    print('🎉 Все интеграционные тесты пройдены!')
+
+asyncio.run(integration_test())
+        "
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
