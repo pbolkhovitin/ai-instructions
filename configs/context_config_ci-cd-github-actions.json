@@ -1,5 +1,5 @@
 {
-  "config_version": "1.5.1",
+  "config_version": "1.6.0",
   "type": "full_export",
   "parent_topic": "Разработка, исправление ошибок CI/CD для GitHub Actions",
   "meta": {
