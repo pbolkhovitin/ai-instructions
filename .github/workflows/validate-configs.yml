@@ -1,9 +1,9 @@
-# .github/workflows/validate-configs.yml
+---
 name: Validate Configuration Files
 
 on:
   push:
-    branches: [ main, develop ]
+    branches: [main, develop]
     paths:
       - 'instructions/**'
       - 'configs/**'
@@ -11,17 +11,15 @@ on:
       - 'services/**'
       - 'tests/**'
       - '.github/workflows/validate-configs.yml'
-  
   pull_request:
-    branches: [ main, develop ]
+    branches: [main, develop]
     paths:
       - 'instructions/**'
       - 'configs/**'
       - 'schemas/**'
       - 'services/**'
       - 'tests/**'
-
-  workflow_dispatch:  # Ручной запуск
+  workflow_dispatch: true
 
 jobs:
   validate-configs:
@@ -34,77 +32,74 @@ jobs:
         python-version: ['3.9', '3.10', '3.11']
 
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v4
-      with:
-        fetch-depth: 0
-        token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
 
-    - name: Set up Python ${{ matrix.python-version }}
-      uses: actions/setup-python@v4
-      with:
-        python-version: ${{ matrix.python-version }}
-        cache: 'pip'
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v4
+        with:
+          python-version: ${{ matrix.python-version }}
+          cache: 'pip'
 
-    - name: Install dependencies
-      run: |
-        python -m pip install --upgrade pip
-        pip install jsonschema aiohttp aiofiles
-        pip list
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install jsonschema aiohttp aiofiles
+          pip list
 
-    - name: Verify repository structure
-      run: |
-        echo "📁 Проверка структуры репозитория:"
-        ls -la
-        echo "Instructions:"
-        ls -la instructions/ || echo "❌ Директория instructions не найдена"
-        echo "Configs:"
-        ls -la configs/ || echo "❌ Директория configs не найдена"
-        echo "Schemas:"
-        ls -la schemas/ || echo "❌ Директория schemas не найдена"
-        echo "Services:"
-        ls -la services/ || echo "❌ Директория services не найдена"
+      - name: Verify repository structure
+        run: |
+          echo "📁 Проверка структуры репозитория:"
+          ls -la
+          echo "Instructions:"
+          ls -la instructions/ || echo "❌ Директория instructions не найдена"
+          echo "Configs:"
+          ls -la configs/ || echo "❌ Директория configs не найдена"
+          echo "Schemas:"
+          ls -la schemas/ || echo "❌ Директория schemas не найдена"
+          echo "Services:"
+          ls -la services/ || echo "❌ Директория services не найдена"
 
-    - name: Run basic JSON syntax validation
-      run: |
-        echo "🔍 Проверка синтаксиса JSON файлов..."
-        
-        # Проверка всех JSON файлов в инструкциях
-        for file in instructions/*.json; do
-          if [ -f "$file" ]; then
-            python -m json.tool "$file" > /dev/null && echo "✅ $file" || { echo "❌ $file"; exit 1; }
-          fi
-        done
-        
-        # Проверка всех JSON файлов в конфигах
-        for file in configs/*.json; do
-          if [ -f "$file" ]; then
-            python -m json.tool "$file" > /dev/null && echo "✅ $file" || { echo "❌ $file"; exit 1; }
-          fi
-        done
-        
-        # Проверка всех JSON файлов в схемах
-        find schemas/ -name "*.json" -exec bash -c '
-          for file; do
-            python -m json.tool "$file" > /dev/null && echo "✅ $file" || { echo "❌ $file"; exit 1; }
+      - name: Run basic JSON syntax validation
+        run: |
+          echo "🔍 Проверка синтаксиса JSON файлов..."
+          
+          for file in instructions/*.json; do
+            if [ -f "$file" ]; then
+              python -m json.tool "$file" > /dev/null && echo "✅ $file" || { echo "❌ $file"; exit 1; }
+            fi
           done
-        ' bash {} +
+          
+          for file in configs/*.json; do
+            if [ -f "$file" ]; then
+              python -m json.tool "$file" > /dev/null && echo "✅ $file" || { echo "❌ $file"; exit 1; }
+            fi
+          done
+          
+          find schemas/ -name "*.json" -exec bash -c '
+            for file; do
+              python -m json.tool "$file" > /dev/null && echo "✅ $file" || { echo "❌ $file"; exit 1; }
+            done
+          ' bash {} +
 
-    - name: Run P0 validation tests
-      run: |
-        echo "🧪 Запуск P0 тестов валидации..."
-        python tests/test_p0_validation.py
-        if [ $? -eq 0 ]; then
-          echo "✅ P0 тесты пройдены успешно"
-        else
-          echo "❌ P0 тесты провалены"
-          exit 1
-        fi
+      - name: Run P0 validation tests
+        run: |
+          echo "🧪 Запуск P0 тестов валидации..."
+          python tests/test_p0_validation.py
+          if [ $? -eq 0 ]; then
+            echo "✅ P0 тесты пройдены успешно"
+          else
+            echo "❌ P0 тесты провалены"
+            exit 1
+          fi
 
-    - name: Validate all instruction files
-      run: |
-        echo "📋 Валидация всех файлов инструкций..."
-        python -c "
+      - name: Validate all instruction files
+        run: |
+          echo "📋 Валидация всех файлов инструкций..."
+          python -c "
 import asyncio
 import os
 from services.config_loader import ValidatedConfigLoader, ConfigValidationError
@@ -127,12 +122,12 @@ async def validate_instructions():
 
 result = asyncio.run(validate_instructions())
 exit(0 if result else 1)
-        "
+          "
 
-    - name: Validate all context configs
-      run: |
-        echo "🎯 Валидация всех конфигов контекста..."
-        python -c "
+      - name: Validate all context configs
+        run: |
+          echo "🎯 Валидация всех конфигов контекста..."
+          python -c "
 import asyncio
 import os
 from services.config_loader import ValidatedConfigLoader
@@ -155,17 +150,16 @@ async def validate_context_configs():
 
 result = asyncio.run(validate_context_configs())
 exit(0 if result else 1)
-        "
+          "
 
-    - name: Validate schema files consistency
-      run: |
-        echo "🔧 Проверка согласованности схем..."
-        python -c "
+      - name: Validate schema files consistency
+        run: |
+          echo "🔧 Проверка согласованности схем..."
+          python -c "
 import json
 import os
 
 def check_schemas_consistency():
-    # Проверяем, что latest.schema.json симлинки указывают на существующие файлы
     schemas_dir = 'schemas'
     
     for schema_type in ['context-config', 'deepseek-instructions']:
@@ -186,13 +180,12 @@ def check_schemas_consistency():
     return True
 
 exit(0 if check_schemas_consistency() else 1)
-        "
+          "
 
-    - name: Run additional validation tests
-      run: |
-        echo "🧪 Дополнительные тесты валидации..."
-        # Тест на наличие обязательных полей в схемах
-        python -c "
+      - name: Run additional validation tests
+        run: |
+          echo "🧪 Дополнительные тесты валидации..."
+          python -c "
 import json
 import os
 
@@ -216,38 +209,37 @@ def check_required_fields():
     return True
 
 exit(0 if check_required_fields() else 1)
-        "
+          "
 
-    - name: Create validation report
-      if: always()
-      run: |
-        echo "📊 Отчет о валидации конфигураций"
-        echo "=========================================="
-        echo "Python version: ${{ matrix.python-version }}"
-        echo "Branch: ${{ github.ref }}"
-        echo "Commit: ${{ github.sha }}"
-        echo "=========================================="
-        
-        # Подсчет файлов
-        instructions_count=\$(find instructions/ -name "*.json" | wc -l)
-        configs_count=\$(find configs/ -name "*.json" | wc -l)
-        schemas_count=\$(find schemas/ -name "*.json" | wc -l)
-        
-        echo "📁 Инструкций: \$instructions_count"
-        echo "📁 Конфигов: \$configs_count"
-        echo "📁 Схем: \$schemas_count"
-        echo "=========================================="
+      - name: Create validation report
+        if: always()
+        run: |
+          echo "📊 Отчет о валидации конфигураций"
+          echo "=========================================="
+          echo "Python version: ${{ matrix.python-version }}"
+          echo "Branch: ${{ github.ref }}"
+          echo "Commit: ${{ github.sha }}"
+          echo "=========================================="
+          
+          instructions_count=$(find instructions/ -name "*.json" | wc -l)
+          configs_count=$(find configs/ -name "*.json" | wc -l)
+          schemas_count=$(find schemas/ -name "*.json" | wc -l)
+          
+          echo "📁 Инструкций: $instructions_count"
+          echo "📁 Конфигов: $configs_count"
+          echo "📁 Схем: $schemas_count"
+          echo "=========================================="
 
-    - name: Upload validation artifacts
-      if: failure()
-      uses: actions/upload-artifact@v4
-      with:
-        name: validation-error-details
-        path: |
-          instructions/
-          configs/
-          schemas/
-        retention-days: 7
+      - name: Upload validation artifacts
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: validation-error-details
+          path: |
+            instructions/
+            configs/
+            schemas/
+          retention-days: 7
 
   integration-tests:
     name: Integration Tests
@@ -256,22 +248,22 @@ exit(0 if check_required_fields() else 1)
     if: success()
 
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v4
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
-    - name: Set up Python
-      uses: actions/setup-python@v4
-      with:
-        python-version: '3.11'
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
 
-    - name: Install dependencies
-      run: |
-        pip install jsonschema aiohttp aiofiles
+      - name: Install dependencies
+        run: |
+          pip install jsonschema aiohttp aiofiles
 
-    - name: Run integration tests
-      run: |
-        echo "🔗 Запуск интеграционных тестов..."
-        python -c "
+      - name: Run integration tests
+        run: |
+          echo "🔗 Запуск интеграционных тестов..."
+          python -c "
 import asyncio
 from services.config_loader import ValidatedConfigLoader
 
@@ -287,7 +279,6 @@ async def integration_test():
     print('✅ Загрузка инструкций успешна')
     
     print('3. Тест загрузки конфигов...')
-    # Ищем любой конфиг для теста
     import os
     config_files = [f for f in os.listdir('configs') if f.endswith('.json') and f.startswith('context_config_')]
     if config_files:
@@ -305,11 +296,8 @@ async def integration_test():
     print('🎉 Все интеграционные тесты пройдены!')
 
 asyncio.run(integration_test())
-        "
+          "
 
 concurrency:
-  group: \${{ github.workflow }}-\${{ github.ref }}
+  group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
-
-  - name: Validate saved config
-  run: python -c "import asyncio; from services.config_loader import ValidatedConfigLoader; asyncio.run((async lambda: await ValidatedConfigLoader().load_and_validate('configs/context_config_proaktinyi-ekspertnyi-asistent.json'))())"
