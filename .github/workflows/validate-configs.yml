@@ -194,6 +194,7 @@ exit(0 if check_schemas_consistency() else 1)
         # Тест на наличие обязательных полей в схемах
         python -c "
 import json
+import os
 
 def check_required_fields():
     required_fields = {
@@ -228,13 +229,13 @@ exit(0 if check_required_fields() else 1)
         echo "=========================================="
         
         # Подсчет файлов
-        instructions_count=$(find instructions/ -name "*.json" | wc -l)
-        configs_count=$(find configs/ -name "*.json" | wc -l)
-        schemas_count=$(find schemas/ -name "*.json" | wc -l)
+        instructions_count=\$(find instructions/ -name "*.json" | wc -l)
+        configs_count=\$(find configs/ -name "*.json" | wc -l)
+        schemas_count=\$(find schemas/ -name "*.json" | wc -l)
         
-        echo "📁 Инструкций: $instructions_count"
-        echo "📁 Конфигов: $configs_count"
-        echo "📁 Схем: $schemas_count"
+        echo "📁 Инструкций: \$instructions_count"
+        echo "📁 Конфигов: \$configs_count"
+        echo "📁 Схем: \$schemas_count"
         echo "=========================================="
 
     - name: Upload validation artifacts
@@ -307,7 +308,7 @@ asyncio.run(integration_test())
         "
 
 concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}
+  group: \${{ github.workflow }}-\${{ github.ref }}
   cancel-in-progress: true
 
   - name: Validate saved config
