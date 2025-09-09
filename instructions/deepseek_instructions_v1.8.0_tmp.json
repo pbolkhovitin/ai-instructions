@@ -483,6 +483,7 @@
     }
   }
 },
+
   "self_monitoring": {
     "enable": true,
     "checklist_before_response": [
