@@ -58,6 +58,17 @@ def validate_config(config_path: str, schema_type: str = "context-config") -> bo
         print(f"❌ Неожиданная ошибка при валидации {config_path}: {e}")
         return False
 
+def detect_schema_type(filename: str) -> str | None:
+    """
+    Определяет тип JSON-схемы на основе имени файла.
+    """
+    if filename.startswith('context_config_') or filename == 'context_config.json':
+        return "context-config"
+    elif filename.startswith('deepseek_instructions_'):
+        return "deepseek-instructions"
+    # github_config.json не валидируем, пропускаем
+    return None  # Неизвестный тип, пропустить
+
 def validate_all_configs(config_pattern: str = "configs/*.json") -> bool:
     """
     Валидирует все конфиги по указанному шаблону.
@@ -76,7 +87,11 @@ def validate_all_configs(config_pattern: str = "configs/*.json") -> bool:
     
     all_valid = True
     for config_file in config_files:
-        if not validate_config(config_file):
+        schema_type = detect_schema_type(Path(config_file).name)
+        if schema_type is None:
+            print(f"⚠️  Пропуск {config_file}: неизвестный тип конфига")
+            continue
+        if not validate_config(config_file, schema_type):
             all_valid = False
     
     return all_valid

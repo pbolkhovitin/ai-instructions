@@ -1,0 +1,84 @@
+============================================================
+ДРЕВОВИДНАЯ СТРУКТУРА РЕПОЗИТОРИЯ
+============================================================
+Дата создания: 2025-09-10 02:09:33
+Корневая директория: C:\Users\pbolk\Documents\GitHub\ai-instructions
+Игнорируемые паттерны: .git, .github, .vscode, .venv, __pycache__, node_modules, .DS_Store, Thumbs.db, .idea
+
+СТРУКТУРА (игнорируются технические файлы):
+==================================================
+├── backups/
+├── configs/
+│   ├── context_config_proaktinyi-ekspertnyi-asistent.json
+│   ├── context_config_rekomendacii-po-itogam-testirovaniya-protokola-v1-5.json
+│   ├── context_config_v1.9.json
+│   └── github_config.json
+├── docs/
+│   └── README.md
+├── exports/
+├── instructions/
+│   ├── alice_instructions_v1.7.txt
+│   ├── deepseek_instructions_v1.6.json
+│   ├── deepseek_instructions_v1.7.1.json
+│   ├── deepseek_instructions_v1.8.0.json
+│   ├── deepseek_instructions_v1.9.0.json
+│   └── giga_chat_v1.7.json
+├── schemas/
+│   ├── context-config/
+│   │   ├── latest.schema.json
+│   │   └── v1.9.schema.json
+│   ├── deepseek-instructions/
+│   │   ├── latest.schema.json
+│   │   └── v1.9.schema.json
+│   ├── return-export/
+│   │   ├── latest.schema.json
+│   │   └── v1.9.schema.json
+│   ├── selective-export/
+│   │   ├── latest.schema.json
+│   │   └── v1.9.schema.json
+│   ├── README.md
+│   ├── context_config.schema.json
+│   ├── index.json
+│   ├── instructions.schema.json
+│   ├── return_export.schema.json
+│   └── selective_export.schema.json
+├── scripts/
+│   ├── advanced_monitoring.py
+│   ├── check_artifacts_schema.py
+│   ├── check_repo_structure.py
+│   ├── check_schema_requirements.py
+│   ├── create_symlinks.bat
+│   ├── create_symlinks.ps1
+│   ├── diagnostics.py
+│   ├── generate_schemas_index.py
+│   ├── generate_schemas_index_win.py
+│   ├── generate_validation_report.py
+│   ├── github_sync.py
+│   ├── initialize_repository.py
+│   ├── repo_audit.py
+│   ├── repo_audit_txt.py
+│   ├── test_validation.py
+│   ├── validate_config.py
+│   ├── validate_new_config.py
+│   └── verify_schemas_structure.py
+├── services/
+│   ├── __init__.py
+│   ├── check_github_access.py
+│   ├── config_loader.py
+│   ├── github_auth.py
+│   ├── github_sync_example.py
+│   ├── github_utils.py
+│   └── schema_manager.py
+├── tests/
+│   ├── create_schemas.py
+│   ├── create_simple_test.py
+│   ├── create_test_config.py
+│   ├── create_test_schema.py
+│   ├── diagnostic_test.py
+│   ├── test_p0_validation.py
+│   └── test_p0_validation_simple.py
+├── README.md
+├── repo_structure_tree.txt
+└── requirements.txt
+
+Файл создан: C:\Users\pbolk\Documents\GitHub\ai-instructions\repo_structure_tree.txt

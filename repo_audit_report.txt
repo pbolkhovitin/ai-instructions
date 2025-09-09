@@ -1,0 +1,29 @@
+============================================================
+ИТОГОВЫЙ ОТЧЕТ АУДИТА РЕПОЗИТОРИЯ
+============================================================
+Дата аудита: 2025-09-10 02:09:33
+Корневая директория: C:\Users\pbolk\Documents\GitHub\ai-instructions
+Игнорируемые паттерны: .git, .github, .vscode, .venv, __pycache__, node_modules, .DS_Store, Thumbs.db, .idea
+
+
+📈 ОБЩАЯ СТАТИСТИКА:
+   Всего файлов: 34
+   Общий размер: 250090 bytes
+   Типы файлов: {'.txt': 1, '.json': 14, '.md': 1, '.py': 16, '.bat': 1, '.ps1': 1}
+
+📂 ДЕТАЛЬНАЯ СТАТИСТИКА ПО ДИРЕКТОРИЯМ:
+   instructions/: 6 файлов, 154536 bytes
+   configs/: 4 файлов, 8464 bytes
+   schemas/: 6 файлов, 15170 bytes
+   scripts/: 18 файлов, 71920 bytes
+   exports/: 0 файлов, 0 bytes
+   backups/: 0 файлов, 0 bytes
+
+❌ ОБНАРУЖЕННЫЕ ПРОБЛЕМЫ (1):
+   - configs\context_config_proaktinyi-ekspertnyi-asistent.json: Missing required field: parent_settings
+
+✅ ДУБЛИКАТЫ НЕ ОБНАРУЖЕНЫ
+
+📋 Файлы отчетов:
+   • Древовидная структура: repo_structure_tree.txt
+   • Итоговый отчет: repo_audit_report.txt
