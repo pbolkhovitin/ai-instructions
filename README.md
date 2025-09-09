@@ -13,12 +13,35 @@
 
 ## 📁 Структура
 ```
-├── instructions/ # Базовые инструкции ассистента
-│ └── deepseek_instructions_v1.9.0.json
-├── schemas/ # JSON Schema для валидации
-│ └── protocol_schema.json
-├── configs/ # Конфиги контекста сессий
-│ └── context_config_*.json
+ai-protocol-repo/
+├── configs/                  # КОНФИГИ КОНТЕКСТА (версионные)
+│   ├── context_config_v1.0.json
+│   ├── context_config_v1.5.json  
+│   ├── context_config_v1.9.json
+│   └── context_config_latest.json -> context_config_v1.9.json (symlink)
+├── schemas/                  # СХЕМЫ (организовано по типам)
+│   ├── context-config/       # Схемы для конфигов контекста
+│   │   ├── v1.0.schema.json
+│   │   ├── v1.5.schema.json  
+│   │   ├── v1.9.schema.json
+│   │   └── latest.schema.json -> v1.9.schema.json (symlink)
+│   ├── deepseek-instructions/ # Схемы для инструкций
+│   │   ├── v1.0.schema.json
+│   │   ├── v1.5.schema.json
+│   │   ├── v1.9.schema.json
+│   │   └── latest.schema.json -> v1.9.schema.json (symlink)
+│   ├── selective-export/     # Схемы для выборочного экспорта
+│   └── return-export/        # Схемы для возврата результатов
+├── instructions/             # Базовые инструкции ассистента
+│   ├── deepseek_instructions_v1.0.json
+│   ├── deepseek_instructions_v1.5.json
+│   ├── deepseek_instructions_v1.9.0.json
+│   └── deepseek_instructions_latest.json -> deepseek_instructions_v1.9.0.json (symlink)
+└── scripts/
+    ├── validate_config.py
+    └── verify_schemas_structure.py
+
+дополненяи для реализации:
 ├── scripts/ # Вспомогательные скрипты
 │ ├── obfuscator.py # Скрипт обфускации конфигов
 │ └── note_naming.py # Генерация имен для Obsidian

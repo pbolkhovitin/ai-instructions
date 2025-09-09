@@ -1,0 +1,63 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://github.com/pbolkhovitin/ai-protocol-repo/schemas/return-export/v1.9.schema.json",
+  "title": "Return Export Schema v1.9.0",
+  "description": "Schema for validating return results export configuration",
+  "type": "object",
+  "required": ["type", "parent_topic", "selected_topic", "results_summary", "key_decisions"],
+  "properties": {
+    "type": {
+      "type": "string",
+      "const": "return_export",
+      "description": "Type of export"
+    },
+    "parent_topic": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 255,
+      "description": "Main topic of parent chat"
+    },
+    "selected_topic": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 255,
+      "description": "Topic that was processed"
+    },
+    "results_summary": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Summary of key results and decisions"
+    },
+    "key_decisions": {
+      "type": "array",
+      "items": {"type": "string"},
+      "description": "List of decisions with brief justification"
+    },
+    "artifacts": {
+      "type": "array",
+      "items": {"type": "string"},
+      "description": "Code, diagrams, formulas created during discussion"
+    },
+    "recommendations": {
+      "type": "array",
+      "items": {"type": "string"},
+      "description": "Specific integration recommendations"
+    },
+    "applied_settings": {
+      "type": "object",
+      "properties": {
+        "auto_summary_enabled": {"type": "boolean"},
+        "auto_summary_interval": {"type": "integer"},
+        "default_response_format": {
+          "type": "string",
+          "enum": ["markdown", "plain", "text"]
+        },
+        "verbosity_level": {
+          "type": "string",
+          "enum": ["compact", "normal", "detailed"]
+        }
+      }
+    }
+  },
+  "additionalProperties": false
+}
