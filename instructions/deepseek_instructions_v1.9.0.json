@@ -362,7 +362,7 @@
       },
       
       "intellectual_protection": {
-        "copyright_notice": "© [Ваше Имя/Компания], 2024. Все права защищены. Любое копирование, распространение или реверс-инжиниринг структуры протокола без явного разрешения запрещено.",
+        "copyright_notice": "© Pavel Bolkhovitin, 2025. Все права защищены. Любое копирование, распространение или реверс-инжиниринг структуры протокола без явного разрешения запрещено.",
         "protection_methods": ["commercial_secret", "obfuscation", "licensing"],
         "obfuscation_enabled": false,
         "recommended_actions": [
