@@ -1,0 +1,64 @@
+name: Dependency Management
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+  schedule:
+    - cron: '0 0 * * 1'  # Еженедельно в понедельник в 00:00
+  workflow_dispatch:  # Ручной запуск
+
+jobs:
+  manage-dependencies:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ['3.9', '3.10', '3.11']
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v4
+      with:
+        python-version: ${{ matrix.python-version }}
+        cache: 'pip'
+        cache-dependency-path: 'requirements.txt'
+    
+    - name: Upgrade pip
+      run: python -m pip install --upgrade pip
+    
+    - name: Run dependency installer
+      run: |
+        python install_dependencies.py
+      env:
+        PYTHONUTF8: 1
+    
+    - name: Upload logs artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: dependency-logs-${{ matrix.python-version }}
+        path: |
+          dependencies.log
+          installation_report.md
+        if-no-files-found: warn
+        retention-days: 7
+    
+    - name: Show installation summary
+      run: |
+        echo "📊 Сводка установки зависимостей:"
+        echo "==================================="
+        if [ -f "installation_report.md" ]; then
+          cat installation_report.md | grep -E "^(Установлено|Пропущено|Ошибок)" || true
+        else
+          echo "Отчёт не найден"
+        fi
+    
+    - name: Check if installation failed
+      run: |
+        if grep -q "ERROR" dependencies.log; then
+          echo "❌ Обнаружены ошибки в логах!"
+          exit 1
+        fi
