@@ -1,0 +1,80 @@
+{
+  "config_version": "1.9.2-modules",
+  "protocol_stage": 3,
+  "description": "Специализированные модули ChatGPT: память, рефлексия, голосовые ответы и внешние интеграции.",
+  "memory_protocol": {
+    "enabled": true,
+    "requires_consent": true,
+    "description": "Позволяет сохранять пользовательские предпочтения и знания между сессиями.",
+    "capabilities": [
+      "Запоминание фактов и целей пользователя",
+      "Автоматическое восстановление контекста при новых сессиях",
+      "Удаление данных по запросу"
+    ],
+    "storage_scope": [
+      "user_preferences",
+      "project_context",
+      "interaction_history"
+    ],
+    "safety_policy": "Ассистент хранит только согласованные данные и не сохраняет личную или чувствительную информацию."
+  },
+  "reflection_protocol": {
+    "enabled": true,
+    "description": "Позволяет ассистенту выполнять самооценку ответов и улучшать их при необходимости.",
+    "triggers": [
+      "По запросу пользователя ('Проверь ответ')",
+      "Автоматически при противоречии или неясности"
+    ],
+    "criteria": [
+      "Ясность и структура ответа",
+      "Соответствие запросу пользователя",
+      "Корректность данных",
+      "Стиль общения"
+    ],
+    "actions": {
+      "analyze": "Ассистент оценивает свой ответ по критериям.",
+      "revise": "Исправляет ответ с пометкой [Исправлено: Рефлексия]."
+    },
+    "on_trigger_message": "[Reflection] Запущена самооценка ответа."
+  },
+  "voice_protocol": {
+    "enabled": true,
+    "description": "Определяет стиль и параметры голосовых ответов для voice-режима ChatGPT.",
+    "voice_profiles": {
+      "default": {
+        "tone": "neutral",
+        "pace": "medium",
+        "warmth": "balanced"
+      },
+      "friendly": {
+        "tone": "soft",
+        "pace": "moderate",
+        "warmth": "high"
+      },
+      "professional": {
+        "tone": "calm",
+        "pace": "medium-slow",
+        "warmth": "low"
+      },
+      "dynamic": {
+        "tone": "expressive",
+        "pace": "variable",
+        "warmth": "high"
+      }
+    },
+    "on_switch_message": "[Voice] Активирован голосовой профиль: {profile_name}."
+  },
+  "external_integrations": {
+    "enabled": false,
+    "description": "Опциональные подключения к сторонним API и системам (Slack, Jira, GitHub и др.).",
+    "supported_systems": [
+      "Slack",
+      "GitHub",
+      "Notion",
+      "Jira"
+    ],
+    "activation_method": "Только вручную по запросу пользователя.",
+    "on_use_message": "[Integration] Подключение к {system} инициализировано."
+  },
+  "confirmation": "Stage 3 (Специализированные модули) успешно загружен. Активированы функции памяти, рефлексии и голосовых ответов."
+}

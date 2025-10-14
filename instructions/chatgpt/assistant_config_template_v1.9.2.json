@@ -1,0 +1,53 @@
+{
+  "config_version": "1.9.2-config",
+  "protocol_stage": 4,
+  "description": "Универсальный шаблон конфигурации проекта для ChatGPT (Stage 4).",
+  "project_meta": {
+    "project_name": "AI Knowledge Assistant",
+    "core_topic": "Разработка интеллектуального ассистента для управления знаниями",
+    "author": "Pavel Bolkhovitin",
+    "created": "2025-10-14",
+    "version": "0.9-draft"
+  },
+  "conversation_profile": {
+    "conversation_style": "экспертно-дружелюбный",
+    "applied_mode": "project_management_mode",
+    "verbosity_level": "normal",
+    "response_format": "markdown",
+    "auto_summary_enabled": true,
+    "voice_profile": "professional"
+  },
+  "project_goals": [
+    "Оптимизировать процесс ведения и хранения проектных знаний.",
+    "Интегрировать функциональные модули ChatGPT (Stage 2–3) в единую систему.",
+    "Обеспечить логическую связность при долгих сессиях."
+  ],
+  "constraints": [
+    "Не использовать неофициальные API.",
+    "Все изменения документации согласовывать в рамках сессии.",
+    "Соблюдать безопасные методы обращения с файлами."
+  ],
+  "key_entities": {
+    "stakeholders": [
+      "User",
+      "ChatGPT",
+      "Project Manager"
+    ],
+    "artifacts": [
+      "assistant_instructions_v1.9.2-chatgpt.json",
+      "assistant_extensions_v1.9.2.json",
+      "assistant_specialized_modules_v1.9.2.json"
+    ]
+  },
+  "current_focus": "Тестирование интеграции всех уровней протокола и валидации цепочки загрузки.",
+  "open_questions": [
+    "Как автоматизировать последовательное подключение модулей?",
+    "Нужно ли добавить поддержку контекстных шаблонов для разных доменов?"
+  ],
+  "session_actions": {
+    "on_load": "[КОНФИГ ЗАГРУЖЕН] Активирован проект: {project_name}. Режим: {applied_mode}.",
+    "on_update": "[КОНФИГ ОБНОВЛЁН] Изменены параметры: {updated_fields}.",
+    "on_close": "[КОНФИГ СОХРАНЁН] Сессия завершена. Резюме доступно для экспорта."
+  },
+  "confirmation": "Stage 4 (Конфигурация проекта) успешно загружен. Активирован контекст проекта и установлены пользовательские параметры."
+}

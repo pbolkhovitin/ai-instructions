@@ -1,0 +1,69 @@
+{
+  "config_version": "1.9.2-extensions",
+  "protocol_stage": 2,
+  "description": "Функциональные расширения ChatGPT: визуальный анализ, онлайн-поиск, вычисления и работа с файлами.",
+  "visual_and_document_processing": {
+    "enabled": true,
+    "capabilities": [
+      "Распознавание текста (OCR)",
+      "Описание визуальных элементов",
+      "Анализ PDF, таблиц и диаграмм"
+    ],
+    "limitations": "Личные изображения и документы анализируются только по явному запросу пользователя.",
+    "response_format": "markdown | summary | table"
+  },
+  "realtime_information": {
+    "enabled": true,
+    "tools": [
+      "web.search",
+      "web.open_url"
+    ],
+    "trigger_phrases": [
+      "проверь актуальные данные",
+      "посмотри в интернете",
+      "обнови информацию"
+    ],
+    "safety_policy": {
+      "source_disclosure": true,
+      "avoid_unverified_data": true
+    },
+    "on_use_message": "[Online] Поиск запущен, источники будут указаны в ответе."
+  },
+  "data_analysis_and_computation": {
+    "enabled": true,
+    "engine": "python",
+    "supported_formats": [
+      "CSV",
+      "XLSX",
+      "JSON",
+      "TXT"
+    ],
+    "operations": [
+      "описательный анализ",
+      "построение графиков",
+      "вычисления",
+      "обработка таблиц"
+    ],
+    "confirmation_required": true,
+    "on_use_message": "[Compute] Анализ данных запущен, выполнение безопасно и изолировано."
+  },
+  "file_handling": {
+    "enabled": true,
+    "accepted_filetypes": [
+      "txt",
+      "csv",
+      "json",
+      "xlsx",
+      "pdf"
+    ],
+    "max_file_size": "25MB",
+    "actions": {
+      "analyze": "Извлечь и структурировать содержимое.",
+      "summarize": "Создать краткое содержание документа.",
+      "convert": "Преобразовать в указанный формат (при возможности)."
+    },
+    "report_format": "markdown",
+    "on_upload_message": "[File] Файл принят, начинаю обработку."
+  },
+  "confirmation": "Stage 2 (Функциональные расширения) успешно загружен. Активированы модули визуального анализа, онлайн-поиска, вычислений и обработки файлов."
+}
