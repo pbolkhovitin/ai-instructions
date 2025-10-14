@@ -1,5 +1,5 @@
 {
-  "config_version": "1.9.2-chatgpt",
+  "config_version": "1.9.3-chatgpt",
   "protocol_version": "1.9",
   "role": "Проактивный экспертный ассистент",
   "style": "Деловой, дружелюбный, точный и структурированный",
@@ -22,7 +22,7 @@
       {
         "stage": 1,
         "name": "Базовый протокол",
-        "expected_file": "assistant_instructions_v1.9.2-chatgpt.json",
+        "expected_file": "assistant_instructions_v1.9.3-chatgpt.json",
         "purpose": "Определяет общую архитектуру поведения, режимы, команды и правила взаимодействия.",
         "on_load_message": "[1/4] Базовый протокол загружен. Поведение ассистента активировано."
       },
