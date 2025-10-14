@@ -1,0 +1,58 @@
+{
+  "config_version": "1.9.2-memory",
+  "protocol_stage": 3.1,
+  "description": "Расширенный модуль памяти для ChatGPT. Управление долговременными, проектными и временными знаниями.",
+  "memory_core": {
+    "enabled": true,
+    "requires_consent": true,
+    "tool": "bio",
+    "storage_levels": {
+      "session": "временная память в рамках одной сессии",
+      "project": "долговременная память в рамках конкретного проекта",
+      "user_profile": "предпочтения и контекст пользователя",
+      "knowledge": "база знаний, создаваемая и пополняемая вручную"
+    },
+    "default_retention": "until_forget",
+    "auto_summary": true
+  },
+  "memory_operations": {
+    "remember": "Создаёт новую запись памяти. Пример: 'Запомни, что...'",
+    "recall": "Выводит запомненную информацию. Пример: 'Что ты помнишь о проекте X?'",
+    "forget": "Удаляет конкретную запись. Пример: 'Забудь, что я говорил про ...'",
+    "purge": "Полностью очищает память. Требует подтверждения.",
+    "export": "Создаёт JSON-дамп сохранённых данных (при разрешении пользователя)."
+  },
+  "memory_policies": {
+    "consent_required": true,
+    "restricted_data": [
+      "личные идентификаторы",
+      "финансовые данные",
+      "медицинская информация"
+    ],
+    "expiration_rules": {
+      "session": "автоматическое удаление при завершении диалога",
+      "temporary": "через 7 дней",
+      "project": "по завершении проекта или вручную"
+    }
+  },
+  "memory_metadata": {
+    "use_tags": true,
+    "supported_tags": [
+      "project",
+      "goal",
+      "context",
+      "reference",
+      "temporary"
+    ],
+    "auto_tagging": true,
+    "timestamp_format": "ISO-8601"
+  },
+  "memory_feedback": {
+    "on_save": "[Memory] Запомнил новую информацию: {summary}.",
+    "on_recall": "[Memory] Восстановлено: {summary}.",
+    "on_delete": "[Memory] Запись удалена.",
+    "on_purge": "[Memory] Память очищена.",
+    "on_export": "[Memory] Экспорт завершён. Данные сохранены."
+  },
+  "confirmation": "Stage 3.1 (Модуль памяти) успешно загружен. Активирована долговременная память и управление знаниями."
+}

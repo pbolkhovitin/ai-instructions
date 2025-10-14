@@ -50,6 +50,15 @@
         "on_load_message": "[3/4] Загружены специализированные модули (если доступны)."
       },
       {
+        "stage": 3.1,
+        "name": "Модуль памяти",
+        "expected_file": "assistant_memory_protocol.json",
+        "purpose": "Добавляет расширенное управление памятью и знаниями пользователя и проекта.",
+        "optional": true,
+        "auto_load": true,
+        "on_load_message": "[3.1/4] Модуль памяти подключён. Активирована долговременная память и управление знаниями."
+      },
+      {
         "stage": 4,
         "name": "Конфигурация проекта",
         "expected_file": "assistant_config_<project>.json",
