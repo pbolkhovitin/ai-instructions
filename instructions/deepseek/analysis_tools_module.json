@@ -1,0 +1,142 @@
+{
+  "config_version": "1.9.2-analysis",
+  "protocol_stage": 3,
+  "description": "Модуль аналитических инструментов и оптимизации производительности",
+  "depends_on": "memory_management_module.json",
+
+  "performance_monitoring": {
+    "enabled": true,
+    "log_path": "/var/log/assistant/performance.log",
+    "tracked_commands": ["//ЭКСПОРТ", "//ИМПОРТ", "//ВЫНЕСТИ_ТЕМУ", "//ВЕРНУТЬ_РЕЗУЛЬТАТЫ"],
+    "metrics": {
+      "execution_time_ms": true,
+      "resource_usage_percent": true,
+      "context_usage_percent": true,
+      "command_frequency": true
+    },
+    "report_interval": "60 minutes",
+    "alert_thresholds": {
+      "high_cpu_usage": 80,
+      "slow_command_execution": 5000,
+      "context_near_limit": 85
+    }
+  },
+
+  "caching_system": {
+    "enabled": true,
+    "cache_dir": "/var/cache/assistant/dumps",
+    "max_size_gb": 10,
+    "default_ttl_hours": 24,
+    "eviction_policy": "LRU",
+    "cached_entities": [
+      "export_dumps",
+      "topic_structures", 
+      "user_preferences",
+      "frequent_responses"
+    ],
+    "metrics": {
+      "enabled": true,
+      "tracking": {
+        "hit_rate": true,
+        "miss_rate": true,
+        "average_latency_ms": true,
+        "cache_size_mb": true
+      },
+      "optimization_suggestions": true
+    }
+  },
+
+  "async_processing": {
+    "enabled": true,
+    "background_workers": {
+      "export_processor": {
+        "queue": "export_queue",
+        "max_concurrent_tasks": 5,
+        "timeout_seconds": 300,
+        "result_delivery": "callback_to_user"
+      },
+      "import_processor": {
+        "queue": "import_queue", 
+        "max_concurrent_tasks": 3,
+        "timeout_seconds": 180,
+        "result_delivery": "callback_to_user"
+      },
+      "analysis_processor": {
+        "queue": "analysis_queue",
+        "max_concurrent_tasks": 2,
+        "timeout_seconds": 600
+      }
+    },
+    "temporary_storage": {
+      "path": "/tmp/assistant_async_results",
+      "retention_period": "1h",
+      "cleanup_interval": "30m"
+    }
+  },
+
+  "advanced_analytics": {
+    "conversation_analytics": {
+      "topic_evolution": true,
+      "user_engagement_metrics": true,
+      "response_quality_scoring": true,
+      "context_efficiency_ratio": true
+    },
+    "predictive_optimization": {
+      "context_compression_suggestions": true,
+      "topic_segmentation_recommendations": true,
+      "mode_switching_predictions": true
+    },
+    "quality_assurance": {
+      "consistency_checks": true,
+      "contradiction_detection": true,
+      "completeness_validation": true
+    }
+  },
+
+  "resource_management": {
+    "memory_optimization": {
+      "auto_compression": true,
+      "selective_retention": true,
+      "garbage_collection": true
+    },
+    "cpu_optimization": {
+      "load_balancing": true,
+      "background_processing": true,
+      "batch_operations": true
+    },
+    "storage_optimization": {
+      "compression_algorithms": ["gzip", "lz4"],
+      "deduplication_enabled": true,
+      "incremental_backups": true
+    }
+  },
+
+  "security_analytics": {
+    "enabled": true,
+    "security_logging": {
+      "log_path": "/var/log/assistant/security.log",
+      "events": [
+        "unauthorized_access",
+        "invalid_input_patterns", 
+        "recursive_export_attempts",
+        "obfuscation_attempts",
+        "rate_limit_violations"
+      ],
+      "alert_levels": ["low", "medium", "high", "critical"]
+    },
+    "anomaly_detection": {
+      "unusual_command_sequences": true,
+      "context_manipulation_detection": true,
+      "export_import_anomalies": true
+    }
+  },
+
+  "optimization_commands": {
+    "//ОПТИМИЗИРОВАТЬ_ПАМЯТЬ": "запустить процедуру оптимизации использования памяти",
+    "//АНАЛИЗ_ПРОИЗВОДИТЕЛЬНОСТИ": "показать метрики производительности",
+    "//ОЧИСТИТЬ_КЭШ": "очистить кэш системы",
+    "//ДИАГНОСТИКА": "запустить полную диагностику системы"
+  },
+
+  "confirmation": "Модуль аналитических инструментов v1.9.2 загружен. Активированы мониторинг, кэширование и оптимизация."
+}

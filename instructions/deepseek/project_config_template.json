@@ -1,0 +1,181 @@
+{
+  "config_version": "1.9.2-config",
+  "protocol_stage": 5,
+  "description": "Шаблон конфигурации проектов для DeepSeek с поддержкой ролевой модели и безопасности",
+  "depends_on": "export_import_module.json",
+
+  "project_meta": {
+    "project_name": "AI Knowledge Assistant",
+    "core_topic": "Разработка интеллектуального ассистента для управления знаниями",
+    "author": "Pavel Bolkhovitin",
+    "created": "2025-10-14",
+    "version": "0.9-draft",
+    "project_id": "proj_001",
+    "environment": "production"
+  },
+
+  "conversation_profile": {
+    "conversation_style": "экспертно-дружелюбный",
+    "applied_mode": "project_management_mode",
+    "verbosity_level": "normal",
+    "response_format": "markdown",
+    "auto_summary_enabled": true,
+    "auto_summary_interval": 3,
+    "command_hint_format": "dynamic_verdict"
+  },
+
+  "project_goals": [
+    "Оптимизировать процесс ведения и хранения проектных знаний",
+    "Интегрировать функциональные модули в единую систему",
+    "Обеспечить контекстную связность при длинных сессиях",
+    "Реализовать эффективный экспорт/импорт данных"
+  ],
+
+  "constraints": [
+    "Бюджет: неограничен (исследовательский проект)",
+    "Сроки: поэтапная разработка",
+    "Технические требования: совместимость с DeepSeek API",
+    "Безопасность: коммерческая тайна протокола"
+  ],
+
+  "rbac_configuration": {
+    "default_role": "admin",
+    "roles": {
+      "admin": {
+        "allowed_commands": [
+          "//ЭКСПОРТ", "//ВЕРНУТЬ_РЕЗУЛЬТАТЫ", "//НАСТРОЙКА", "//СТАТУС",
+          "//РЕЖИМ", "//СОХРАНИТЬ_КОНФИГ", "//ВЫНЕСТИ_ТЕМУ"
+        ],
+        "permissions": {
+          "export_full_context": true,
+          "modify_config": true,
+          "view_security_logs": true,
+          "change_system_mode": true
+        }
+      },
+      "moderator": {
+        "allowed_commands": [
+          "//ТЕМЫ", "//ЗАВЕРШИТЬ_ТЕМУ", "//РЕЗЮМЕ", "//ВЫНЕСТИ_ТЕМУ"
+        ],
+        "permissions": {
+          "export_full_context": false,
+          "modify_config": false,
+          "view_security_logs": false,
+          "manage_topics": true
+        }
+      },
+      "user": {
+        "allowed_commands": [
+          "//ТЕКУЩИЙ_РЕЖИМ", "//СПРАВКА", "//КОНФИГ", "//РЕЗЮМЕ"
+        ],
+        "permissions": {
+          "export_full_context": false,
+          "modify_config": false,
+          "view_security_logs": false,
+          "basic_operations": true
+        }
+      }
+    },
+    "access_control": {
+      "command_validation": true,
+      "permission_checks": true,
+      "security_audit": true
+    }
+  },
+
+  "interactive_setup": {
+    "trigger": "Команда //НАСТРОЙКА",
+    "steps": [
+      "Предложить пользователю выбрать настраиваемый параметр:",
+      "1. Уровень детализации (краткий/нормальный/подробный)",
+      "2. Частота автоматических резюме (никогда/редко/часто)", 
+      "3. Стиль подсказок (компактный/контекстный/расширенный)",
+      "4. Формат ответов (markdown/plain/text)",
+      "5. Ролевая модель (admin/moderator/user)"
+    ],
+    "settings_mapping": {
+      "verbosity_level": {
+        "краткий": "compact",
+        "нормальный": "normal",
+        "подробный": "detailed"
+      },
+      "auto_summary_interval": {
+        "никогда": 0,
+        "редко": 5,
+        "часто": 3
+      },
+      "command_hint_format": {
+        "компактный": "compact",
+        "контекстный": "contextual", 
+        "расширенный": "dynamic_verdict"
+      }
+    },
+    "validation_rules": {
+      "user_profile": {
+        "regex": "^[a-zA-Z0-9\\s.,:;_-]{1,255}$",
+        "error_message": "Некорректный формат профиля пользователя"
+      },
+      "core_topic": {
+        "regex": "^[^<>\"'{}]*$",
+        "error_message": "Запрещены специальные символы в названии темы"
+      }
+    }
+  },
+
+  "intellectual_protection": {
+    "copyright_notice": "© Pavel Bolkhovitin, 2025. Все права защищены. Любое копирование, распространение или реверс-инжиниринг структуры протокола без явного разрешения запрещено.",
+    "protection_methods": ["commercial_secret", "licensing", "access_control"],
+    "recommended_actions": [
+      "Добавить copyright-заметку во все файлы протокола",
+      "Использовать NDA для тестеров и контрибьюторов", 
+      "Рассмотреть патентование ключевых алгоритмов управления контекстом"
+    ]
+  },
+
+  "key_entities": {
+    "stakeholders": [
+      "User",
+      "System Administrator", 
+      "Project Manager",
+      "Quality Assurance"
+    ],
+    "artifacts": [
+      "core_protocol_v1.9.2.json",
+      "memory_management_module.json", 
+      "analysis_tools_module.json",
+      "export_import_module.json",
+      "project_config_template.json"
+    ],
+    "external_integrations": [
+      "Obsidian",
+      "DeepSeek API",
+      "File System"
+    ]
+  },
+
+  "current_focus": "Тестирование интеграции всех модулей протокола и валидации цепочки загрузки",
+  "open_questions": [
+    "Как оптимизировать производительность при работе с большими контекстами?",
+    "Нужно ли добавить поддержку плагинов для расширения функциональности?",
+    "Как улучшить механизм автоматического переключения режимов?"
+  ],
+
+  "session_management": {
+    "on_load": "[КОНФИГ ЗАГРУЖЕН] Активирован проект: {project_name}. Режим: {applied_mode}. Роль: {user_role}.",
+    "on_update": "[КОНФИГ ОБНОВЛЁН] Изменены параметры: {updated_fields}.",
+    "on_export": "[ЭКСПОРТ] Конфигурация проекта сохранена для переноса.",
+    "on_close": "[СЕССИЯ] Резюме доступно для экспорта. Контекст сохранен."
+  },
+
+  "control_commands": {
+    "//РЕЖИМ [номер/название]": "сменить режим работы ассистента (только admin)",
+    "//ТЕКУЩИЙ_РЕЖИМ": "показать активные настройки",
+    "//НАСТРОЙКА": "запустить интерактивную настройку параметров", 
+    "//СТАТУС": "развернутый отчет о состоянии контекста (только admin)",
+    "//СПРАВКА": "краткая справка по командам",
+    "//КОНФИГ": "вывод текущих настроек",
+    "//ЗАЩИТА": "информация о защите интеллектуальной собственности"
+  },
+
+  "confirmation": "Шаблон конфигурации проектов v1.9.2 загружен. Система готова к инициализации проекта с поддержкой RBAC и безопасности."
+}
