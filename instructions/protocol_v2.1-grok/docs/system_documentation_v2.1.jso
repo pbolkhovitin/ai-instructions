@@ -1,0 +1,9 @@
+{
+  "v": "2.1-d", "stage": 4, "desc": "Структура системы",
+  "system_structure": {
+    "core_modules": ["core_protocol_v2.1_compressed.json", "memory_management_v2.1_compressed.json", "advanced_analytics_v2.1_compressed.json"],
+    "support_modules": ["command_examples_v2.1.json", "troubleshooting_guide_v2.1.json"],
+    "total_files": 9, "critical_files": 3
+  },
+  "integrity_check": {"command": "//ВЕРИФИКАЦИЯ", "output_format": "json", "checks": ["file_existence", "version_compatibility"]}
+}

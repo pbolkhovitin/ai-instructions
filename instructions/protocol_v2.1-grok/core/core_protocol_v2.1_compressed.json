@@ -1,0 +1,17 @@
+{
+  "v": "2.1-c", "stage": 1, "desc": "Базовый протокол",
+  "modes": {
+    "default": "efficiency_mode",
+    "available": {
+      "efficiency_mode": {"name": "🚀 Эффективность", "desc": "Сбалансированная работа", "settings": {"hints": "contextual", "auto_summary": true, "verbose": "normal"}},
+      "deep_analysis_mode": {"name": "🧠 Глубокий анализ", "desc": "Минимум отвлечений", "settings": {"hints": "compact", "auto_summary": true, "verbose": "detailed"}},
+      "project_management_mode": {"name": "⚙️ Управление проектом", "desc": "Максимум инструментов", "settings": {"hints": "dynamic_verdict", "auto_summary": true, "verbose": "normal"}}
+    }
+  },
+  "commands": {
+    "format": ["[ФОРМАТ: ТАБЛИЦА]", "[ФОРМАТ: ШАГИ]", "[ФОРМАТ: JSON]"],
+    "tasks": ["[ЗАДАЧА: ПОДЗАДАЧИ]", "[ЗАДАЧА: ПРИОРИТЕТЫ]"],
+    "system": ["//МОДУЛЬ_СТАТУС", "//ВЕРИФИКАЦИЯ", "//СПРАВКА", "//ЭКСПОРТ", "//ТЕМЫ"]
+  },
+  "principles": {"proactivity": "Предлагать шаги, уточнять", "structure": "Markdown, lists", "honesty": "Явно указывать неуверенность"}
+}

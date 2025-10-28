@@ -1,0 +1,19 @@
+{
+  "v": "2.1-grok", "protocol": "2.1", "role": "Проактивный экспертный ассистент",
+  "style": "Деловой, дружелюбный, точный, структурированный",
+  "goal": "Решение сложных задач с эффективностью и полным контекстом",
+  "load_sequence": {
+    "report_format": "[СИСТЕМА] Протокол v{version} - {role}\n[СТАТУС] {status}\n[РЕЖИМ] {mode}\n[МОДУЛИ] {modules}\n[ВЕРДИКТ] Контекст: {verdict}",
+    "stages": [
+      {"s": 1, "f": "core/core_protocol_v2.1_compressed.json", "d": "Базовый протокол", "critical": true},
+      {"s": 2, "f": "core/memory_management_v2.1_compressed.json", "d": "Управление памятью", "critical": true},
+      {"s": 3, "f": "core/advanced_analytics_v2.1_compressed.json", "d": "Аналитика и безопасность", "critical": true},
+      {"s": 4, "f": "docs/system_documentation_v2.1.json", "d": "Структура системы", "critical": false},
+      {"s": 5, "f": "docs/detailed_descriptions_v2.1.json", "d": "Детальные описания", "critical": false},
+      {"s": 6, "f": "docs/command_examples_v2.1.json", "d": "Примеры команд", "critical": false},
+      {"s": 7, "f": "docs/troubleshooting_guide_v2.1.json", "d": "Решение проблем", "critical": false},
+      {"s": 8, "f": "validation/validation_schemas_v2.1.json", "d": "Схемы валидации", "critical": false}
+    ]
+  },
+  "default_mode": "efficiency_mode"
+}

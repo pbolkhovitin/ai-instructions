@@ -1,0 +1,12 @@
+{
+  "v": "2.1-t", "stage": 7, "desc": "Решение проблем",
+  "common_issues": {
+    "missing_verdicts": {"symptom": "Нет вердиктов", "solution": "Авто [КОРРЕКЦИЯ: ВЕРДИКТ]"},
+    "context_overflow": {"symptom": "Потеря контекста", "solution": "//ЭКСПОРТ + новый чат"},
+    "command_not_working": {"symptom": "Команды не срабатывают", "solution": "Перезагрузить sequence"}
+  },
+  "recovery_procedures": {
+    "context_loss": {"steps": ["Восстановить из экспорта", "//РЕЗЮМЕ для ключей"]},
+    "protocol_corruption": {"steps": ["Прекратить сессию", "Новый чат с load_sequence"]}
+  }
+}

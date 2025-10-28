@@ -1,0 +1,12 @@
+{
+  "v": "2.1-a", "stage": 3, "desc": "Аналитика и безопасность",
+  "performance": {"enabled": true, "metrics": ["execution_time_ms", "resource_usage", "context_usage"], "grok_sim": "code_execution"},
+  "caching": {"enabled": true, "max_size_gb": 10, "ttl_hours": 24, "policy": "LRU", "sim": "dict in REPL"},
+  "security": {"enabled": true, "events": ["unauthorized_access", "invalid_input", "recursive_export"], "ip_protect": "Adhere to secrecy"},
+  "optimization_commands": {
+    "//ОПТИМИЗИРОВАТЬ_ПАМЯТЬ": "Оптимизация памяти",
+    "//АНАЛИЗ_ПРОИЗВОДИТЕЛЬНОСТИ": "Метрики",
+    "//ОЧИСТИТЬ_КЭШ": "Очистка",
+    "//ДИАГНОСТИКА": "Полная проверка"
+  }
+}

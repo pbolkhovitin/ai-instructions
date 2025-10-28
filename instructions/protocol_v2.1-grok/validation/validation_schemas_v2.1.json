@@ -1,0 +1,10 @@
+{
+  "v": "2.1-vs", "stage": 8, "desc": "Схемы валидации",
+  "export_schema": {
+    "type": "object", "required": ["meta", "key_data"],
+    "properties": {"meta": {"type": "object", "required": ["core_topic"], "properties": {"core_topic": {"type": "string", "maxLength": 255}}}}
+  },
+  "system_integrity_schema": {
+    "type": "object", "required": ["core_modules"], "properties": {"core_modules": {"type": "object", "minProperties": 3}}
+  }
+}
