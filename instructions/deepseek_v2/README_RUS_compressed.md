@@ -136,4 +136,3 @@ validation_schemas_v2.0.json
 
 **Версия:** 2.0 с CRAFT integration  
 **Контекст:** ~0.9 КБ дополнительно (+0.11%)
-```
