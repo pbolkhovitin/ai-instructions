@@ -1,4 +1,3 @@
-```markdown
 # DeepSeek Assistant Protocol v2.0 (Оптимизированная версия)
 
 ## 📋 О проекте
