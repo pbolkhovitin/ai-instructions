@@ -21,13 +21,9 @@
 📄 memory_management_v3.0.json # Управление 1M контекстом, вердикты
 📄 advanced_analytics_v3.0.json # Метрики, безопасность, оптимизация
 
-text
-
 ### Новые возможности V3 (Стадия 2)
 📄 file_operations_v3.0.json # Работа с файлами (PDF, DOCX, код, данные)
 📄 web_search_v3.0.json # Интернет-поиск и верификация
-
-text
 
 ### Вспомогательные модули (Стадия 3+)
 📄 system_documentation_v3.0.json # Документация системы
@@ -36,7 +32,6 @@ text
 📄 command_examples_v3.0.json # Примеры использования
 📄 validation_schemas_v3.0.json # Схемы валидации
 
-text
 
 ## 🎯 Новые команды v3.0
 
