@@ -1,0 +1,110 @@
+{
+  "file": "advanced_analytics_v3.0.json",
+  "version": "3.0-a",
+  "timestamp": "2026-02-28",
+  "content": {
+    "desc": "Аналитика, метрики и безопасность для DeepSeek-V3",
+
+    "performance": {
+      "enabled": true,
+      "metrics": [
+        {
+          "name": "execution_time_ms",
+          "type": "timing",
+          "threshold": {"warning": 5000, "critical": 10000}
+        },
+        {
+          "name": "token_usage_total",
+          "type": "counter",
+          "format": "число с разделителями"
+        },
+        {
+          "name": "context_utilization_percent",
+          "type": "percentage",
+          "format": "0-100%"
+        },
+        {
+          "name": "file_operations_count",
+          "type": "counter",
+          "format": "число"
+        },
+        {
+          "name": "web_search_queries",
+          "type": "counter",
+          "format": "число"
+        },
+        {
+          "name": "response_complexity_score",
+          "type": "score",
+          "range": "1-10",
+          "factors": ["длина", "структура", "анализ", "форматы"]
+        },
+        {
+          "name": "craft_efficiency",
+          "type": "percentage",
+          "components": ["context_opt", "format_match", "task_completion"]
+        }
+      ]
+    },
+
+    "caching": {
+      "enabled": true,
+      "max_size_gb": 10,
+      "ttl_hours": 24,
+      "policy": "LRU",
+      "invalidation": "on_file_change",
+      "cacheable": ["common_queries", "file_metadata", "search_results"]
+    },
+
+    "security": {
+      "enabled": true,
+      "events": [
+        "unauthorized_access",
+        "invalid_input",
+        "recursive_export",
+        "file_scan_error",
+        "search_rate_exceeded",
+        "context_overflow_attempt"
+      ],
+      "file_scanning": {
+        "enabled": true,
+        "max_size_mb": 100,
+        "allowed_types": ["text/*", "application/pdf", "application/vnd.openxmlformats-officedocument.*"],
+        "quarantine": true
+      }
+    },
+
+    "craft_metrics": {
+      "enabled": true,
+      "track": [
+        "preset_usage",
+        "context_optimization",
+        "format_effectiveness",
+        "file_integration_score",
+        "search_relevance",
+        "mode_switching_frequency"
+      ],
+      "reporting": "//АНАЛИЗ_ЭФФЕКТИВНОСТИ"
+    },
+
+    "optimization_commands": {
+      "//ОПТИМИЗИРОВАТЬ_ПАМЯТЬ": "Очистка неиспользуемого контекста",
+      "//АНАЛИЗ_ПРОИЗВОДИТЕЛЬНОСТИ": "Полный отчет по метрикам",
+      "//ОЧИСТИТЬ_КЭШ": "Сброс кэша системы",
+      "//ДИАГНОСТИКА": "Комплексная диагностика",
+      "//АНАЛИЗ_ЭФФЕКТИВНОСТИ": "Метрики CRAFT и использования",
+      "//МЕТРИКИ": "Краткий отчет по ключевым показателям"
+    },
+
+    "health_checks": {
+      "interval_minutes": 10,
+      "auto_report": true,
+      "checks": [
+        "context_health",
+        "file_system_status",
+        "search_api_available",
+        "cache_integrity"
+      ]
+    }
+  }
+}
