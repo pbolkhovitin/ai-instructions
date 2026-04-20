@@ -1,6 +1,6 @@
 {
     "github": {
-        "token": "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",
+        "token": "",
         "api_base": "https://api.github.com",
         "raw_base": "https://raw.githubusercontent.com",
         "repo_owner": "pbolkhovitin",

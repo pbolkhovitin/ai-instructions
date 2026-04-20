@@ -266,9 +266,9 @@
             "created_at": "2026-04-07T14:30:22Z",
             "ttl_minutes": 60
           },
-          "context_snapshot": {...},
-          "task": {...},
-          "expected_output_format": {...}
+          "context_snapshot": {},
+          "task": {},
+          "expected_output_format": {}
         }
       },
       
