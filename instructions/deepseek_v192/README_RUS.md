@@ -1,4 +1,4 @@
-# DeepSeek Protocol v1.9.2 - Модульная архитектура
+# DeepSeek Protocol v1.9.2 - Модульная архитектура!
 
 ![Версия](https://img.shields.io/badge/версия-1.9.2-blue)
 ![Статус](https://img.shields.io/badge/статус-производство-green)
