@@ -86,3 +86,4 @@ logs/
 # Local config
 *.local.*
 .env
+.codeassistant/mcp.json
