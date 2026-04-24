@@ -71,7 +71,9 @@ ai-instructions/
 
 ### DeepSeek Protocol v3.0
 
-1. **Быстрый старт**: Скопируйте содержимое `instructions/deepseek_v3/core_protocol_v3.0.json` в системное сообщение DeepSeek-V3.
+1. **Быстрый старт**: Скопируйте содержимое `instructions/deepseek_v3/core_protocol_v3.0.json` в системное сообщение DeepSeek-V3:
+
+   **RAW:** https://raw.githubusercontent.com/pbolkhovitin/ai-instructions/main/instructions/deepseek_v3/core_protocol_v3.0.json
 2. **Дополнительные модули**: При необходимости загрузите другие JSON-файлы из той же директории (память, файлы, поиск и т.д.).
 3. **Команды**: Используйте команды протокола, например:
    - `[ЗАГРУЗИТЬ: файл.pdf]` – загрузить документ
