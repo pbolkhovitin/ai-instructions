@@ -89,9 +89,9 @@ ai-instructions/
 
 ### Использование DeepSeek v3.4
 1. Скопируйте содержимое `instructions/deepseek_v3/core_protocol_v3.0.json` в системное сообщение DeepSeek-V3:
-
-   **RAW:** https://raw.githubusercontent.com/pbolkhovitin/ai-instructions/main/instructions/deepseek_v3/core_protocol_v3.0.json
-
+```
+   https://raw.githubusercontent.com/pbolkhovitin/ai-instructions/main/instructions/deepseek_v3/core_protocol_v3.0.json
+```
    Или используйте симлинк: `instructions/deepseek_instructions_latest.json`
 2. (Опционально) Загрузите нужные модули:
    ```
