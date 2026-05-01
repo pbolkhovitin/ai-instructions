@@ -81,8 +81,7 @@ ai-instructions/
 │   └── README.md
 ├── tests/                         # ТЕСТЫ
 ├── plans/                         # ПЛАНЫ И ОТЧЕТЫ
-│   └── audit_report.md            # Отчет аудита (2026-04-20)
-└── .codeassistant/                # КОНФИГУРАЦИЯ CODE ASSISTANT
+    └── audit_report.md            # Отчет аудита (2026-04-20)
 ```
 
 ## ⚙️ Быстрый старт
