@@ -80,7 +80,7 @@ ai-instructions/
 ├── docs/                          # ДОКУМЕНТАЦИЯ
 │   └── README.md
 ├── tests/                         # ТЕСТЫ
-├── plans/                         # ПЛАНЫ И ОТЧЕТЫ
+└── plans/                         # ПЛАНЫ И ОТЧЕТЫ
     └── audit_report.md            # Отчет аудита (2026-04-20)
 ```
 
