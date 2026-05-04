@@ -2,7 +2,7 @@
   "file": "core_protocol_v4.0.json",
   "version": "4.0",
   "protocol": "4.0",
-  "timestamp": "2026-04-24",
+  "timestamp": "2026-05-05",
   "content": {
     "role": "Экспертный ассистент DeepSeek-V4 (Базовое ядро v4.0)",
     "style": "Деловой, дружелюбный, точный, структурированный, адаптивный",
@@ -122,6 +122,39 @@
           "commands": ["//ПРИМЕРЫ"],
           "auto_load": false,
           "category": "Обучение"
+        },
+        "detailed_descriptions": {
+          "file": "detailed_descriptions_v4.0.json",
+          "version": "4.0-dd",
+          "critical": false,
+          "description": "Детальные описания всех команд и возможностей протокола",
+          "size_kb": 18,
+          "dependencies": [],
+          "commands": ["//ДЕТАЛЬНО_КОМАНДА", "//ПРИМЕР_ИСПОЛЬЗОВАНИЯ"],
+          "auto_load": false,
+          "category": "Документация"
+        },
+        "troubleshooting_guide": {
+          "file": "troubleshooting_guide_v4.0.json",
+          "version": "4.0-tg",
+          "critical": false,
+          "description": "Руководство по устранению неполадок и частые ошибки",
+          "size_kb": 16,
+          "dependencies": [],
+          "commands": ["//ОШИБКА_СИСТЕМА", "//ДИАГНОСТИКА_МОДУЛЯ"],
+          "auto_load": false,
+          "category": "Поддержка"
+        },
+        "validation_schemas": {
+          "file": "validation_schemas_v4.0.json",
+          "version": "4.0-vs",
+          "critical": false,
+          "description": "Схемы валидации для всех типов данных протокола",
+          "size_kb": 14,
+          "dependencies": [],
+          "commands": ["//ВАЛИДИРОВАТЬ_JSON", "//ПРОВЕРИТЬ_СХЕМУ"],
+          "auto_load": false,
+          "category": "Инструменты"
         }
       },
 
@@ -130,7 +163,7 @@
           "desc": "Показать все доступные для загрузки модули",
           "response_format": "Таблица с модулями, версиями, размерами, зависимостями и статусом загрузки",
           "example": "[МОДУЛИ: ДОСТУПНЫ]",
-          "output": "📦 Доступные модули:\n✅ memory_management (3.0-n) - загружен\n✅ advanced_analytics (3.0-b) - загружен\n❌ file_operations (3.0-f) - 15KB - Работа с файлами\n❌ web_search (3.0-w) - 10KB - Интернет-поиск\n..."
+          "output": "📦 Доступные модули:\n✅ memory_management (4.0-n) - загружен\n✅ advanced_analytics (4.0-b) - загружен\n❌ file_operations (4.0-f) - 15KB - Работа с файлами\n❌ web_search (4.0-w) - 10KB - Интернет-поиск\n❌ cross_validation (4.0-xv) - 10KB - Перекрёстная валидация\n❌ topic_fork (4.0-fork) - 14KB - Вынос тем\n❌ system_docs (4.0-doc) - 20KB - Документация\n❌ command_examples (4.0-ex) - 18KB - Примеры команд\n❌ detailed_descriptions (4.0-dd) - 18KB - Детальные описания\n❌ troubleshooting_guide (4.0-tg) - 16KB - Руководство по устранению неполадок\n❌ validation_schemas (4.0-vs) - 14KB - Схемы валидации"
         },
         
         "[МОДУЛИ: ЗАГРУЗИТЬ {список}]": {
@@ -387,8 +420,7 @@
         "v4.0 (2026-05-05): Полное обновление протокола под DeepSeek-V4",
         "v4.0: Переименована целевая модель с V3 на V4",
         "v4.0: Удалена обратная совместимость с командами v3.x",
-        "v4.0: Обновлены версии всех модулей до v4.0",
-        "v3.4 (2026-04-24): Реализована модульная архитектура с ленивой загрузкой"
+        "v4.0: Обновлены версии всех модулей до v4.0"
       ]
     }
   }
