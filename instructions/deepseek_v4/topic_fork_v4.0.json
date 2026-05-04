@@ -448,6 +448,14 @@
       "description": "Трёхчастный механизм экспорта контекста при выносе темы",
       "messages": [
         {
+          "order": 0,
+          "type": "context_summary",
+          "format": "template",
+          "required": false,
+          "when": "перенос диалога в новый чат (не вынос подзадачи)",
+          "template": "СТАТУС ПРОЕКТА:\nЗадача: {task_description}\nСтек: {tech_stack}\nПроблема: {problem}\nУже пробовали: {attempts}\nНужно: {next_step}\nСветофоры: {verdicts}\nОткрытые вопросы: {open_questions}\nACTIVE_PERSONA: {persona}\nUSER_NAME: {user_name}"
+        },
+        {
           "order": 1,
           "type": "human_readable_prompt",
           "format": "markdown",
