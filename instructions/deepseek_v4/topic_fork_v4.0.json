@@ -4,10 +4,11 @@
   "timestamp": "2026-04-07",
   "content": {
     "desc": "Механизм выноса темы в отдельный поток с возвратом результата",
-
     "enabled": true,
-    "requires": ["memory_management_v4.0.json", "validation_schemas_v4.0.json"],
-
+    "requires": [
+      "memory_management_v4.0.json",
+      "validation_schemas_v4.0.json"
+    ],
     "commands": {
       "[ВЫНЕСТИ_ТЕМУ: описание]": {
         "desc": "Создать форк текущего контекста для отдельной проработки",
@@ -18,41 +19,50 @@
         },
         "syntax": "[ВЫНЕСТИ_ТЕМУ: {краткое_описание}] {детальная_постановка_задачи}",
         "example": "[ВЫНЕСТИ_ТЕМУ: оптимизация SQL-запросов] Проанализируй 3 самых медленных запроса из отчёта, предложи индексы и перепиши их. Верни готовый код.",
-        
         "output": {
-          "message_1_prompt": {
-            "format": "текстовый промт для дочерней сессии",
+          "message_1_human_readable_prompt": {
+            "format": "markdown",
+            "description": "Развёрнутый текстовый промт для дочерней сессии",
             "content": [
-              "=== КОНТЕКСТ ОСНОВНОЙ СЕССИИ (сжатый) ===",
+              "=== КОНТЕКСТ ОСНОВНОЙ СЕССИИ (расширенный) ===",
               "Роль: {role}",
               "Режим: {current_mode}",
+              "Стиль общения: {communication_style}",
               "Ключевые факты: {key_facts}",
               "Активные файлы: {file_list}",
               "Последние решения: {recent_decisions}",
+              "Неявные договорённости: {implicit_agreements}",
               "",
               "=== ЗАДАЧА ДЛЯ ВЫНОСА ===",
               "{user_query}",
               "",
               "=== ТРЕБОВАНИЯ К ВОЗВРАТУ ===",
-              "1. Верни JSON-дамп (второе сообщение) по схеме ниже",
-              "2. Промт-сообщение должно быть самодостаточным",
-              "3. Укажи оценку затраченных токенов"
+              "1. Верни JSON-дамп (второе сообщение) по схеме v2.0",
+              "2. Добавь краткое текстовое резюме",
+              "3. Укажи оценку уверенности по каждому пункту",
+              "4. Промт-сообщение должно быть самодостаточным"
             ]
           },
-          "message_2_json_dump": {
-            "format": "JSON (структурированный дамп контекста)",
-            "schema": "fork_export_schema"
+          "message_2_structured_json_dump": {
+            "format": "json",
+            "schema": "fork_export_schema_v2",
+            "description": "Структурированный дамп контекста по расширенной схеме",
+            "schema_url": "https://raw.githubusercontent.com/pbolkhovitin/ai-instructions/main/schemas/fork_export_v2.schema.json"
+          },
+          "message_3_semantic_context": {
+            "format": "natural_language",
+            "required": false,
+            "description": "Дополнительный промт для передачи нюансов",
+            "auto_generate": true,
+            "source": "из анализа последних 10 сообщений диалога"
           }
         }
       },
-
       "[ВЕРНУТЬСЯ: ID_форка]": {
         "desc": "Вернуть результат из дочерней сессии в основную",
         "syntax": "[ВЕРНУТЬСЯ: {fork_id}] с результатами:\n{результат_из_дочерней_сессии}",
         "example": "[ВЕРНУТЬСЯ: fork_20260407_143022] с результатами:\n{\"optimized_queries\": [...], \"new_indexes\": [...]}",
-        
         "action": "Ассистент интегрирует результат обратно в основной контекст, обновляя состояние",
-        
         "integration_steps": [
           "1. Прочитать JSON-дамп результата",
           "2. Сверить с текущим контекстом (нет ли конфликтов)",
@@ -61,140 +71,300 @@
           "5. Выдать вердикт об успешности возврата"
         ]
       },
-
       "[СТАТУС_ФОРКОВ]": {
         "desc": "Показать все активные форки текущей сессии",
         "output": {
-          "active_forks": ["fork_id_1", "fork_id_2"],
+          "active_forks": [
+            "fork_id_1",
+            "fork_id_2"
+          ],
           "total_forks_created": 3,
           "total_forks_merged": 1,
           "context_impact": "оценка влияния на основной контекст"
         }
       },
-
       "[ЗАКРЫТЬ_ФОРК: ID]": {
         "desc": "Закрыть форк без возврата (освободить референс)",
         "action": "Удалить запись о форке из активных"
       }
     },
-
     "fork_export_schema": {
       "type": "object",
-      "required": ["fork_meta", "context_snapshot", "task", "expected_output_format"],
+      "required": [
+        "fork_meta",
+        "context_snapshot",
+        "task",
+        "expected_output_format"
+      ],
       "properties": {
         "fork_meta": {
           "type": "object",
-          "required": ["fork_id", "parent_session_id", "created_at", "ttl_minutes"],
+          "required": [
+            "fork_id",
+            "parent_session_id",
+            "created_at",
+            "ttl_minutes"
+          ],
           "properties": {
-            "fork_id": {"type": "string", "pattern": "^fork_\\d{8}_\\d{6}$"},
-            "parent_session_id": {"type": "string"},
-            "created_at": {"type": "string", "format": "date-time"},
-            "ttl_minutes": {"type": "integer", "default": 60, "maximum": 1440}
+            "fork_id": {
+              "type": "string",
+              "pattern": "^fork_\\d{8}_\\d{6}$"
+            },
+            "parent_session_id": {
+              "type": "string"
+            },
+            "created_at": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "ttl_minutes": {
+              "type": "integer",
+              "default": 60,
+              "maximum": 1440
+            }
           }
         },
         "context_snapshot": {
           "type": "object",
-          "required": ["mode", "token_usage", "active_files", "key_decisions", "recent_messages_summary"],
+          "required": [
+            "mode",
+            "token_usage",
+            "active_files",
+            "key_decisions",
+            "recent_messages_summary"
+          ],
           "properties": {
-            "mode": {"type": "string", "enum": ["efficiency_mode", "deep_analysis_mode", "full_context_mode"]},
-            "token_usage": {"type": "integer", "minimum": 0, "maximum": 1000000},
-            "token_free_percent": {"type": "integer", "minimum": 0, "maximum": 100},
+            "mode": {
+              "type": "string",
+              "enum": [
+                "efficiency_mode",
+                "deep_analysis_mode",
+                "full_context_mode"
+              ]
+            },
+            "token_usage": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 1000000
+            },
+            "token_free_percent": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 100
+            },
             "active_files": {
               "type": "array",
               "items": {
                 "type": "object",
                 "properties": {
-                  "name": {"type": "string"},
-                  "size_kb": {"type": "integer"},
-                  "key_content_summary": {"type": "string"}
+                  "name": {
+                    "type": "string"
+                  },
+                  "size_kb": {
+                    "type": "integer"
+                  },
+                  "key_content_summary": {
+                    "type": "string"
+                  }
                 }
               }
             },
-            "key_decisions": {"type": "array", "items": {"type": "string"}},
-            "recent_messages_summary": {"type": "string", "maxLength": 2000},
-            "pending_questions": {"type": "array", "items": {"type": "string"}}
+            "key_decisions": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "recent_messages_summary": {
+              "type": "string",
+              "maxLength": 2000
+            },
+            "pending_questions": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
           }
         },
         "task": {
           "type": "object",
-          "required": ["description", "success_criteria", "return_format"],
+          "required": [
+            "description",
+            "success_criteria",
+            "return_format"
+          ],
           "properties": {
-            "description": {"type": "string"},
-            "success_criteria": {"type": "array", "items": {"type": "string"}},
+            "description": {
+              "type": "string"
+            },
+            "success_criteria": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
             "return_format": {
               "type": "object",
               "properties": {
-                "type": {"type": "string", "enum": ["json", "text", "code", "table", "mixed"]},
-                "schema": {"type": "object", "optional": true}
+                "type": {
+                  "type": "string",
+                  "enum": [
+                    "json",
+                    "text",
+                    "code",
+                    "table",
+                    "mixed"
+                  ]
+                },
+                "schema": {
+                  "type": "object",
+                  "optional": true
+                }
               }
             },
-            "estimated_tokens": {"type": "integer", "optional": true}
+            "estimated_tokens": {
+              "type": "integer",
+              "optional": true
+            }
           }
         },
         "expected_output_format": {
           "type": "object",
-          "required": ["result", "token_usage_fork", "new_files", "decisions_made", "confidence_score"],
+          "required": [
+            "result",
+            "token_usage_fork",
+            "new_files",
+            "decisions_made",
+            "confidence_score"
+          ],
           "properties": {
-            "result": {"description": "Основной результат выполнения задачи"},
-            "token_usage_fork": {"type": "integer"},
-            "new_files": {"type": "array", "items": {"type": "string"}},
-            "decisions_made": {"type": "array", "items": {"type": "string"}},
-            "confidence_score": {"type": "integer", "minimum": 0, "maximum": 100},
-            "questions_for_parent": {"type": "array", "items": {"type": "string"}, "optional": true},
-            "warnings": {"type": "array", "items": {"type": "string"}, "optional": true}
+            "result": {
+              "description": "Основной результат выполнения задачи"
+            },
+            "token_usage_fork": {
+              "type": "integer"
+            },
+            "new_files": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "decisions_made": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "confidence_score": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 100
+            },
+            "questions_for_parent": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "optional": true
+            },
+            "warnings": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "optional": true
+            }
           }
         }
       }
     },
-
     "return_result_schema": {
       "type": "object",
-      "required": ["fork_id", "result", "execution_summary"],
+      "required": [
+        "fork_id",
+        "result",
+        "execution_summary"
+      ],
       "properties": {
-        "fork_id": {"type": "string"},
+        "fork_id": {
+          "type": "string"
+        },
         "result": {
           "type": "object",
           "description": "Результат выполнения (структура определяется expected_output_format из fork)"
         },
         "execution_summary": {
           "type": "object",
-          "required": ["tokens_used", "files_created", "decisions", "confidence"],
+          "required": [
+            "tokens_used",
+            "files_created",
+            "decisions",
+            "confidence"
+          ],
           "properties": {
-            "tokens_used": {"type": "integer"},
-            "files_created": {"type": "array", "items": {"type": "string"}},
-            "decisions": {"type": "array", "items": {"type": "string"}},
-            "confidence": {"type": "integer", "minimum": 0, "maximum": 100},
-            "unresolved_issues": {"type": "array", "items": {"type": "string"}}
+            "tokens_used": {
+              "type": "integer"
+            },
+            "files_created": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "decisions": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "confidence": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 100
+            },
+            "unresolved_issues": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
           }
         },
         "integration_metadata": {
           "type": "object",
           "properties": {
-            "conflicts_detected": {"type": "boolean"},
-            "conflict_resolution": {"type": "string"},
-            "context_impact_tokens": {"type": "integer"}
+            "conflicts_detected": {
+              "type": "boolean"
+            },
+            "conflict_resolution": {
+              "type": "string"
+            },
+            "context_impact_tokens": {
+              "type": "integer"
+            }
           }
         }
       }
     },
-
     "fork_lifecycle": {
       "stages": [
         {
           "stage": "create",
           "action": "[ВЫНЕСТИ_ТЕМУ: ...]",
-          "output": "два сообщения (промт + JSON-дамп)",
+          "output": "три сообщения (человеко-читаемый промт + JSON-дамп v2.0 + семантический промт)",
           "side_effect": "fork_id регистрируется в метаданных сессии"
         },
         {
           "stage": "transfer",
-          "action": "пользователь копирует оба сообщения в новую сессию",
-          "note": "JSON-дамп загружается как контекст, промт — как задача"
+          "action": "пользователь копирует три сообщения в новую сессию",
+          "note": "message_1 (markdown) — как задача, message_2 (JSON) — как контекст, message_3 (семантика) — как стиль"
         },
         {
           "stage": "execute",
           "action": "дочерняя сессия выполняет задачу",
-          "output": "JSON-результат по схеме expected_output_format"
+          "output": "JSON-результат по схеме expected_output_format v2.0 + текстовое резюме"
         },
         {
           "stage": "return",
@@ -208,7 +378,6 @@
         }
       ]
     },
-
     "context_inheritance": {
       "what_is_inherited": [
         "роль (role)",
@@ -224,7 +393,6 @@
       ],
       "compression_ratio": "цель: 10-20% от исходного контекста"
     },
-
     "return_merge_strategy": {
       "strategy": "умное слияние с разрешением конфликтов",
       "conflict_resolution": {
@@ -238,7 +406,6 @@
         "token_impact": "прибавляются к текущему использованию"
       }
     },
-
     "best_practices": [
       "Выносить темы, которые требуют более 50 сообщений или >200K токенов",
       "Перед выносом выполнить //ЭКСПОРТ_КОНТЕКСТА для страховки",
@@ -246,22 +413,18 @@
       "Возвращать результат в течение TTL (60 минут по умолчанию)",
       "При возврате проверять, не изменился ли основной контекст (команда //СИСТЕМА_СТАТУС)"
     ],
-
     "error_handling": {
       "fork_not_found": "Проверить ID форка через [СТАТУС_ФОРКОВ]",
       "context_too_large_for_fork": "Сжать контекст через [CRAFT: КОНТЕКСТ] перед выносом",
       "return_conflicts": "Выполнить ручное разрешение через [КОНТЕКСТ: УТОЧНИТЬ]",
       "ttl_expired": "Создать новый форк, старый игнорировать"
     },
-
     "example_flow": {
       "user": "[ВЫНЕСТИ_ТЕМУ: оптимизация базы данных] Проанализируй 3 самых медленных запроса из приложенного explain.log, предложи индексы и напиши оптимизированные версии. Верни результат в JSON с полями: original_query, optimized_query, suggested_indexes, expected_improvement_percent.",
-      
       "assistant_output_message_1": {
         "type": "prompt_text",
         "content": "=== КОНТЕКСТ ОСНОВНОЙ СЕССИИ ===\nРоль: Экспертный ассистент\nРежим: deep_analysis_mode\nКлючевые факты: работаем над производительностью PostgreSQL\nАктивные файлы: explain.log (2.3MB, 145 медленных запросов)\n\n=== ЗАДАЧА ===\nПроанализируй 3 самых медленных запроса из explain.log, предложи индексы и напиши оптимизированные версии. Верни результат в JSON.\n\n=== ТРЕБОВАНИЯ ===\nВерни JSON по схеме: {queries: [{original, optimized, indexes, improvement_percent}]}"
       },
-      
       "assistant_output_message_2": {
         "type": "json_dump",
         "content": {
@@ -276,10 +439,318 @@
           "expected_output_format": {}
         }
       },
-      
       "user_after_fork_complete": "[ВЕРНУТЬСЯ: fork_20260407_143022] с результатами:\n{\"queries\": [{\"original\": \"SELECT * FROM orders...\", \"optimized\": \"SELECT id, status...\", \"indexes\": [\"CREATE INDEX idx_orders_date ON orders(order_date)\"], \"improvement_percent\": 85}]}",
-      
       "assistant_final_response": "Результат интегрирован. Обнаружено 2 конфликта с существующими индексами — разрешены в пользу оптимизаций из форка. Обновлён explain.log (добавлен результат). Текущий контекст: +15K токенов.\n[ВЕРДИКТ: РАБОТАЕМ] Свободно: 55%"
+    },
+    "enhanced_output": {
+      "enabled": true,
+      "version": "2.0",
+      "description": "Трёхчастный механизм экспорта контекста при выносе темы",
+      "messages": [
+        {
+          "order": 1,
+          "type": "human_readable_prompt",
+          "format": "markdown",
+          "required": true,
+          "description": "Человеко-читаемый промт с полным контекстом",
+          "template": "# Контекст выноса темы из основного диалога\n\n## Роль ассистента\n{role_description}\n\n## Стиль общения\n- Стиль: {current_style}\n- Уровень детализации: {verbose_level}\n- Предпочитаемые форматы: {preferred_formats}\n\n## Задача для выноса\n{user_query_with_context}\n\n## Важные нюансы (из диалога)\n{key_nuances_as_bullet_list}\n\n## Что ожидается в ответе\n1. JSON-дамп с результатом (строгая схема)\n2. Краткое текстовое резюме (для быстрого понимания)\n3. Оценка уверенности (0-100%) по каждому пункту"
+        },
+        {
+          "order": 2,
+          "type": "structured_json_dump",
+          "format": "json",
+          "required": true,
+          "description": "Структурированный JSON-дамп для точного восстановления",
+          "schema_version": "2.0",
+          "schema": "fork_export_schema_v2"
+        },
+        {
+          "order": 3,
+          "type": "semantic_context",
+          "format": "natural_language",
+          "required": false,
+          "description": "Семантический промт для передачи стиля и неявных договорённостей",
+          "when": "передача важных нюансов или неявного контекста",
+          "auto_generate": true,
+          "template": "При ответе учитывай, что в основном диалоге мы придерживаемся {style} стиля, пользователь предпочитает {preferences}. Важные моменты, которые не вошли в JSON-дамп: {semantic_notes}. Возвращай результат так, как будто мы продолжаем диалог, без излишних формальностей, если не требуется иначе."
+        }
+      ],
+      "semantic_examples": [
+        {
+          "scenario": "Юридический анализ",
+          "semantic_note": "Пользователь раздражён задержками — отвечай чётко, по существу, без воды",
+          "style": "деловой, лаконичный"
+        },
+        {
+          "scenario": "Обучение программированию",
+          "semantic_note": "Пользователь — новичок, объясняй максимально подробно, с примерами",
+          "style": "дружелюбный, обучающий"
+        },
+        {
+          "scenario": "Быстрая консультация",
+          "semantic_note": "Пользователь торопится — давай короткие ответы, только ключевые выводы",
+          "style": "сжатый, по существу"
+        }
+      ]
+    },
+    "fork_export_schema_v2": {
+      "type": "object",
+      "version": "2.0",
+      "required": [
+        "fork_meta",
+        "context_snapshot",
+        "task",
+        "expected_output_format"
+      ],
+      "properties": {
+        "fork_meta": {
+          "type": "object",
+          "required": [
+            "fork_id",
+            "parent_session_id",
+            "created_at",
+            "ttl_minutes",
+            "estimated_tokens_parent"
+          ],
+          "properties": {
+            "fork_id": {
+              "type": "string",
+              "pattern": "^fork_\\d{8}_\\d{6}$"
+            },
+            "parent_session_id": {
+              "type": "string"
+            },
+            "created_at": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "ttl_minutes": {
+              "type": "integer",
+              "default": 60,
+              "maximum": 1440
+            },
+            "estimated_tokens_parent": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 1000000
+            }
+          }
+        },
+        "context_snapshot": {
+          "type": "object",
+          "required": [
+            "mode",
+            "token_usage",
+            "token_free_percent",
+            "active_files",
+            "key_decisions",
+            "recent_messages_summary"
+          ],
+          "properties": {
+            "mode": {
+              "type": "string",
+              "enum": [
+                "efficiency_mode",
+                "deep_analysis_mode",
+                "full_context_mode"
+              ]
+            },
+            "communication_style": {
+              "type": "string",
+              "enum": [
+                "деловой",
+                "дружелюбный",
+                "техничный",
+                "обучающий",
+                "сжатый"
+              ]
+            },
+            "token_usage": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 1000000
+            },
+            "token_free_percent": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 100
+            },
+            "active_files": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "size_kb": {
+                    "type": "integer"
+                  },
+                  "key_content_summary": {
+                    "type": "string",
+                    "maxLength": 500
+                  }
+                }
+              }
+            },
+            "key_decisions": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "pending_questions": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "recent_messages_summary": {
+              "type": "string",
+              "maxLength": 2000
+            },
+            "conversation_style": {
+              "type": "string"
+            },
+            "implicit_agreements": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "description": "Неявные договорённости из диалога"
+            }
+          }
+        },
+        "task": {
+          "type": "object",
+          "required": [
+            "description",
+            "success_criteria",
+            "return_format"
+          ],
+          "properties": {
+            "description": {
+              "type": "string"
+            },
+            "success_criteria": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "return_format": {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "enum": [
+                    "json",
+                    "text",
+                    "code",
+                    "table",
+                    "mixed"
+                  ]
+                },
+                "schema": {
+                  "type": "object",
+                  "optional": true
+                },
+                "include_confidence": {
+                  "type": "boolean",
+                  "default": true
+                }
+              }
+            },
+            "estimated_tokens": {
+              "type": "integer",
+              "optional": true
+            }
+          }
+        },
+        "expected_output_format": {
+          "type": "object",
+          "required": [
+            "result",
+            "token_usage_fork",
+            "new_files",
+            "decisions_made",
+            "confidence_score"
+          ],
+          "properties": {
+            "result": {
+              "description": "Основной результат выполнения задачи"
+            },
+            "token_usage_fork": {
+              "type": "integer"
+            },
+            "new_files": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "decisions_made": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "confidence_score": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 100
+            },
+            "confidence_per_item": {
+              "type": "object",
+              "optional": true
+            },
+            "summary_text": {
+              "type": "string",
+              "optional": true
+            },
+            "questions_for_parent": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "optional": true
+            },
+            "warnings": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "optional": true
+            }
+          }
+        }
+      }
+    },
+    "semantic_context_generation": {
+      "enabled": true,
+      "description": "Автоматическое создание семантического промта из истории диалога",
+      "input_sources": [
+        {
+          "source": "user_message_history",
+          "max_messages": 10,
+          "description": "Анализ последних сообщений пользователя для определения стиля и эмоционального состояния"
+        },
+        {
+          "source": "assistant_response_style",
+          "description": "Анализ стиля ответов ассистента в текущей сессии"
+        },
+        {
+          "source": "explicit_references",
+          "description": "Явно выраженные предпочтения пользователя (например, 'отвечай короче', 'подробно с примерами')"
+        }
+      ],
+      "generation_rules": [
+        "Если пользователь выражал недовольство или торопил — установить стиль 'лаконичный, по существу'",
+        "Если диалог содержит обучающие вопросы — установить стиль 'обучающий, с примерами'",
+        "Если диалог юридический или технический — установить стиль 'точный, деловой'",
+        "Если пользователь не давал указаний — использовать стиль из текущего режима (efficiency_mode/deep_analysis_mode)"
+      ],
+      "output_format": "Естественный язык, 2-3 предложения, передающие ключевые нюансы"
     }
   }
 }
