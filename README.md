@@ -89,6 +89,7 @@ ai-instructions/
 ### Использование DeepSeek v4.0
 1. Скопируйте содержимое `instructions/deepseek_v4/core_protocol_v4.0.json` в системное сообщение DeepSeek-V4:
 ```
+примени протокол
    https://raw.githubusercontent.com/pbolkhovitin/ai-instructions/main/instructions/deepseek_v4/core_protocol_v4.0.json
 ```
    Или используйте симлинк: `instructions/deepseek_instructions_latest.json`
