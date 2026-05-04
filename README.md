@@ -4,8 +4,8 @@
 
 ## 🎯 Актуальные версии
 
-### DeepSeek Protocol v3.4
-**Оптимизирован для DeepSeek-V3** с модульной архитектурой и ленивой загрузкой. Базовое ядро занимает всего 15KB, расширенные функции подключаются по запросу.
+### DeepSeek Protocol v4.0
+**Оптимизирован для DeepSeek-V4** с модульной архитектурой и ленивой загрузкой. Базовое ядро занимает всего 15KB, расширенные функции подключаются по запросу.
 
 **Ключевые возможности:**
 - **Модульная система** с ленивой загрузкой (9 модулей)
@@ -16,7 +16,7 @@
 - **Перекрёстная валидация**: сверка файлов с интернетом
 - **Topic Fork**: параллельная проработка задач
 
-**Директория:** `instructions/deepseek_v3/`
+**Директория:** `instructions/deepseek_v4/`
 
 ### ChatGPT Protocol v1.9.3
 **Многоуровневая система инструкций для ChatGPT (GPT-5)** с модульной архитектурой.
@@ -34,20 +34,20 @@
 ```
 ai-instructions/
 ├── instructions/                   # ИНСТРУКЦИИ ДЛЯ ИИ
-│   ├── deepseek_v3/               # DeepSeek Protocol v3.4 (актуально)
-│   │   ├── core_protocol_v3.0.json      # Базовое ядро v3.4 (15KB)
-│   │   ├── memory_management_v3.0.json   # Управление памятью (8KB)
-│   │   ├── advanced_analytics_v3.0.json  # Метрики, безопасность (12KB)
-│   │   ├── file_operations_v3.0.json   # Файлы (15KB)
-│   │   ├── web_search_v3.0.json       # Поиск (10KB)
-│   │   ├── cross_validation_v3.0.json # Валидация (10KB)
-│   │   ├── topic_fork_v3.0.json      # Форк (14KB)
-│   │   ├── system_documentation_v3.0.json
-│   │   ├── detailed_descriptions_v3.0.json
-│   │   ├── troubleshooting_guide_v3.0.json
-│   │   ├── command_examples_v3.0.json
-│   │   ├── validation_schemas_v3.0.json
-│   │   └── README_RUS_v3.0.md
+│   ├── deepseek_v4/               # DeepSeek Protocol v4.0 (актуально)
+│   │   ├── core_protocol_v4.0.json      # Базовое ядро v4.0 (15KB)
+│   │   ├── memory_management_v4.0.json   # Управление памятью (8KB)
+│   │   ├── advanced_analytics_v4.0.json  # Метрики, безопасность (12KB)
+│   │   ├── file_operations_v4.0.json   # Файлы (15KB)
+│   │   ├── web_search_v4.0.json       # Поиск (10KB)
+│   │   ├── cross_validation_v4.0.json # Валидация (10KB)
+│   │   ├── topic_fork_v4.0.json      # Форк (14KB)
+│   │   ├── system_documentation_v4.0.json
+│   │   ├── detailed_descriptions_v4.0.json
+│   │   ├── troubleshooting_guide_v4.0.json
+│   │   ├── command_examples_v4.0.json
+│   │   ├── validation_schemas_v4.0.json
+│   │   └── README_RUS_v4.0.md
 │   ├── chatgpt/                   # ChatGPT Protocol v1.9.3 (актуально)
 │   │   ├── assistant_instructions_v1.9.3-chatgpt.json
 │   │   ├── assistant_extensions_v1.9.2.json
@@ -55,7 +55,7 @@ ai-instructions/
 │   │   ├── assistant_memory_protocol.json
 │   │   ├── assistant_config_template_v1.9.2.json
 │   │   └── README_RUS.md
-│   └── deepseek_instructions_latest.json -> deepseek_v3/core_protocol_v3.0.json (симлинк)
+│   └── deepseek_instructions_latest.json -> deepseek_v4/core_protocol_v4.0.json (симлинк)
 ├── configs/                       # КОНФИГУРАЦИИ КОНТЕКСТА
 │   ├── context_config_v1.9.json   # Актуальный конфиг (требует обновления до v3.2)
 │   └── github_config.json         # Конфигурация GitHub (токен должен быть в .env)
@@ -86,10 +86,10 @@ ai-instructions/
 
 ## ⚙️ Быстрый старт
 
-### Использование DeepSeek v3.4
-1. Скопируйте содержимое `instructions/deepseek_v3/core_protocol_v3.0.json` в системное сообщение DeepSeek-V3:
+### Использование DeepSeek v4.0
+1. Скопируйте содержимое `instructions/deepseek_v4/core_protocol_v4.0.json` в системное сообщение DeepSeek-V4:
 ```
-   https://raw.githubusercontent.com/pbolkhovitin/ai-instructions/main/instructions/deepseek_v3/core_protocol_v3.0.json
+   https://raw.githubusercontent.com/pbolkhovitin/ai-instructions/main/instructions/deepseek_v4/core_protocol_v4.0.json
 ```
    Или используйте симлинк: `instructions/deepseek_instructions_latest.json`
 2. (Опционально) Загрузите нужные модули:
@@ -111,11 +111,11 @@ ai-instructions/
 2. Система автоматически определит наличие дополнительных модулей и загрузит их.
 3. Используйте команды модулей для расширенной функциональности.
 
-## 📖 Инструкция по использованию DeepSeek Protocol v3.4
+## 📖 Инструкция по использованию DeepSeek Protocol v4.0
 
 ### 🔷 Модульная система (ленивая загрузка)
 
-В v3.4 реализована **модульная архитектура** с ленивой загрузкой. Базовое ядро занимает 15KB, дополнительные модули загружаются по запросу.
+В v4.0 реализована **модульная архитектура** с ленивой загрузкой. Базовое ядро занимает 15KB, дополнительные модули загружаются по запросу.
 
 **Доступные модули:**
 
@@ -250,5 +250,5 @@ ai-instructions/
 © Pavel Bolkhovitin, 2025–2026. Все права защищены.
 Конфигурации и протоколы являются коммерческой тайной.
 
-**Версия документации:** 2026-04-24  
-**Актуальные протоколы:** DeepSeek v3.4, ChatGPT v1.9.3
+**Версия документации:** 2026-05-05  
+**Актуальные протоколы:** DeepSeek v4.0, ChatGPT v1.9.3
