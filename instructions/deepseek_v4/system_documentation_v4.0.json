@@ -20,7 +20,7 @@
         "command_examples_v4.0.json - примеры использования",
         "validation_schemas_v4.0.json - схемы валидации"
       ],
-      "total_files": 8,
+      "total_files": 11,
       "critical_files": 5
     },
 
@@ -48,8 +48,17 @@
       "4.0": {
         "release": "2026-05-05",
         "compatible_with": "DeepSeek-V4",
-        "features": ["1M context", "модульная архитектура", "ленивая загрузка", "topic_fork", "cross_validation", "file_operations", "web_search"],
-        "deprecates": ["", "v3.0"],
+        "features": [
+          "1M context",
+          "модульная архитектура",
+          "ленивая загрузка",
+          "topic_fork",
+          "cross_validation",
+          "file_operations",
+          "web_search",
+          "advanced_analytics"
+        ],
+        "deprecates": ["v3.4", "v3.0"],
         "status": "актуальная"
       },
       "3.0": {
