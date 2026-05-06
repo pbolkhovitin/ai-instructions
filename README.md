@@ -29,6 +29,18 @@
 
 **Директория:** `instructions/chatgpt/`
 
+### Grok Core Protocol v4.0
+**Оптимизирован для Grok (xAI)** с системой персон INSTRUCTION v10.2 и адаптивной подстройкой под ограничения модели.
+
+**Ключевые возможности:**
+- **Persona System v10.2**: 3 персоны (A/B/C) с автоопределением по тону
+- **Anti-sycophancy**: Правила против подчинения давлению
+- **Think Pipeline**: 7-шаговый скрытый анализ перед ответом
+- **Fast-Path**: Пропуск сложных проверок для простых запросов (≤50 слов)
+- **High-stakes zones**: Особые протоколы для законов, финансов, безопасности
+
+**Директория:** `instructions/grock/`
+
 ## 📁 Структура проекта (актуальная)
 
 ```
@@ -55,6 +67,9 @@ ai-instructions/
 │   │   ├── assistant_memory_protocol.json
 │   │   ├── assistant_config_template_v1.9.2.json
 │   │   └── README_RUS.md
+│   ├── grock/                     # Grok Core Protocol v4.0 (актуально)
+│   │   ├── grok_core_protocol_v4.0_full.json  # Полный протокол (5KB)
+│   │   └── README_RUS_v4.0.md     # Документация Grok
 │   └── deepseek_instructions_latest.json -> deepseek_v4/core_protocol_v4.0.json (симлинк)
 ├── configs/                       # КОНФИГУРАЦИИ КОНТЕКСТА
 │   ├── context_config_v1.9.json   # Актуальный конфиг (требует обновления до v3.2)
@@ -111,6 +126,14 @@ ai-instructions/
 1. Загрузите `assistant_instructions_v1.9.3-chatgpt.json` как инструкции ассистента в ChatGPT.
 2. Система автоматически определит наличие дополнительных модулей и загрузит их.
 3. Используйте команды модулей для расширенной функциональности.
+
+### Использование Grok Core Protocol v4.0
+1. Скопируйте содержимое `instructions/grock/grok_core_protocol_v4.0_full.json` в системное сообщение Grok:
+```
+https://raw.githubusercontent.com/pbolkhovitin/ai-instructions/main/instructions/grock/grok_core_protocol_v4.0_full.json
+```
+2. Система предложит выбор персоны (A/B/C) при старте.
+3. Режим мышления должен быть включен для работы Think Pipeline.
 
 ## 📖 Инструкция по использованию DeepSeek Protocol v4.0
 
@@ -244,12 +267,12 @@ ai-instructions/
 
 Проект находится в процессе аудита и очистки. Устаревшие версии (DeepSeek v1.9.0, v1.9.2, v2.0; Grok; Alice; GigaChat) будут удалены или перемещены в архив.
 
-**Текущий статус:** Проведен аудит, составлен [план очистки](plans/audit_report.md).
+**Текущий статус:** Проведен аудит, составлен [план очистки](plans/audit_report.md). Добавлен Grok Core Protocol v4.0.
 
 ## 📝 Лицензия
 
 © Pavel Bolkhovitin, 2025–2026. Все права защищены.
 Конфигурации и протоколы являются коммерческой тайной.
 
-**Версия документации:** 2026-05-05  
-**Актуальные протоколы:** DeepSeek v4.0, ChatGPT v1.9.3
+**Версия документации:** 2026-05-06  
+**Актуальные протоколы:** DeepSeek v4.1, ChatGPT v1.9.3, Grok v4.0
