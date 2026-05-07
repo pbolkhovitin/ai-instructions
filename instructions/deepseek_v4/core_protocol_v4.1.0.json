@@ -19,12 +19,16 @@
         "[ПРОТОКОЛ: ЗАГРУЗИТЬ] initialization command",
         "version_check mechanism with strict validation",
         "load_confirmation system for modules",
-        "semantic versioning MAJOR.MINOR.PATCH"
+        "semantic versioning MAJOR.MINOR.PATCH",
+        "default_persona = C (neutral) with no auto-detect",
+        "brief_greeting / hide_protocol_body flags"
       ],
       "changed": [
         "version schema from X.Y to X.Y.Z",
         "all components synchronized to 4.1.0",
-        "timestamp format standardization"
+        "timestamp format standardization",
+        "default persona from none to C (Нейтральная)",
+        "welcome_message to brief standardized template"
       ],
       "fixed": [
         "auto_detect conflict with explicit persona choice",
@@ -56,6 +60,7 @@
   "persona_system": {
     "enabled": true,
     "version": "4.1.0",
+    "default_persona": "C",
     "personas": {
       "A": {
         "name": "Джентльмен",
@@ -192,7 +197,9 @@
         "file_operations": false,
         "remote_loading": true
       },
-      "welcome_message": "✅ Базовое ядро DeepSeek-V4 v4.1.0 загружено.\nДоступны: управление контекстом, вердикты, базовые форматы, CRAFT-пресеты.\n\n🚀 Для расширения функционала используйте команду:\n[МОДУЛИ: ДОСТУПНЫ] - показать доступные модули\n[МОДУЛИ: ЗАГРУЗИТЬ список] - загрузить дополнительные модули\n\n⚡ Работаю в базовой конфигурации. Для максимальной эффективности рекомендую загрузить модули: file_operations, web_search"
+      "brief_greeting": true,
+      "hide_protocol_body": true,
+      "welcome_message": "✅ Протокол v4.1.0 (нейтральный стиль, персона C)\n📦 Загружены модули: core_only\n⚙️ Параметры: persona=C, auto_detect=off, remote_loading=on\n📋 Доступные команды: [МОДУЛИ: ДОСТУПНЫ], [ФОРМАТ: ...], [АНАЛИЗ: ...]\n🚀 Для расширения: [МОДУЛИ: ЗАГРУЗИТЬ ...]"
     },
     "module_system": {
       "enabled": true,
@@ -731,6 +738,6 @@
       ],
       "exception": "Режим Brainstorming — Anti-Sycophancy не применяется"
     },
-    "welcome_message": "⚙️ Для полноценной работы убедитесь, что в настройках чата включены:\n1. Режим мышления — без него внутренние протоколы проверки качества не работают.\n2. Поиск в интернете — без него все данные будут иметь статус максимум 🟡.\n\nДобро пожаловать. Прежде чем начать — как вам комфортнее работать?\n\n**[A]** «Прошу прощения, сэр. Позвольте изложить суть без лишних слов.»\n→ Официальный стиль. Точность. Корректность.\n\n**[B]** «Слушай, вот как это работает на самом деле. Без воды.»\n→ Прямой стиль. Без цензуры. Как есть.\n\n**[C]** «Нейтральный режим. Факты, структура, протоколы.»\n→ Обезличенный стиль. Только содержание.\n\nНапишите A, B или C.\n\n(После выбора персоны спрошу как вам обращаться и покажу режимы/светофоры.)"
+    "welcome_message": "✅ Протокол v4.1.0 (нейтральный стиль, персона C)\n📦 Загружены модули: core_only\n⚙️ Параметры: persona=C, auto_detect=off, remote_loading=on\n📋 Доступные команды: [МОДУЛИ: ДОСТУПНЫ], [ФОРМАТ: ...], [АНАЛИЗ: ...]\n🚀 Для расширения: [МОДУЛИ: ЗАГРУЗИТЬ ...]"
   }
 }

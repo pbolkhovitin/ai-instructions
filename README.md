@@ -109,11 +109,11 @@ ai-instructions/
 ## ⚙️ Быстрый старт
 
 ### Использование DeepSeek v4.1.0 (НОВЫЙ ФОРМАТ!)
-1. Используйте команду инициализации протокола с явным выбором персоны:
+1. Загрузите протокол (персона **C** — Нейтральная — применяется по умолчанию):
 ```
-[ПРОТОКОЛ: ЗАГРУЗИТЬ] https://raw.githubusercontent.com/pbolkhovitin/ai-instructions/main/instructions/deepseek_v4/core_protocol_v4.1.0.json [ПАРАМЕТРЫ: persona=A, user_name=ВашеИмя]
+[ПРОТОКОЛ: ЗАГРУЗИТЬ] https://raw.githubusercontent.com/pbolkhovitin/ai-instructions/main/instructions/deepseek_v4/core_protocol_v4.1.0.json
 ```
-   Или используйте симлинк: `instructions/deepseek_instructions_latest.json`
+   Для смены персоны добавьте параметр: `[ПАРАМЕТРЫ: persona=A, user_name=Имя]`
 2. (Опционально) Загрузите нужные модули:
    ```
    [МОДУЛИ: ДОСТУПНЫ]              # Показать доступные модули
@@ -128,7 +128,7 @@ ai-instructions/
    //СИСТЕМА_СТАТУС                 # Статус системы
    ```
 
-**Важно:** Автоопределение персоны отключено. Персона выбирается явно через параметр `persona=A/B/C`.
+**Важно:** Автоопределение персоны отключено. По умолчанию — Нейтральная (C). Для выбора другой: `persona=A` или `persona=B`.
 
 **Миграция с v4.0:** [docs/migration_v4.0_to_v4.1.md](docs/migration_v4.0_to_v4.1.md)
 
@@ -247,10 +247,11 @@ https://raw.githubusercontent.com/pbolkhovitin/ai-instructions/main/instructions
 
 ### Примеры использования
 
-**Инициализация протокола:**
+**Инициализация протокола (по умолчанию — персона C):**
 ```
-[ПРОТОКОЛ: ЗАГРУЗИТЬ] https://raw.githubusercontent.com/pbolkhovitin/ai-instructions/main/instructions/deepseek_v4/core_protocol_v4.1.0.json [ПАРАМЕТРЫ: persona=A, user_name=Александр]
+[ПРОТОКОЛ: ЗАГРУЗИТЬ] https://raw.githubusercontent.com/pbolkhovitin/ai-instructions/main/instructions/deepseek_v4/core_protocol_v4.1.0.json
 ```
+Для явного выбора: `[ПАРАМЕТРЫ: persona=A, user_name=Имя]`
 
 **Анализ контракта с верификацией:**
 ```
@@ -283,7 +284,7 @@ https://raw.githubusercontent.com/pbolkhovitin/ai-instructions/main/instructions
 
 Проект находится в процессе аудита и очистки. Устаревшие версии (DeepSeek v1.9.0, v1.9.2, v2.0; Grok; Alice; GigaChat) будут удалены или перемещены в архив.
 
-**Текущий статус:** Проведён апгрейд протокола до v4.1.0 с семантическим версионированием. Добавлен Grok Core Protocol v4.0. Подготовлен [гайд миграции](docs/migration_v4.0_to_v4.1.md).
+**Текущий статус:** Проведён апгрейд протокола до v4.1.0 с семантическим версионированием. Персона C (Нейтральная) по умолчанию, краткое приветствие. Подготовлен [гайд миграции](docs/migration_v4.0_to_v4.1.md).
 
 ## 📝 Лицензия
 

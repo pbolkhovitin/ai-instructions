@@ -76,10 +76,11 @@ ai-instructions/
 
 ### DeepSeek Protocol v4.1.0
 
-1. **Инициализация (новый формат):**
+1. **Инициализация (персона C по умолчанию):**
 ```
-[ПРОТОКОЛ: ЗАГРУЗИТЬ] https://raw.githubusercontent.com/pbolkhovitin/ai-instructions/main/instructions/deepseek_v4/core_protocol_v4.1.0.json [ПАРАМЕТРЫ: persona=A, user_name=Имя]
+[ПРОТОКОЛ: ЗАГРУЗИТЬ] https://raw.githubusercontent.com/pbolkhovitin/ai-instructions/main/instructions/deepseek_v4/core_protocol_v4.1.0.json
 ```
+   Для явного выбора персоны: `[ПАРАМЕТРЫ: persona=A, user_name=Имя]`
 
 2. **Дополнительные модули:** При необходимости загрузите другие JSON-файлы через `[МОДУЛИ: ЗАГРУЗИТЬ ...]`.
 

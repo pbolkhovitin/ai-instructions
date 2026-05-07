@@ -1,0 +1,107 @@
+{
+  "file": "file_operations_v3.0.json",
+  "version": "3.0-f",
+  "timestamp": "2026-02-28",
+  "content": {
+    "desc": "Работа с файлами в DeepSeek-V3",
+
+    "capabilities": {
+      "enabled": true,
+      "max_file_size_mb": 100,
+      "max_files_per_session": 50,
+      "total_size_limit_mb": 500,
+      "extraction": true,
+      "comparison": true,
+      "summarization": true,
+      "code_analysis": true
+    },
+
+    "supported_formats": {
+      "text": {
+        "extensions": [".txt", ".md", ".rst", ".tex"],
+        "mime_types": ["text/plain", "text/markdown"],
+        "features": ["full_text", "metadata"]
+      },
+      "documents": {
+        "extensions": [".pdf", ".docx", ".pptx", ".xlsx", ".odt", ".ods", ".odp", ".rtf"],
+        "mime_types": ["application/pdf", "application/vnd.openxmlformats-officedocument.*", "application/vnd.oasis.opendocument.*"],
+        "features": ["text_extraction", "metadata", "structure_preservation"]
+      },
+      "code": {
+        "extensions": [".py", ".js", ".java", ".cpp", ".c", ".h", ".cs", ".php", ".rb", ".go", ".rs", ".swift", ".kt", ".ts", ".html", ".css", ".scss", ".sql", ".sh", ".bash", ".ps1"],
+        "mime_types": ["text/x-python", "text/javascript", "text/x-java", "text/x-c", "text/x-csharp", "text/x-php", "text/x-ruby", "text/x-go", "text/x-rust"],
+        "features": ["syntax_analysis", "code_quality", "dependency_detection", "refactoring_suggestions"]
+      },
+      "data": {
+        "extensions": [".csv", ".json", ".xml", ".yaml", ".yml", ".toml", ".ini", ".properties"],
+        "mime_types": ["text/csv", "application/json", "application/xml", "text/yaml", "text/x-properties"],
+        "features": ["parsing", "validation", "transformation", "query"]
+      }
+    },
+
+    "commands": {
+      "[ЗАГРУЗИТЬ: файл]": {
+        "desc": "Загрузить файл для анализа",
+        "params": ["путь_к_файлу", "опционально: тип_анализа"],
+        "example": "[ЗАГРУЗИТЬ: отчет.pdf]",
+        "response": "Файл загружен: отчет.pdf (2.4MB, 45 страниц)"
+      },
+
+      "[ПРОАНАЛИЗИРОВАТЬ: файлы]": {
+        "desc": "Комплексный анализ нескольких файлов",
+        "params": ["список_файлов", "тип_анализа"],
+        "example": "[ПРОАНАЛИЗИРОВАТЬ: main.py, utils.py, config.json] с зависимостями",
+        "response": "Анализ кодовой базы: 3 файла, 845 строк, 12 функций, 2 внешние зависимости"
+      },
+
+      "[ИЗВЛЕЧЬ: текст]": {
+        "desc": "Извлечь текст из документа",
+        "params": ["файл", "страницы/разделы (опционально)"],
+        "example": "[ИЗВЛЕЧЬ: contract.pdf] страницы 5-10",
+        "response": "Извлечено 1250 слов из раздела 'Условия использования'"
+      },
+
+      "[СРАВНИТЬ: файлы]": {
+        "desc": "Сравнить содержимое файлов",
+        "params": ["файл1", "файл2", "тип_сравнения"],
+        "example": "[СРАВНИТЬ: draft_v1.docx, draft_v2.docx] изменения",
+        "response": "Найдено 15 изменений: 8 добавлений, 5 удалений, 2 модификации"
+      },
+
+      "[СУММИРОВАТЬ: документ]": {
+        "desc": "Создать краткое содержание",
+        "params": ["файл", "уровень_детализации (кратко/средне/подробно)"],
+        "example": "[СУММИРОВАТЬ: research_paper.pdf] подробно",
+        "response": "Саммари: 5 ключевых пунктов, 3 методологии, 2 основных вывода"
+      },
+
+      "[КОД: извлечь]": {
+        "desc": "Извлечь код из документа",
+        "params": ["файл", "язык (опционально)"],
+        "example": "[КОД: извлечь] из документации",
+        "response": "Найдено 7 фрагментов кода на Python и JavaScript"
+      },
+
+      "[ДАННЫЕ: экстракт]": {
+        "desc": "Извлечь структурированные данные",
+        "params": ["файл", "схема_данных"],
+        "example": "[ДАННЫЕ: экстракт] таблицы из отчета",
+        "response": "Извлечено 3 таблицы: 45 строк данных, экспорт в CSV доступен"
+      }
+    },
+
+    "batch_processing": {
+      "enabled": true,
+      "max_batch": 10,
+      "command": "[ПАКЕТ: команда] для файлов",
+      "example": "[ПАКЕТ: СУММИРОВАТЬ] для всех PDF в папке"
+    },
+
+    "file_context": {
+      "auto_attach": true,
+      "max_context_per_file": "50K токенов",
+      "reference_format": "[ФАЙЛ: имя] - краткое описание",
+      "file_summary": "включается при первом упоминании"
+    }
+  }
+}
