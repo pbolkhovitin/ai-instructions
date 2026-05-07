@@ -1,0 +1,119 @@
+{
+  "file": "web_search_v4.1.0.json",
+  "version": "4.1.0",
+  "semantic_version": "4.1.0",
+  "min_core_version": "4.1.0",
+  "max_core_version": "4.2.0",
+  "compatibility": {
+    "core_version_required": "4.1.0",
+    "breaking_changes": [],
+    "deprecated": false
+  },
+  "timestamp": "2026-02-28",
+  "content": {
+    "desc": "Интернет-поиск в DeepSeek-V4",
+
+    "capabilities": {
+      "enabled": true,
+      "real_time": true,
+      "multi_source": true,
+      "fact_checking": true,
+      "news_monitoring": true,
+      "academic_search": true
+    },
+
+    "rate_limits": {
+      "queries_per_minute": 10,
+      "queries_per_hour": 60,
+      "queries_per_day": 100,
+      "cooldown_seconds": 6,
+      "warning_at": 0.8
+    },
+
+    "search_sources": {
+      "general": ["google", "bing", "duckduckgo"],
+      "academic": ["google_scholar", "arxiv", "pubmed", "semantic_scholar"],
+      "news": ["reuters", "bbc", "ap", "reuters"],
+      "technical": ["stackoverflow", "github", "medium", "dev_to"],
+      "official": ["government", "edu", "org"]
+    },
+
+    "commands": {
+      "[ПОИСК: запрос]": {
+        "desc": "Поиск информации в интернете",
+        "params": ["поисковый_запрос", "количество_результатов (1-10)"],
+        "example": "[ПОИСК: последние достижения в области квантовых вычислений 2026] 5",
+        "response": "Найдено 5 актуальных источников: [1] Nature 2026, [2] arXiv preprint...",
+        "format": "список с кратким содержанием и ссылками"
+      },
+
+      "[ПРОВЕРИТЬ: факт]": {
+        "desc": "Верификация утверждения",
+        "params": ["утверждение_для_проверки", "источники (опционально)"],
+        "example": "[ПРОВЕРИТЬ: DeepSeek-V4 поддерживает 1M токенов контекста]",
+        "response": "✓ ПОДТВЕРЖДЕНО: официальная документация DeepSeek, 3 независимых источника",
+        "confidence": "высокая/средняя/низкая"
+      },
+
+      "[АКТУАЛИЗИРОВАТЬ: данные]": {
+        "desc": "Обновить устаревшую информацию",
+        "params": ["тема", "год_актуальности"],
+        "example": "[АКТУАЛИЗИРОВАТЬ: население Москвы] 2026",
+        "response": "Актуальные данные на 2026: 13.1 млн человек (+2.3% с 2020)"
+      },
+
+      "[ИССЛЕДОВАТЬ: тема]": {
+        "desc": "Глубокое исследование темы",
+        "params": ["тема", "глубина (обзор/средне/глубоко)"],
+        "example": "[ИССЛЕДОВАТЬ: применение ИИ в медицине] глубоко",
+        "response": "Комплексный обзор: 12 источников, 3 ключевых направления, 5 последних исследований"
+      },
+
+      "[НОВОСТИ: по теме]": {
+        "desc": "Свежие новости по теме",
+        "params": ["тема", "период (день/неделя/месяц)"],
+        "example": "[НОВОСТИ: космические запуски] неделя",
+        "response": "Новости за последние 7 дней: 3 запуска, 2 анонса, 1 происшествие"
+      }
+    },
+
+    "search_optimization": {
+      "craft_integration": {
+        "[CRAFT: ПОИСК]": "автоматическая оптимизация запросов",
+        "[CRAFT: ФАКТЫ]": "приоритет верификации",
+        "[CRAFT: ИССЛЕДОВАНИЕ]": "глубокий анализ с множеством источников"
+      },
+
+      "query_enhancement": {
+        "auto_expand": true,
+        "synonym_use": true,
+        "language_match": true,
+        "context_aware": true
+      }
+    },
+
+    "result_processing": {
+      "deduplication": true,
+      "relevance_score": true,
+      "source_credibility": "оценка 1-10",
+      "freshness_weight": "по умолчанию 0.7",
+      "citation_format": "[источник N] - название, дата"
+    },
+
+    "best_practices": [
+      "Использовать для актуальных данных (новости, курсы, события)",
+      "Комбинировать с [CRAFT: ОПТИМА] для точных ответов",
+      "Проверять спорные факты через [ПРОВЕРИТЬ: факт]",
+      "Для исследований начинать с [ИССЛЕДОВАТЬ: тема]",
+      "Указывать количество результатов для экономии контекста",
+      "Использовать [АКТУАЛИЗИРОВАТЬ: данные] для устаревшей информации"
+    ],
+
+    "limitations": {
+      "no_paywall": true,
+      "no_login_required": true,
+      "recency": "до текущего момента",
+      "language_support": ["ru", "en", "zh", "es", "fr", "de", "ja", "ko"]
+    }
+  }
+}

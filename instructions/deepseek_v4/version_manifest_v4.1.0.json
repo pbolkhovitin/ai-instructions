@@ -1,0 +1,125 @@
+{
+  "manifest_version": "1.0",
+  "protocol_version": "4.1.0",
+  "release_date": "2026-05-08",
+  "status": "stable",
+  "components": {
+    "core": {
+      "version": "4.1.0",
+      "file": "core_protocol_v4.1.0.json",
+      "checksum": "sha256:PENDING_CALCULATION",
+      "size_kb": 18
+    },
+    "think_pipeline": {
+      "version": "4.1.0",
+      "file": "think_pipeline_v4.1.0.json",
+      "min_core": "4.1.0",
+      "max_core": "4.2.0",
+      "critical": true
+    },
+    "modules": {
+      "memory_management": {
+        "version": "4.1.0",
+        "file": "memory_management_v4.1.0.json",
+        "min_core": "4.1.0",
+        "max_core": "4.2.0",
+        "critical": true
+      },
+      "advanced_analytics": {
+        "version": "4.1.0",
+        "file": "advanced_analytics_v4.1.0.json",
+        "min_core": "4.1.0",
+        "max_core": "4.2.0",
+        "critical": true
+      },
+      "file_operations": {
+        "version": "4.1.0",
+        "file": "file_operations_v4.1.0.json",
+        "min_core": "4.1.0",
+        "max_core": "4.2.0",
+        "critical": false
+      },
+      "web_search": {
+        "version": "4.1.0",
+        "file": "web_search_v4.1.0.json",
+        "min_core": "4.1.0",
+        "max_core": "4.2.0",
+        "critical": false
+      },
+      "cross_validation": {
+        "version": "4.1.0",
+        "file": "cross_validation_v4.1.0.json",
+        "min_core": "4.1.0",
+        "max_core": "4.2.0",
+        "critical": false,
+        "dependencies": ["file_operations", "web_search"]
+      },
+      "topic_fork": {
+        "version": "4.1.0",
+        "file": "topic_fork_v4.1.0.json",
+        "min_core": "4.1.0",
+        "max_core": "4.2.0",
+        "critical": false,
+        "dependencies": ["memory_management"]
+      },
+      "system_documentation": {
+        "version": "4.1.0",
+        "file": "system_documentation_v4.1.0.json",
+        "min_core": "4.1.0",
+        "max_core": "4.2.0",
+        "critical": false
+      },
+      "command_examples": {
+        "version": "4.1.0",
+        "file": "command_examples_v4.1.0.json",
+        "min_core": "4.1.0",
+        "max_core": "4.2.0",
+        "critical": false
+      },
+      "detailed_descriptions": {
+        "version": "4.1.0",
+        "file": "detailed_descriptions_v4.1.0.json",
+        "min_core": "4.1.0",
+        "max_core": "4.2.0",
+        "critical": false
+      },
+      "troubleshooting_guide": {
+        "version": "4.1.0",
+        "file": "troubleshooting_guide_v4.1.0.json",
+        "min_core": "4.1.0",
+        "max_core": "4.2.0",
+        "critical": false
+      },
+      "validation_schemas": {
+        "version": "4.1.0",
+        "file": "validation_schemas_v4.1.0.json",
+        "min_core": "4.1.0",
+        "max_core": "4.2.0",
+        "critical": false
+      }
+    }
+  },
+  "compatibility_matrix": {
+    "4.0.0": {
+      "compatible": false,
+      "migration_required": true,
+      "migration_path": "upgrade_to_v4.1.0"
+    },
+    "4.1.0": {
+      "compatible": true,
+      "migration_required": false
+    }
+  },
+  "validation": {
+    "pre_load_checks": [
+      "semantic_version_format",
+      "min_core_version_satisfied",
+      "dependency_resolution"
+    ],
+    "load_rules": {
+      "major_mismatch": "REJECT",
+      "minor_mismatch": "WARN_AND_CONTINUE",
+      "patch_mismatch": "IGNORE"
+    }
+  }
+}
