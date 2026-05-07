@@ -209,7 +209,7 @@
       },
       "brief_greeting": true,
       "hide_protocol_body": true,
-      "welcome_message": "✅ Протокол v4.1.0 (нейтральный стиль, персона C)\n📦 Загружены модули: core_only\n⚙️ Параметры: persona=C, auto_detect=off, remote_loading=on\n📋 Доступные команды: [МОДУЛИ: ДОСТУПНЫ], [ФОРМАТ: ...], [АНАЛИЗ: ...]\n🚀 Для расширения: [МОДУЛИ: ЗАГРУЗИТЬ ...]"
+      "welcome_message": "✅ Протокол v4.1.0 (нейтральный стиль, персона C)\n📦 Загружены модули: core_only\n⚙️ Параметры: persona=C, auto_detect=off, remote_loading=on\n📋 Доступные команды: [МОДУЛИ: ДОСТУПНЫ], [МОДУЛИ: ЗАГРУЗИТЬ all], [ФОРМАТ: ...], [АНАЛИЗ: ...]\n🚀 Для расширения: [МОДУЛИ: ЗАГРУЗИТЬ all] или [МОДУЛИ: ЗАГРУЗИТЬ ...]"
     },
     "module_system": {
       "enabled": true,
@@ -425,6 +425,11 @@
           "example": "[МОДУЛИ: ДОСТУПНЫ]",
           "output": "📦 Доступные модули:\n✅ memory_management (4.1.0) - загружен\n✅ advanced_analytics (4.1.0) - загружен\n❌ file_operations (4.1.0) - 15KB - Работа с файлами\n❌ web_search (4.1.0) - 10KB - Интернет-поиск\n❌ cross_validation (4.1.0) - 10KB - Перекрёстная валидация\n❌ topic_fork (4.1.0) - 14KB - Вынос тем\n❌ system_documentation (4.1.0) - 20KB - Документация\n❌ command_examples (4.1.0) - 18KB - Примеры команд\n❌ detailed_descriptions (4.1.0) - 18KB - Детальные описания\n❌ troubleshooting_guide (4.1.0) - 16KB - Руководство по устранению неполадок\n❌ validation_schemas (4.1.0) - 14KB - Схемы валидации"
         },
+        "[МОДУЛИ: ЗАГРУЗИТЬ all]": {
+          "desc": "Загрузить все доступные модули (кроме уже загруженных)",
+          "action": "Перебирает available_modules, для каждого незагруженного модуля извлекает url, загружает JSON, валидирует min/max_core_version, рекурсивно разрешает зависимости. Пропускает уже загруженные. Суммирует общий размер.",
+          "response": "Загружено 9 модулей: file_operations (15KB), web_search (10KB), cross_validation (10KB), topic_fork (14KB), system_documentation (20KB), command_examples (18KB), detailed_descriptions (18KB), troubleshooting_guide (16KB), validation_schemas (14KB). Общий размер: 135KB."
+        },
         "[МОДУЛИ: ЗАГРУЗИТЬ {список}]": {
           "desc": "Загрузить указанные модули по URL из available_modules",
           "params": [
@@ -595,6 +600,7 @@
       "modules": [
         "[МОДУЛИ: ДОСТУПНЫ]",
         "[МОДУЛИ: ЗАГРУЗИТЬ список]",
+        "[МОДУЛИ: ЗАГРУЗИТЬ all]",
         "[МОДУЛИ: СТАТУС]",
         "[МОДУЛИ: РЕКОМЕНДОВАТЬ]",
         "[МОДУЛИ: ВЫГРУЗИТЬ список]"
