@@ -66,6 +66,11 @@ for key, mod in avail.items():
           f"Module '{key}': min_core_version={mc_min}")
     check(mc_max is not None,
           f"Module '{key}': missing max_core_version")
+    mod_url = mod.get("url", "")
+    check(mod_url.startswith("https://raw.githubusercontent.com/"),
+          f"Module '{key}': url missing or invalid: {mod_url}")
+    check(mod_url.endswith(mod.get("file", "")),
+          f"Module '{key}': url doesn't end with filename")
 
 # ------- 4. Core protocol required fields -------
 check("protocol_version" in core, "root.protocol_version missing")
