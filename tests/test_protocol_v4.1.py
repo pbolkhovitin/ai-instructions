@@ -37,8 +37,8 @@ for p in json_files:
     if "_v4.0" in p.name or p.name == "version_manifest_v4.1.0.json":
         continue
     try:
-        data = load_json(p)
-        v = data.get("version") or data.get("protocol")
+        d = load_json(p)
+        v = d.get("version") or d.get("protocol")
         if v != EXPECTED_VERSION:
             err(f"{p.name}: version={v}, expected {EXPECTED_VERSION}")
     except:
@@ -90,7 +90,7 @@ check(ps.get("auto_detect", {}).get("enabled") == False,
       "auto_detect.enabled != false")
 
 # content.core_only_mode
-com = data.get("content", {}).get("core_only_mode", {})
+com = core.get("content", {}).get("core_only_mode", {})
 check(com.get("show_welcome_on_load") == True, "show_welcome_on_load != true")
 check(com.get("hide_protocol_body") == True, "hide_protocol_body != true")
 wm = com.get("welcome_message", "")
@@ -99,7 +99,7 @@ check("{version}" in wm, "core_only_mode.welcome_message missing {version}")
 check("{persona}" in wm, "core_only_mode.welcome_message missing {persona}")
 
 # content.welcome_message (second, root-level)
-wm2 = data.get("content", {}).get("welcome_message", "")
+wm2 = core.get("content", {}).get("welcome_message", "")
 check(len(wm2) > 0, "content.welcome_message is empty")
 check("{version}" in wm2, "content.welcome_message missing {version}")
 check("{persona}" in wm2, "content.welcome_message missing {persona}")
@@ -161,10 +161,10 @@ for p in json_files:
     if "_v4.0" in p.name or p.name in ("core_protocol_v4.1.0.json", "version_manifest_v4.1.0.json"):
         continue
     try:
-        data = load_json(p)
-        check(data.get("min_core_version") == EXPECTED_VERSION,
-              f"{p.name}: min_core_version={data.get('min_core_version')}")
-        check(data.get("max_core_version") is not None,
+        d = load_json(p)
+        check(d.get("min_core_version") == EXPECTED_VERSION,
+              f"{p.name}: min_core_version={d.get('min_core_version')}")
+        check(d.get("max_core_version") is not None,
               f"{p.name}: max_core_version missing")
     except:
         pass
