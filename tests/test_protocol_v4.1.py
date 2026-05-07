@@ -90,13 +90,19 @@ check(ps.get("auto_detect", {}).get("enabled") == False,
       "auto_detect.enabled != false")
 
 # content.core_only_mode
-com = core.get("content", {}).get("core_only_mode", {})
+com = data.get("content", {}).get("core_only_mode", {})
 check(com.get("show_welcome_on_load") == True, "show_welcome_on_load != true")
 check(com.get("hide_protocol_body") == True, "hide_protocol_body != true")
 wm = com.get("welcome_message", "")
-check(len(wm) > 0, "welcome_message is empty")
-check("{" not in wm, "welcome_message contains JSON body")
-check("core_protocol_v4" not in wm, "welcome_message references protocol filename")
+check(len(wm) > 0, "core_only_mode.welcome_message is empty")
+check("{version}" in wm, "core_only_mode.welcome_message missing {version}")
+check("{persona}" in wm, "core_only_mode.welcome_message missing {persona}")
+
+# content.welcome_message (second, root-level)
+wm2 = data.get("content", {}).get("welcome_message", "")
+check(len(wm2) > 0, "content.welcome_message is empty")
+check("{version}" in wm2, "content.welcome_message missing {version}")
+check("{persona}" in wm2, "content.welcome_message missing {persona}")
 
 # version_check
 vc = core.get("version_check", {})
@@ -107,6 +113,10 @@ check(vc.get("mode") == "strict", f"version_check.mode={vc.get('mode')}")
 pc = core.get("content", {}).get("protocol_commands", {}).get("[ПРОТОКОЛ: ЗАГРУЗИТЬ URL]", {})
 check(pc.get("required_params") == [],
       f"protocol_command required_params={pc.get('required_params')} (should be empty, default persona=C)")
+check("required_response" in pc, "protocol_command missing required_response")
+check("{version}" in pc.get("required_response", ""),
+      "required_response missing {version} placeholder")
+check(pc.get("strict") == True, "protocol_command strict != true")
 
 # ------- 5. think_pipeline in available_modules -------
 check("think_pipeline" in avail, "think_pipeline not in available_modules")
