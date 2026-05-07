@@ -207,7 +207,7 @@
         "file_operations": false,
         "remote_loading": true
       },
-      "brief_greeting": true,
+      "show_welcome_on_load": true,
       "hide_protocol_body": true,
       "welcome_message": "✅ Протокол v4.1.0 (нейтральный стиль, персона C)\n📦 Загружены модули: core_only\n⚙️ Параметры: persona=C, auto_detect=off, remote_loading=on\n📋 Доступные команды: [МОДУЛИ: ДОСТУПНЫ], [МОДУЛИ: ЗАГРУЗИТЬ all], [ФОРМАТ: ...], [АНАЛИЗ: ...]\n🚀 Для расширения: [МОДУЛИ: ЗАГРУЗИТЬ all] или [МОДУЛИ: ЗАГРУЗИТЬ ...]"
     },
@@ -726,14 +726,9 @@
           "semantic_version_check": true
         },
         "required_params": [],
-        "optional_params": [
-          "persona",
-          "user_name",
-          "timezone",
-          "verbose_level",
-          "auto_load_modules"
-        ],
+        "optional_params": ["persona", "user_name", "timezone", "verbose_level", "auto_load_modules"],
         "response_format": "Краткое стандартизированное сообщение с настройками (без тела протокола)",
+        "action": "Загрузить JSON по URL. После загрузки ОБЯЗАТЕЛЬНО вывести content.core_only_mode.welcome_message. Тело протокола не выводить.",
         "example_by_default": "[ПРОТОКОЛ: ЗАГРУЗИТЬ] https://raw.githubusercontent.com/.../core_protocol_v4.1.0.json",
         "example_with_params": "[ПРОТОКОЛ: ЗАГРУЗИТЬ] URL [ПАРАМЕТРЫ: persona=A, user_name=Имя]"
       }

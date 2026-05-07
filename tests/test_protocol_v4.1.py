@@ -91,7 +91,7 @@ check(ps.get("auto_detect", {}).get("enabled") == False,
 
 # content.core_only_mode
 com = core.get("content", {}).get("core_only_mode", {})
-check(com.get("brief_greeting") == True, "brief_greeting != true")
+check(com.get("show_welcome_on_load") == True, "show_welcome_on_load != true")
 check(com.get("hide_protocol_body") == True, "hide_protocol_body != true")
 wm = com.get("welcome_message", "")
 check(len(wm) > 0, "welcome_message is empty")
