@@ -74,6 +74,9 @@ for key, mod in avail.items():
 
 # ------- 4. Core protocol required fields -------
 check("protocol_version" in core, "root.protocol_version missing")
+check("url" in core, "root.url missing")
+check(core["url"].startswith("https://raw.githubusercontent.com/"),
+      f"root.url invalid: {core.get('url')}")
 check(core.get("version") == EXPECTED_VERSION, f"root.version={core.get('version')}")
 check(core.get("protocol") == EXPECTED_VERSION, f"root.protocol={core.get('protocol')}")
 
