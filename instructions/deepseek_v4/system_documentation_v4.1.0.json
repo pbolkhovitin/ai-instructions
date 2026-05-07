@@ -1,0 +1,103 @@
+{
+  "file": "system_documentation_v4.1.0.json",
+  "version": "4.1.0",
+  "semantic_version": "4.1.0",
+  "min_core_version": "4.1.0",
+  "max_core_version": "4.2.0",
+  "compatibility": {
+    "core_version_required": "4.1.0",
+    "breaking_changes": [],
+    "deprecated": false
+  },
+  "timestamp": "2026-02-28",
+  "content": {
+    "system_structure": {
+      "core_modules": [
+        "core_protocol_v4.1.0.json - базовый протокол и роль",
+        "think_pipeline_v4.1.0.json - скрытый 7-шаговый анализ",
+        "memory_management_v4.1.0.json - управление 1M контекстом",
+        "advanced_analytics_v4.1.0.json - метрики и безопасность"
+      ],
+      "capability_modules": [
+        "file_operations_v4.1.0.json - работа с файлами (50+ форматов)",
+        "web_search_v4.1.0.json - интернет-поиск и верификация"
+      ],
+      "support_modules": [
+        "system_documentation_v4.1.0.json - документация системы",
+        "detailed_descriptions_v4.1.0.json - детальные описания",
+        "troubleshooting_guide_v4.1.0.json - решение проблем",
+        "command_examples_v4.1.0.json - примеры использования",
+        "validation_schemas_v4.1.0.json - схемы валидации"
+      ],
+      "total_files": 13,
+      "critical_files": 5
+    },
+
+    "integrity_check": {
+      "command": "//ВЕРИФИКАЦИЯ",
+      "output_format": "json",
+      "checks": [
+        "file_existence",
+        "version_compatibility",
+        "dependency_validation",
+        "capability_integrity",
+        "command_availability"
+      ],
+      "example_response": {
+        "status": "OK",
+        "core_modules": "4/4 loaded",
+        "capability_modules": "2/2 loaded",
+        "support_modules": "3/7 loaded (по требованию)",
+        "compatibility": "100%",
+        "timestamp": "2026-05-08T10:00:00Z"
+      }
+    },
+
+    "version_matrix": {
+      "4.1.0": {
+        "release": "2026-05-08",
+        "compatible_with": "DeepSeek-V4",
+        "features": [
+          "1M context",
+          "модульная архитектура",
+          "ленивая загрузка",
+          "topic_fork",
+          "cross_validation",
+          "file_operations",
+          "web_search",
+          "advanced_analytics",
+          "remote_loading",
+          "semantic versioning"
+        ],
+        "deprecates": ["v4.0"],
+        "status": "актуальная"
+      },
+      "4.0": {
+        "release": "2026-05-05",
+        "compatible_with": "DeepSeek-V4",
+        "features": [
+          "1M context",
+          "модульная архитектура",
+          "ленивая загрузка",
+          "topic_fork",
+          "cross_validation",
+          "file_operations",
+          "web_search",
+          "advanced_analytics"
+        ],
+        "deprecates": ["v3.4", "v3.0"],
+        "status": "legacy",
+        "note": "Заменён на v4.1.0, рекомендуется миграция"
+      },
+      "3.0": {
+        "release": "2026-02-28",
+        "compatible_with": "DeepSeek-V3",
+        "status": "legacy",
+        "note": "Заменён на v4.0, не рекомендуется к использованию"
+      }
+    },
+
+    "topic_fork_note": "Версия 2.0: поддерживает трёхчастный экспорт (промт + JSON v2.0 + семантика)"
+  }
+
+}

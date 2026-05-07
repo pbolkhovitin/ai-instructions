@@ -4,17 +4,20 @@
 
 ## 🎯 Актуальные версии
 
-### DeepSeek Protocol v4.0
-**Оптимизирован для DeepSeek-V4** с модульной архитектурой и ленивой загрузкой. Базовое ядро занимает всего 15KB, расширенные функции подключаются по запросу.
+### DeepSeek Protocol v4.1.0
+**Оптимизирован для DeepSeek-V4** с модульной архитектурой, семантическим версионированием и ленивой загрузкой. Базовое ядро занимает всего 15KB, расширенные функции подключаются по запросу.
 
 **Ключевые возможности:**
-- **Модульная система** с ленивой загрузкой (9 модулей)
+- **Модульная система** с ленивой загрузкой (12 модулей)
 - **Автоматические рекомендации** модулей на основе контекста
 - Управление контекстом 1M токенов
 - Работа с файлами: PDF, DOCX, Excel, код
 - Интернет-поиск с верификацией
 - **Перекрёстная валидация**: сверка файлов с интернетом
 - **Topic Fork**: параллельная проработка задач
+- **Семантическое версионирование**: MAJOR.MINOR.PATCH
+- **Удалённая загрузка**: включена по умолчанию
+- **Проверка версий**: строгая валидация при загрузке
 
 **Директория:** `instructions/deepseek_v4/`
 
@@ -33,7 +36,7 @@
 **Оптимизирован для Grok (xAI)** с системой персон INSTRUCTION v10.2 и адаптивной подстройкой под ограничения модели.
 
 **Ключевые возможности:**
-- **Persona System v10.2**: 3 персоны (A/B/C) с автоопределением по тону
+- **Persona System v10.2**: 3 персоны (A/B/C) с ручным выбором
 - **Anti-sycophancy**: Правила против подчинения давлению
 - **Think Pipeline**: 7-шаговый скрытый анализ перед ответом
 - **Fast-Path**: Пропуск сложных проверок для простых запросов (≤50 слов)
@@ -46,19 +49,22 @@
 ```
 ai-instructions/
 ├── instructions/                   # ИНСТРУКЦИИ ДЛЯ ИИ
-│   ├── deepseek_v4/               # DeepSeek Protocol v4.0 (актуально)
-│   │   ├── core_protocol_v4.0.json      # Базовое ядро v4.0 (15KB)
-│   │   ├── memory_management_v4.0.json   # Управление памятью (8KB)
-│   │   ├── advanced_analytics_v4.0.json  # Метрики, безопасность (12KB)
-│   │   ├── file_operations_v4.0.json   # Файлы (15KB)
-│   │   ├── web_search_v4.0.json       # Поиск (10KB)
-│   │   ├── cross_validation_v4.0.json # Валидация (10KB)
-│   │   ├── topic_fork_v4.0.json      # Форк (14KB)
-│   │   ├── system_documentation_v4.0.json
-│   │   ├── detailed_descriptions_v4.0.json
-│   │   ├── troubleshooting_guide_v4.0.json
-│   │   ├── command_examples_v4.0.json
-│   │   ├── validation_schemas_v4.0.json
+│   ├── deepseek_v4/               # DeepSeek Protocol v4.1.0 (актуально)
+│   │   ├── core_protocol_v4.1.0.json      # Базовое ядро v4.1.0 (18KB)
+│   │   ├── think_pipeline_v4.1.0.json      # 7-шаговый анализ
+│   │   ├── memory_management_v4.1.0.json   # Управление памятью (8KB)
+│   │   ├── advanced_analytics_v4.1.0.json  # Метрики, безопасность (12KB)
+│   │   ├── file_operations_v4.1.0.json     # Файлы (15KB)
+│   │   ├── web_search_v4.1.0.json          # Поиск (10KB)
+│   │   ├── cross_validation_v4.1.0.json    # Валидация (10KB)
+│   │   ├── topic_fork_v4.1.0.json          # Форк (14KB)
+│   │   ├── system_documentation_v4.1.0.json
+│   │   ├── detailed_descriptions_v4.1.0.json
+│   │   ├── troubleshooting_guide_v4.1.0.json
+│   │   ├── command_examples_v4.1.0.json
+│   │   ├── validation_schemas_v4.1.0.json
+│   │   ├── version_manifest_v4.1.0.json    # Манифест версий
+│   │   ├── core_protocol_v4.0.json         # (legacy, до 2026-06-08)
 │   │   └── README_RUS_v4.0.md
 │   ├── chatgpt/                   # ChatGPT Protocol v1.9.3 (актуально)
 │   │   ├── assistant_instructions_v1.9.3-chatgpt.json
@@ -70,7 +76,7 @@ ai-instructions/
 │   ├── grock/                     # Grok Core Protocol v4.0 (актуально)
 │   │   ├── grok_core_protocol_v4.0_full.json  # Полный протокол (5KB)
 │   │   └── README_RUS_v4.0.md     # Документация Grok
-│   └── deepseek_instructions_latest.json -> deepseek_v4/core_protocol_v4.0.json (симлинк)
+│   └── deepseek_instructions_latest.json -> deepseek_v4/core_protocol_v4.1.0.json (симлинк)
 ├── configs/                       # КОНФИГУРАЦИИ КОНТЕКСТА
 │   ├── context_config_v1.9.json   # Актуальный конфиг (требует обновления до v3.2)
 │   └── github_config.json         # Конфигурация GitHub (токен должен быть в .env)
@@ -93,7 +99,8 @@ ai-instructions/
 │   ├── config_loader.py           # Загрузчик конфигов с валидацией
 │   └── schema_manager.py          # Менеджер JSON-схем
 ├── docs/                          # ДОКУМЕНТАЦИЯ
-│   └── README.md
+│   ├── README.md
+│   └── migration_v4.0_to_v4.1.md  # Гайд миграции v4.0 → v4.1.0
 ├── tests/                         # ТЕСТЫ
 └── plans/                         # ПЛАНЫ И ОТЧЕТЫ
     └── audit_report.md            # Отчет аудита (2026-04-20)
@@ -101,10 +108,10 @@ ai-instructions/
 
 ## ⚙️ Быстрый старт
 
-### Использование DeepSeek v4.0
-1. Скопируйте содержимое `instructions/deepseek_v4/core_protocol_v4.0.json` в системное сообщение DeepSeek-V4:
+### Использование DeepSeek v4.1.0 (НОВЫЙ ФОРМАТ!)
+1. Используйте команду инициализации протокола с явным выбором персоны:
 ```
-   https://raw.githubusercontent.com/pbolkhovitin/ai-instructions/main/instructions/deepseek_v4/core_protocol_v4.0.json
+[ПРОТОКОЛ: ЗАГРУЗИТЬ] https://raw.githubusercontent.com/pbolkhovitin/ai-instructions/main/instructions/deepseek_v4/core_protocol_v4.1.0.json [ПАРАМЕТРЫ: persona=A, user_name=ВашеИмя]
 ```
    Или используйте симлинк: `instructions/deepseek_instructions_latest.json`
 2. (Опционально) Загрузите нужные модули:
@@ -121,6 +128,10 @@ ai-instructions/
    //СИСТЕМА_СТАТУС                 # Статус системы
    ```
 
+**Важно:** Автоопределение персоны отключено. Персона выбирается явно через параметр `persona=A/B/C`.
+
+**Миграция с v4.0:** [docs/migration_v4.0_to_v4.1.md](docs/migration_v4.0_to_v4.1.md)
+
 ### Использование ChatGPT v1.9.3
 1. Загрузите `assistant_instructions_v1.9.3-chatgpt.json` как инструкции ассистента в ChatGPT.
 2. Система автоматически определит наличие дополнительных модулей и загрузит их.
@@ -134,16 +145,17 @@ https://raw.githubusercontent.com/pbolkhovitin/ai-instructions/main/instructions
 2. Система предложит выбор персоны (A/B/C) при старте.
 3. Режим мышления должен быть включен для работы Think Pipeline.
 
-## 📖 Инструкция по использованию DeepSeek Protocol v4.0
+## 📖 Инструкция по использованию DeepSeek Protocol v4.1.0
 
 ### 🔷 Модульная система (ленивая загрузка)
 
-В v4.0 реализована **модульная архитектура** с ленивой загрузкой. Базовое ядро занимает 15KB, дополнительные модули загружаются по запросу.
+В v4.1.0 реализована **модульная архитектура** с ленивой загрузкой. Базовое ядро занимает 15KB, дополнительные модули загружаются по запросу.
 
 **Доступные модули:**
 
 | Команда | Размер | Описание |
 |---------|-------|----------|
+| `think_pipeline` | 8KB | 7-шаговый скрытый анализ (авто) |
 | `memory_management` | 8KB | Управление памятью (авто) |
 | `advanced_analytics` | 12KB | Метрики (авто) |
 | `file_operations` | 15KB | Работа с файлами |
@@ -155,11 +167,11 @@ https://raw.githubusercontent.com/pbolkhovitin/ai-instructions/main/instructions
 
 ```bash
 [МОДУЛИ: ДОСТУПНЫ]              # Показать доступные модули
-[МОДУЛИ: ЗАГРУЗИТЬ файл_операции, веб_поиск]  # Загрузить модули
-[МОДУЛИ: ЗАГРУЗИТЬ кросс_валидация --with-deps]  # С зависимостями
+[МОДУЛИ: ЗАГРУЗИТЬ file_operations, web_search]  # Загрузить модули
+[МОДУЛИ: ЗАГРУЗИТЬ cross_validation --with-deps]  # С зависимостями
 [МОДУЛИ: СТАТУС]               # Показать статус
 [МОДУЛИ: РЕКОМЕНДОВАТЬ]        # Рекомендации на основе контекста
-[МОДУЛИ: ВЫГРУЗИТЬ документы]   # Выгрузить для экономии
+[МОДУЛИ: ВЫГРУЗИТЬ system_docs]   # Выгрузить для экономии
 ```
 
 ### Как это работает
@@ -196,14 +208,14 @@ https://raw.githubusercontent.com/pbolkhovitin/ai-instructions/main/instructions
 [ИССЛЕДОВАТЬ: тема]         # Глубокое исследование
 ```
 
-**Перекрёстная валидация (v3.1+):**
+**Перекрёстная валидация:**
 ```bash
 [СВЕРИТЬ: файл] с [ПОИСК: запрос]    # Сравнить файл с интернетом
 [ВЕРИФИЦИРОВАТЬ: утверждение] из [ФАЙЛ: имя]  # Проверить утверждение
 [АУДИТ: файл]                # Полный аудит документа
 ```
 
-**Topic Fork (v3.2+):**
+**Topic Fork:**
 ```bash
 [ВЫНЕСТИ_ТЕМУ: описание]    # Создать форк для подзадачи
 [ВЕРНУТЬСЯ: ID_форка]       # Вернуться к основному контексту
@@ -234,6 +246,11 @@ https://raw.githubusercontent.com/pbolkhovitin/ai-instructions/main/instructions
 Проверить статус: `//СИСТЕМА_СТАТУС` или `[ВЕРДИКТ: СТАТУС]`
 
 ### Примеры использования
+
+**Инициализация протокола:**
+```
+[ПРОТОКОЛ: ЗАГРУЗИТЬ] https://raw.githubusercontent.com/pbolkhovitin/ai-instructions/main/instructions/deepseek_v4/core_protocol_v4.1.0.json [ПАРАМЕТРЫ: persona=A, user_name=Александр]
+```
 
 **Анализ контракта с верификацией:**
 ```
@@ -266,12 +283,12 @@ https://raw.githubusercontent.com/pbolkhovitin/ai-instructions/main/instructions
 
 Проект находится в процессе аудита и очистки. Устаревшие версии (DeepSeek v1.9.0, v1.9.2, v2.0; Grok; Alice; GigaChat) будут удалены или перемещены в архив.
 
-**Текущий статус:** Проведен аудит, составлен [план очистки](plans/audit_report.md). Добавлен Grok Core Protocol v4.0.
+**Текущий статус:** Проведён апгрейд протокола до v4.1.0 с семантическим версионированием. Добавлен Grok Core Protocol v4.0. Подготовлен [гайд миграции](docs/migration_v4.0_to_v4.1.md).
 
 ## 📝 Лицензия
 
 © Pavel Bolkhovitin, 2025–2026. Все права защищены.
 Конфигурации и протоколы являются коммерческой тайной.
 
-**Версия документации:** 2026-05-06  
-**Актуальные протоколы:** DeepSeek v4.1, ChatGPT v1.9.3, Grok v4.0
+**Версия документации:** 2026-05-08
+**Актуальные протоколы:** DeepSeek v4.1.0, ChatGPT v1.9.3, Grok v4.0

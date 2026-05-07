@@ -1,0 +1,156 @@
+{
+  "file": "advanced_analytics_v4.1.0.json",
+  "version": "4.1.0",
+  "semantic_version": "4.1.0",
+  "min_core_version": "4.1.0",
+  "max_core_version": "4.2.0",
+  "compatibility": {
+    "core_version_required": "4.1.0",
+    "breaking_changes": [],
+    "deprecated": false
+  },
+  "timestamp": "2026-04-07",
+  "content": {
+    "desc": "Аналитика, метрики и безопасность для DeepSeek-V4",
+
+    "performance": {
+      "enabled": true,
+      "metrics": [
+        {
+          "name": "execution_time_ms",
+          "type": "timing",
+          "threshold": {"warning": 5000, "critical": 10000},
+          "auto_action": {
+            "warning": "логгирование",
+            "critical": "//ОПТИМИЗИРОВАТЬ_ПАМЯТЬ"
+          }
+        },
+        {
+          "name": "token_usage_total",
+          "type": "counter",
+          "format": "число с разделителями"
+        },
+        {
+          "name": "context_utilization_percent",
+          "type": "percentage",
+          "format": "0-100%"
+        },
+        {
+          "name": "file_operations_count",
+          "type": "counter",
+          "format": "число"
+        },
+        {
+          "name": "web_search_queries",
+          "type": "counter",
+          "format": "число"
+        },
+        {
+          "name": "response_complexity_score",
+          "type": "score",
+          "range": "1-10",
+          "factors": ["длина", "структура", "анализ", "форматы"]
+        },
+        {
+          "name": "craft_efficiency",
+          "type": "percentage",
+          "components": ["context_opt", "format_match", "task_completion"]
+        },
+        {
+          "name": "mode_effectiveness",
+          "type": "score",
+          "range": "0-100",
+          "description": "Сравнение реальной токенизации с ожидаемой для режима",
+          "calculation": "(expected_tokens - actual_tokens) / expected_tokens * 100"
+        },
+        {
+          "name": "response_quality_score",
+          "type": "score",
+          "range": "0-100",
+          "factors": ["command_execution", "structure", "accuracy", "completeness"]
+        }
+      ]
+    },
+
+    "caching": {
+      "enabled": true,
+      "max_size_gb": 10,
+      "ttl_hours": 24,
+      "policy": "LRU",
+      "invalidation": "on_file_change",
+      "cacheable": ["common_queries", "file_metadata", "search_results"]
+    },
+
+    "security": {
+      "enabled": true,
+      "events": [
+        "unauthorized_access",
+        "invalid_input",
+        "recursive_export",
+        "file_scan_error",
+        "search_rate_exceeded",
+        "context_overflow_attempt"
+      ],
+      "file_scanning": {
+        "enabled": true,
+        "max_size_mb": 100,
+        "allowed_types": ["text/*", "application/pdf", "application/vnd.openxmlformats-officedocument.*"],
+        "quarantine": true
+      }
+    },
+
+    "craft_metrics": {
+      "enabled": true,
+      "track": [
+        "preset_usage",
+        "context_optimization",
+        "format_effectiveness",
+        "file_integration_score",
+        "search_relevance",
+        "mode_switching_frequency"
+      ],
+      "reporting": "//АНАЛИЗ_ЭФФЕКТИВНОСТИ"
+    },
+
+    "auto_remediation": {
+      "enabled": true,
+      "rules": [
+        {
+          "condition": "context_utilization_percent > 85",
+          "action": "//ОПТИМИЗИРОВАТЬ_ПАМЯТЬ",
+          "message": "Автоматическая оптимизация памяти"
+        },
+        {
+          "condition": "execution_time_ms > 10000",
+          "action": "режим efficiency_mode",
+          "message": "Переключение на быстрый режим"
+        },
+        {
+          "condition": "response_quality_score < 60",
+          "action": "//ДИАГНОСТИКА",
+          "message": "Запуск диагностики качества"
+        }
+      ]
+    },
+
+    "optimization_commands": {
+      "//ОПТИМИЗИРОВАТЬ_ПАМЯТЬ": "Очистка неиспользуемого контекста",
+      "//АНАЛИЗ_ПРОИЗВОДИТЕЛЬНОСТИ": "Полный отчет по метрикам",
+      "//ОЧИСТИТЬ_КЭШ": "Сброс кэша системы",
+      "//ДИАГНОСТИКА": "Комплексная диагностика",
+      "//АНАЛИЗ_ЭФФЕКТИВНОСТИ": "Метрики CRAFT и использования",
+      "//МЕТРИКИ": "Краткий отчет по ключевым показателям"
+    },
+
+    "health_checks": {
+      "interval_minutes": 10,
+      "auto_report": true,
+      "checks": [
+        "context_health",
+        "file_system_status",
+        "search_api_available",
+        "cache_integrity"
+      ]
+    }
+  }
+}
