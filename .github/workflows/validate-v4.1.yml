@@ -1,0 +1,53 @@
+---
+name: Validate Protocol v4.1.0
+
+on:
+  push:
+    branches: [main, develop]
+    paths:
+      - 'instructions/deepseek_v4/**'
+      - 'tests/test_protocol_v4.1.py'
+      - '.github/workflows/validate-v4.1.yml'
+  pull_request:
+    branches: [main]
+    paths:
+      - 'instructions/deepseek_v4/**'
+      - 'tests/test_protocol_v4.1.py'
+  workflow_dispatch:
+
+jobs:
+  validate:
+    name: Protocol Structure & Version Sync
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Check JSON syntax (all files)
+        run: |
+          for f in $(find instructions/deepseek_v4 -name '*.json'); do
+            python -m json.tool "$f" >/dev/null && echo "  $f" || { echo "INVALID: $f"; exit 1; }
+          done
+          echo "All JSON files valid"
+
+      - name: Run protocol validation suite
+        run: python tests/test_protocol_v4.1.py
+
+      - name: Create validation report
+        if: always()
+        run: |
+          echo "## Protocol v4.1.0 Validation" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "- **Date**: $(date -u +%Y-%m-%dT%H:%M:%SZ)" >> $GITHUB_STEP_SUMMARY
+          echo "- **Branch**: ${{ github.ref }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **Commit**: ${{ github.sha }}" >> $GITHUB_STEP_SUMMARY
+          files=$(find instructions/deepseek_v4 -name '*.json' | wc -l)
+          echo "- **JSON files**: $files" >> $GITHUB_STEP_SUMMARY
+          echo "- **Modules**: $(find instructions/deepseek_v4 -name '*_v4.1.0.json' | wc -l)" >> $GITHUB_STEP_SUMMARY
