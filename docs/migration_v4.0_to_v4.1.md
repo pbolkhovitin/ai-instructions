@@ -2,10 +2,10 @@
 
 ## Breaking Changes
 
-### 1. Auto-detect Persona REMOVED
+### 1. Auto-detect Persona REMOVED (Default: C)
 - **Before**: System automatically detected persona based on message tone
-- **After**: Explicit persona selection required via `[ПАРАМЕТРЫ: persona=X]`
-- **Migration**: Update all initialization calls to include `persona` parameter
+- **After**: Persona **C** (Нейтральная) by default. Explicit override via `[ПАРАМЕТРЫ: persona=A/B]`
+- **Migration**: Default works without changes. Override only if non-C persona is needed
 
 ### 2. Initialization Command Changed
 - **Before**: Send URL without specific format
@@ -34,12 +34,13 @@ All components now share the protocol version:
 1. **Update initialization code**
    ```diff
    - Send: "https://raw.githubusercontent.com/.../core_protocol_v4.0.json"
-   + Send: "[ПРОТОКОЛ: ЗАГРУЗИТЬ] https://raw.githubusercontent.com/.../core_protocol_v4.1.0.json [ПАРАМЕТРЫ: persona=A, user_name=YourName]"
+    + Send: "[ПРОТОКОЛ: ЗАГРУЗИТЬ] https://raw.githubusercontent.com/.../core_protocol_v4.1.0.json"
+    + Optional: "[ПРОТОКОЛ: ЗАГРУЗИТЬ] URL [ПАРАМЕТРЫ: persona=A, user_name=YourName]"
    ```
 
-2. **Remove auto-detect dependencies**
-   - Delete any code that relies on automatic persona switching
-   - Implement explicit persona selection logic
+2. **Remove auto-detect dependencies (no-op for C default)**
+   - If default persona C is acceptable: no change needed
+   - If non-C persona required: add `persona=X` parameter
 
 3. **Update module references**
    ```diff
@@ -55,7 +56,7 @@ If issues occur, v4.0 remains available at:
 
 ## Validation
 After migration, verify:
-- [ ] Protocol initializes with explicit persona
+- [ ] Protocol initializes with persona C by default (brief welcome message, no protocol body)
 - [ ] Version check passes (4.1.0)
 - [ ] All modules load with compatibility check
 - [ ] No auto-detection warnings
