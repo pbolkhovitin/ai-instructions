@@ -1,5 +1,6 @@
 {
   "file": "core_protocol_v4.1.0.json",
+  "protocol_version": "4.1.0",
   "version": "4.1.0",
   "protocol": "4.1.0",
   "timestamp": "2026-05-08",
@@ -43,6 +44,14 @@
       "security": [],
       "deprecated": []
     }
+  },
+  "version_check": {
+    "enabled": true,
+    "mode": "strict",
+    "on_major_mismatch": "ABORT",
+    "on_minor_mismatch": "WARN",
+    "on_patch_mismatch": "ALLOW",
+    "expected_protocol": "4.1.0"
   },
   "compatibility": {
     "min_deepseek_version": "4.0",
@@ -309,7 +318,7 @@
           "min_core_version": "4.1.0",
           "max_core_version": "4.2.0"
         },
-        "system_docs": {
+        "system_documentation": {
           "file": "system_documentation_v4.1.0.json",
           "version": "4.1.0",
           "critical": false,
@@ -386,6 +395,29 @@
           "category": "Инструменты",
           "min_core_version": "4.1.0",
           "max_core_version": "4.2.0"
+        },
+        "think_pipeline": {
+          "file": "think_pipeline_v4.1.0.json",
+          "version": "4.1.0",
+          "critical": true,
+          "description": "7-шаговый скрытый анализ перед каждым ответом",
+          "size_kb": 6,
+          "dependencies": [],
+          "auto_load": true,
+          "min_core_version": "4.1.0",
+          "max_core_version": "4.2.0"
+        },
+        "system_documentation": {
+          "file": "system_documentation_v4.1.0.json",
+          "version": "4.1.0",
+          "critical": false,
+          "description": "Полная документация системы",
+          "size_kb": 20,
+          "dependencies": [],
+          "auto_load": false,
+          "category": "Документация",
+          "min_core_version": "4.1.0",
+          "max_core_version": "4.2.0"
         }
       },
       "commands": {
@@ -393,7 +425,7 @@
           "desc": "Показать все доступные для загрузки модули",
           "response_format": "Таблица с модулями, версиями, размерами, зависимостями и статусом загрузки",
           "example": "[МОДУЛИ: ДОСТУПНЫ]",
-          "output": "📦 Доступные модули:\n✅ memory_management (4.1.0) - загружен\n✅ advanced_analytics (4.1.0) - загружен\n❌ file_operations (4.1.0) - 15KB - Работа с файлами\n❌ web_search (4.1.0) - 10KB - Интернет-поиск\n❌ cross_validation (4.1.0) - 10KB - Перекрёстная валидация\n❌ topic_fork (4.1.0) - 14KB - Вынос тем\n❌ system_docs (4.1.0) - 20KB - Документация\n❌ command_examples (4.1.0) - 18KB - Примеры команд\n❌ detailed_descriptions (4.1.0) - 18KB - Детальные описания\n❌ troubleshooting_guide (4.1.0) - 16KB - Руководство по устранению неполадок\n❌ validation_schemas (4.1.0) - 14KB - Схемы валидации"
+          "output": "📦 Доступные модули:\n✅ memory_management (4.1.0) - загружен\n✅ advanced_analytics (4.1.0) - загружен\n❌ file_operations (4.1.0) - 15KB - Работа с файлами\n❌ web_search (4.1.0) - 10KB - Интернет-поиск\n❌ cross_validation (4.1.0) - 10KB - Перекрёстная валидация\n❌ topic_fork (4.1.0) - 14KB - Вынос тем\n❌ system_documentation (4.1.0) - 20KB - Документация\n❌ command_examples (4.1.0) - 18KB - Примеры команд\n❌ detailed_descriptions (4.1.0) - 18KB - Детальные описания\n❌ troubleshooting_guide (4.1.0) - 16KB - Руководство по устранению неполадок\n❌ validation_schemas (4.1.0) - 14KB - Схемы валидации"
         },
         "[МОДУЛИ: ЗАГРУЗИТЬ {список}]": {
           "desc": "Загрузить указанные модули с учётом зависимостей",
@@ -421,14 +453,18 @@
           "params": [
             "список_модулей_через_запятую"
           ],
-          "example": "[МОДУЛИ: ВЫГРУЗИТЬ system_docs, command_examples]",
+          "example": "[МОДУЛИ: ВЫГРУЗИТЬ system_documentation, command_examples]",
           "action": "Удаляет модули из контекста, освобождая токены"
         }
       },
       "auto_load_strategy": {
         "critical_modules": [
+          "think_pipeline",
           "memory_management",
           "advanced_analytics"
+        ],
+        "auto_load_on_init": [
+          "think_pipeline"
         ],
         "load_on_demand": true,
         "dependency_resolution": "автоматическая",
@@ -685,10 +721,11 @@
           "checksum_validation": true,
           "semantic_version_check": true
         },
-        "required_params": ["persona", "user_name"],
-        "optional_params": ["timezone", "verbose_level", "auto_load_modules"],
-        "response_format": "Стандартизированное приветствие с выбором персоны",
-        "example": "[ПРОТОКОЛ: ЗАГРУЗИТЬ] https://raw.githubusercontent.com/.../core_protocol_v4.1.0.json [ПАРАМЕТРЫ: persona=A, user_name=Александр]"
+        "required_params": [],
+        "optional_params": ["persona", "user_name", "timezone", "verbose_level", "auto_load_modules"],
+        "response_format": "Краткое стандартизированное сообщение с настройками (без тела протокола)",
+        "example_by_default": "[ПРОТОКОЛ: ЗАГРУЗИТЬ] https://raw.githubusercontent.com/.../core_protocol_v4.1.0.json",
+        "example_with_params": "[ПРОТОКОЛ: ЗАГРУЗИТЬ] URL [ПАРАМЕТРЫ: persona=A, user_name=Имя]"
       }
     },
     "integrity": {
