@@ -1,5 +1,6 @@
 {
   "file": "core_protocol_v4.1.0.json",
+  "url": "https://raw.githubusercontent.com/pbolkhovitin/ai-instructions/refs/heads/main/instructions/deepseek_v4/core_protocol_v4.1.0.json",
   "protocol_version": "4.1.0",
   "version": "4.1.0",
   "protocol": "4.1.0",
@@ -227,7 +228,8 @@
           ],
           "auto_load": true,
           "min_core_version": "4.1.0",
-          "max_core_version": "4.2.0"
+          "max_core_version": "4.2.0",
+          "url": "https://raw.githubusercontent.com/pbolkhovitin/ai-instructions/refs/heads/main/instructions/deepseek_v4/memory_management_v4.1.0.json"
         },
         "advanced_analytics": {
           "file": "advanced_analytics_v4.1.0.json",
@@ -245,7 +247,8 @@
           ],
           "auto_load": true,
           "min_core_version": "4.1.0",
-          "max_core_version": "4.2.0"
+          "max_core_version": "4.2.0",
+          "url": "https://raw.githubusercontent.com/pbolkhovitin/ai-instructions/refs/heads/main/instructions/deepseek_v4/advanced_analytics_v4.1.0.json"
         },
         "file_operations": {
           "file": "file_operations_v4.1.0.json",
@@ -262,7 +265,8 @@
           "auto_load": false,
           "category": "Файловая система",
           "min_core_version": "4.1.0",
-          "max_core_version": "4.2.0"
+          "max_core_version": "4.2.0",
+          "url": "https://raw.githubusercontent.com/pbolkhovitin/ai-instructions/refs/heads/main/instructions/deepseek_v4/file_operations_v4.1.0.json"
         },
         "web_search": {
           "file": "web_search_v4.1.0.json",
@@ -279,7 +283,8 @@
           "auto_load": false,
           "category": "Интернет",
           "min_core_version": "4.1.0",
-          "max_core_version": "4.2.0"
+          "max_core_version": "4.2.0",
+          "url": "https://raw.githubusercontent.com/pbolkhovitin/ai-instructions/refs/heads/main/instructions/deepseek_v4/web_search_v4.1.0.json"
         },
         "cross_validation": {
           "file": "cross_validation_v4.1.0.json",
@@ -298,7 +303,8 @@
           "auto_load": false,
           "category": "Валидация",
           "min_core_version": "4.1.0",
-          "max_core_version": "4.2.0"
+          "max_core_version": "4.2.0",
+          "url": "https://raw.githubusercontent.com/pbolkhovitin/ai-instructions/refs/heads/main/instructions/deepseek_v4/cross_validation_v4.1.0.json"
         },
         "topic_fork": {
           "file": "topic_fork_v4.1.0.json",
@@ -316,7 +322,8 @@
           "auto_load": false,
           "category": "Управление контекстом",
           "min_core_version": "4.1.0",
-          "max_core_version": "4.2.0"
+          "max_core_version": "4.2.0",
+          "url": "https://raw.githubusercontent.com/pbolkhovitin/ai-instructions/refs/heads/main/instructions/deepseek_v4/topic_fork_v4.1.0.json"
         },
         "system_documentation": {
           "file": "system_documentation_v4.1.0.json",
@@ -325,13 +332,11 @@
           "description": "Полная документация системы",
           "size_kb": 20,
           "dependencies": [],
-          "commands": [
-            "//СПРАВКА_МОДУЛИ"
-          ],
           "auto_load": false,
           "category": "Документация",
           "min_core_version": "4.1.0",
-          "max_core_version": "4.2.0"
+          "max_core_version": "4.2.0",
+          "url": "https://raw.githubusercontent.com/pbolkhovitin/ai-instructions/refs/heads/main/instructions/deepseek_v4/system_documentation_v4.1.0.json"
         },
         "command_examples": {
           "file": "command_examples_v4.1.0.json",
@@ -346,7 +351,8 @@
           "auto_load": false,
           "category": "Обучение",
           "min_core_version": "4.1.0",
-          "max_core_version": "4.2.0"
+          "max_core_version": "4.2.0",
+          "url": "https://raw.githubusercontent.com/pbolkhovitin/ai-instructions/refs/heads/main/instructions/deepseek_v4/command_examples_v4.1.0.json"
         },
         "detailed_descriptions": {
           "file": "detailed_descriptions_v4.1.0.json",
@@ -362,7 +368,8 @@
           "auto_load": false,
           "category": "Документация",
           "min_core_version": "4.1.0",
-          "max_core_version": "4.2.0"
+          "max_core_version": "4.2.0",
+          "url": "https://raw.githubusercontent.com/pbolkhovitin/ai-instructions/refs/heads/main/instructions/deepseek_v4/detailed_descriptions_v4.1.0.json"
         },
         "troubleshooting_guide": {
           "file": "troubleshooting_guide_v4.1.0.json",
@@ -378,7 +385,8 @@
           "auto_load": false,
           "category": "Поддержка",
           "min_core_version": "4.1.0",
-          "max_core_version": "4.2.0"
+          "max_core_version": "4.2.0",
+          "url": "https://raw.githubusercontent.com/pbolkhovitin/ai-instructions/refs/heads/main/instructions/deepseek_v4/troubleshooting_guide_v4.1.0.json"
         },
         "validation_schemas": {
           "file": "validation_schemas_v4.1.0.json",
@@ -394,7 +402,8 @@
           "auto_load": false,
           "category": "Инструменты",
           "min_core_version": "4.1.0",
-          "max_core_version": "4.2.0"
+          "max_core_version": "4.2.0",
+          "url": "https://raw.githubusercontent.com/pbolkhovitin/ai-instructions/refs/heads/main/instructions/deepseek_v4/validation_schemas_v4.1.0.json"
         },
         "think_pipeline": {
           "file": "think_pipeline_v4.1.0.json",
@@ -405,19 +414,8 @@
           "dependencies": [],
           "auto_load": true,
           "min_core_version": "4.1.0",
-          "max_core_version": "4.2.0"
-        },
-        "system_documentation": {
-          "file": "system_documentation_v4.1.0.json",
-          "version": "4.1.0",
-          "critical": false,
-          "description": "Полная документация системы",
-          "size_kb": 20,
-          "dependencies": [],
-          "auto_load": false,
-          "category": "Документация",
-          "min_core_version": "4.1.0",
-          "max_core_version": "4.2.0"
+          "max_core_version": "4.2.0",
+          "url": "https://raw.githubusercontent.com/pbolkhovitin/ai-instructions/refs/heads/main/instructions/deepseek_v4/think_pipeline_v4.1.0.json"
         }
       },
       "commands": {
@@ -428,14 +426,14 @@
           "output": "📦 Доступные модули:\n✅ memory_management (4.1.0) - загружен\n✅ advanced_analytics (4.1.0) - загружен\n❌ file_operations (4.1.0) - 15KB - Работа с файлами\n❌ web_search (4.1.0) - 10KB - Интернет-поиск\n❌ cross_validation (4.1.0) - 10KB - Перекрёстная валидация\n❌ topic_fork (4.1.0) - 14KB - Вынос тем\n❌ system_documentation (4.1.0) - 20KB - Документация\n❌ command_examples (4.1.0) - 18KB - Примеры команд\n❌ detailed_descriptions (4.1.0) - 18KB - Детальные описания\n❌ troubleshooting_guide (4.1.0) - 16KB - Руководство по устранению неполадок\n❌ validation_schemas (4.1.0) - 14KB - Схемы валидации"
         },
         "[МОДУЛИ: ЗАГРУЗИТЬ {список}]": {
-          "desc": "Загрузить указанные модули с учётом зависимостей",
+          "desc": "Загрузить указанные модули по URL из available_modules",
           "params": [
             "список_модулей_через_запятую",
             "опционально: --with-deps"
           ],
           "example": "[МОДУЛИ: ЗАГРУЗИТЬ file_operations, web_search]",
           "example2": "[МОДУЛИ: ЗАГРУЗИТЬ cross_validation --with-deps]",
-          "action": "Автоматически загружает зависимости, валидирует версии, добавляет в контекст",
+          "action": "Для каждого модуля извлекает url, загружает JSON, валидирует версию через min/max_core_version, рекурсивно разрешает зависимости, добавляет в контекст",
           "response": "Загружено 3 модуля: file_operations (15KB), web_search (10KB), cross_validation (10KB). Общий размер: 35KB. Доступны новые команды."
         },
         "[МОДУЛИ: СТАТУС]": {
@@ -722,7 +720,13 @@
           "semantic_version_check": true
         },
         "required_params": [],
-        "optional_params": ["persona", "user_name", "timezone", "verbose_level", "auto_load_modules"],
+        "optional_params": [
+          "persona",
+          "user_name",
+          "timezone",
+          "verbose_level",
+          "auto_load_modules"
+        ],
         "response_format": "Краткое стандартизированное сообщение с настройками (без тела протокола)",
         "example_by_default": "[ПРОТОКОЛ: ЗАГРУЗИТЬ] https://raw.githubusercontent.com/.../core_protocol_v4.1.0.json",
         "example_with_params": "[ПРОТОКОЛ: ЗАГРУЗИТЬ] URL [ПАРАМЕТРЫ: persona=A, user_name=Имя]"
